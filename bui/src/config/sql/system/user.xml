@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 查找操作订单时审核图片的SQL -->
+	<bean id="system_user_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+		<property name="select">
+			<value><![CDATA[
+      		select u.id,u.`code`,u.`name`,u.phone,r.roleName,u.sex 
+      		from sys_user u LEFT JOIN sys_role r on u.roleId=r.id 
+      		where u.`status`!=0		
+		 ]]></value>
+		</property>
+		<property name="conditions">
+			<list>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="name" />
+					<property name="value" value="and u.`name` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="code" />
+					<property name="value" value="and u.`code` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="roleId" />
+					<property name="value" value="and u.roleId = ? " />
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="ORDER BY u.id desc " />
+	</bean>
+
+</beans>

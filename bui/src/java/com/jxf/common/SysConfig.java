@@ -13,6 +13,8 @@ public class SysConfig {
 	 */
 	public static final String SESSION_USER = "webUser";
 
+	public static final String PASSWORD = "123456";
+
 	/**
 	 * UTF-8编码
 	 */

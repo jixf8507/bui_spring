@@ -23,7 +23,7 @@
 		</p>
 		<p>
 			<label>手机号码</label> <span class="field"><input type="text"
-				name="phone" id="phone" class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input type="button" id="bt" value="上传图片" />
+				name="phone" id="phone" class="longinput" style="width: 200px;" />&nbsp;&nbsp;
 				</span>
 		</p>
 		<p>

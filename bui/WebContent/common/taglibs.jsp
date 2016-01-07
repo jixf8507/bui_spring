@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<title>BUI 管理系统</title>
+<title>大马花</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <script type="text/javascript">
 	var contextPath = '${ctx}';

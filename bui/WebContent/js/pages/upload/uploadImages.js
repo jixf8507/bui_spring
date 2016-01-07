@@ -563,10 +563,11 @@ var urlArr = [];
 /**
  * 提交form表单
  */
-var submit = function(callBack) {
+var submit = function(callBack,diag) {
 	if (idArr.length == 0) {
 		alert('您还没有上传图片');
 		return;
 	}
 	callBack(idArr, urlArr);
+	diag.close();
 };

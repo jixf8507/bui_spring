@@ -159,4 +159,19 @@ public class BaseDao {
 		return "select count(*) from (" + sql + ") tb ";
 	}
 
+	/**
+	 * 获取单个对象
+	 * 
+	 * @param sql
+	 * @param args
+	 * @return
+	 */
+	public Map<String, Object> get(String sql, Object[] args) {
+		List<Map<String, Object>> list = this.findListBySQL(sql, args);
+		if (list == null || list.isEmpty()) {
+			return null;
+		}
+		return list.get(0);
+	}
+
 }

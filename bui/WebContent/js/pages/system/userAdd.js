@@ -9,9 +9,7 @@ $(document).ready(function() {
 	// 员工表单验证
 	User.validate($("#form1"));
 	
-	$('#bt').click(function(){
-		upload();
-	});
+	
 
 });
 
@@ -32,21 +30,3 @@ var submit = function(callBack) {
 	}
 };
 
-var diag ;
-var upload = function(){
-	diag = new Dialog();
-	diag.Width = 400;
-	diag.Height = 300;
-	diag.Title = "修改系统员工信息";
-	diag.URL = contextPath + "/upload/uploadImages.htm?" ;
-	diag.MessageTitle = '';
-	diag.OKEvent = function() {
-		diag.innerFrame.contentWindow.submit(getPic);
-	};
-	diag.show();
-};
-
-var getPic = function (idArr,urlArr){
-	alert(idArr[0]+ '  ==  '+urlArr[0]);
-	diag.close();
-};

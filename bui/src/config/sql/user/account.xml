@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 查找系统用户SQL -->
+	<bean id="user_account_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+		<property name="select">
+			<value><![CDATA[
+      		select a.id,a.usableLimit,a.curUsableLimit,a.curWhiteBarLimit,a.whiteBarLimit,a.balance,a.statementDate,
+      		a.repaymentDate,a.`status` as accountStatus,u.`name`,u.mobilePhone,u.`status`,u.statusDesc,u.idCard 
+      		from user_account a,`user` u 
+      		where a.userId=u.id 	
+		 ]]></value>
+		</property>
+		<property name="conditions">
+			<list>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="name" />
+					<property name="value" value="and u.`name` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="mobilePhone" />
+					<property name="value" value="and u.`mobilePhone` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="idCard" />
+					<property name="value" value="and u.idCard  like ? " />
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="ORDER BY a.id desc " />
+	</bean>
+
+</beans>

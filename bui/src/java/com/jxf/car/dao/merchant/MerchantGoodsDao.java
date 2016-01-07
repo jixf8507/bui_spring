@@ -1,5 +1,6 @@
 package com.jxf.car.dao.merchant;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -39,6 +40,10 @@ public class MerchantGoodsDao extends BaseDao {
 			int pageSize, int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(goodsSelectSQL, jsonObject,
 				pageSize, iDisplayStart);
+	}
+
+	public List<Map<String, Object>> findMerchantGoodsList(JSONObject jsonObject) {
+		return this.findListByJSONSqlMapping(goodsSelectSQL, jsonObject);
 	}
 
 	public Map<String, Object> getMerchantGoodsMap(Integer id) {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jxf.car.dao.system.SysRoleDAO;
+import com.jxf.car.export.system.SysRoleExport;
 import com.jxf.car.model.SysRole;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
+import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -39,6 +42,16 @@ public class SysRoleService extends BaseService {
 	public PageResults findRolePage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return roleDAO.findRolePage(jsonObject, pageSize, iDisplayStart);
+	}
+
+	public void excelSysRole(HttpServletResponse response, JSONObject jsonObject) {
+		BaseExport export = new SysRoleExport();
+		List<Map<String, Object>> list = this.findRoles(jsonObject);
+		try {
+			export.toExcel(response, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package com.jxf.car.controller.customer;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
@@ -64,6 +65,14 @@ public class UserController extends BaseController {
 		// 动态查询条件参数
 		JSONObject jsonObject = JSONObject.fromObject(paraData);
 		return jsonObject;
+	}
+	
+	@RequestMapping("exportToExcel.htm")
+	public String exportToExcel(String paraData, HttpSession session,
+			HttpServletResponse response) throws Exception {
+		JSONObject jsonObject = getJsonPara(paraData, session);
+		userService.excelUser(response, jsonObject);
+		return null;
 	}
 
 	@RequestMapping("check")

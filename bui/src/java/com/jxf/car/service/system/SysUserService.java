@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -19,9 +20,11 @@ import com.jxf.bui.ConfigMenu;
 import com.jxf.bui.MenuItem;
 import com.jxf.car.dao.system.SysRoleMenuDAO;
 import com.jxf.car.dao.system.SysUserDAO;
+import com.jxf.car.export.system.SysUserExport;
 import com.jxf.car.model.SysUser;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
+import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -68,6 +71,16 @@ public class SysUserService extends BaseService {
 	public PageResults findUserPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return sysUserDAO.findUserPage(jsonObject, pageSize, iDisplayStart);
+	}
+
+	public void excelSysUser(HttpServletResponse response, JSONObject jsonObject) {
+		BaseExport export = new SysUserExport();
+		List<Map<String, Object>> list = sysUserDAO.findUserList(jsonObject);
+		try {
+			export.toExcel(response, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -1,6 +1,9 @@
 package com.jxf.car.service.merchant;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
@@ -8,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jxf.car.dao.merchant.MerchantGoodsDao;
+import com.jxf.car.export.mechant.MerchantGoodsExport;
 import com.jxf.car.model.MerchantGoods;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
+import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -28,6 +33,18 @@ public class MerchantGoodsService extends BaseService {
 			int pageSize, int iDisplayStart) {
 		return merchantGoodsDao.findMerchantGoodsPage(jsonObject, pageSize,
 				iDisplayStart);
+	}
+
+	public void excelMerchantGoods(HttpServletResponse response,
+			JSONObject jsonObject) {
+		BaseExport export = new MerchantGoodsExport();
+		List<Map<String, Object>> list = merchantGoodsDao
+				.findMerchantGoodsList(jsonObject);
+		try {
+			export.toExcel(response, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public MSG createMerchantGoods(MerchantGoods merchantGoods) {

@@ -1,5 +1,6 @@
 package com.jxf.car.dao.customer;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -35,6 +36,10 @@ public class UserMonthBillDao extends BaseDao {
 			int pageSize, int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(billSelectSQL, jsonObject,
 				pageSize, iDisplayStart);
+	}
+	
+	public List<Map<String, Object>> findUserMonthBillList(JSONObject jsonObject) {
+		return this.findListByJSONSqlMapping(billSelectSQL, jsonObject);
 	}
 
 	/**

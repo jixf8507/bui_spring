@@ -36,8 +36,8 @@
 						<th class="head1">还款日期</th>
 						<th class="head0">用户姓名</th>
 						<th class="head1">手机号码</th>
-						<th class="head0">当月应还金额</th>
-						<th class="head1">当前已还金额</th>
+						<th class="head0">本期应还金额</th>
+						<th class="head1">本期已还金额</th>
 						<th class="head0">上期账单利息</th>
 						<th class="head1">本期利息</th>
 						<th class="head0">账单状态</th>

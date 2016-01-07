@@ -28,12 +28,12 @@ var User = {
 				"mDataProp" : "usableLimit",
 				"sClass" : "center"
 			}, {
-				"mDataProp" : "curWhiteBarLimit",
+				"mDataProp" : "whiteBarLimit",
 				"sClass" : "center"
 			}, {
 				"mDataProp" : "balance",
 				"sClass" : "center"
-			}, {				
+			}, {
 				"fnRender" : function(obj) {
 					var accountStatus = obj.aData['accountStatus'];
 					switch (accountStatus) {

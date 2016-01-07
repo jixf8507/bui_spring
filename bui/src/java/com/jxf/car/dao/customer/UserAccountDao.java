@@ -1,5 +1,6 @@
 package com.jxf.car.dao.customer;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -39,6 +40,10 @@ public class UserAccountDao extends BaseDao {
 			int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(userSelectSQL, jsonObject,
 				pageSize, iDisplayStart);
+	}
+
+	public List<Map<String, Object>> findUserAccountList(JSONObject jsonObject) {
+		return this.findListByJSONSqlMapping(userSelectSQL, jsonObject);
 	}
 
 	/**

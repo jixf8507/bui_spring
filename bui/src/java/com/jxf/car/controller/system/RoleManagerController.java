@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
@@ -111,6 +112,14 @@ public class RoleManagerController extends BaseController {
 		// 动态查询条件参数
 		JSONObject jsonObject = JSONObject.fromObject(paraData);
 		return jsonObject;
+	}
+
+	@RequestMapping("exportToExcel.htm")
+	public String exportToExcel(String paraData, HttpSession session,
+			HttpServletResponse response) throws Exception {
+		JSONObject jsonObject = getJsonPara(paraData, session);
+		roleService.excelSysRole(response, jsonObject);
+		return null;
 	}
 
 }

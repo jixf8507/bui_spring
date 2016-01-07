@@ -127,8 +127,15 @@ public class UserManagerController extends BaseController {
 		paraData = StringTools.decodeMethod(paraData);
 		// 动态查询条件参数
 		JSONObject jsonObject = JSONObject.fromObject(paraData);
-
 		return jsonObject;
+	}
+
+	@RequestMapping("exportToExcel.htm")
+	public String exportToExcel(String paraData, HttpSession session,
+			HttpServletResponse response) throws Exception {
+		JSONObject jsonObject = getJsonPara(paraData, session);
+		sysUserService.excelSysUser(response, jsonObject);
+		return null;
 	}
 
 }

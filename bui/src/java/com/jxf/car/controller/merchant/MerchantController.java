@@ -69,6 +69,14 @@ public class MerchantController extends BaseController {
 		JSONObject jsonObject = JSONObject.fromObject(paraData);
 		return jsonObject;
 	}
+	
+	@RequestMapping("exportToExcel.htm")
+	public String exportToExcel(String paraData, HttpSession session,
+			HttpServletResponse response) throws Exception {
+		JSONObject jsonObject = getJsonPara(paraData, session);
+		merchantService.excelMerchant(response, jsonObject);
+		return null;
+	}
 
 	@RequestMapping("ajaxList")
 	@ResponseBody

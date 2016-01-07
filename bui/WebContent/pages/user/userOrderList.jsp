@@ -48,7 +48,7 @@
 						<th class="head0">商家</th>
 						<th class="head1">首付金额</th>
 						<th class="head0">类型</th>
-						<th class="head1">时间</th>
+						<th class="head1">消费时间</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -11,6 +11,10 @@ jQuery(document).ready(function() {
 		userTable.reloadData();
 	});
 
+	jQuery('#excelBtn').click(function() {
+		userTable.exportExcel();
+	});
+
 	$('#checkAll').click(function() {
 		Merchant.selectAll($(this));
 	});

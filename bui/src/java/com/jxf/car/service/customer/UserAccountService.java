@@ -1,6 +1,9 @@
 package com.jxf.car.service.customer;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
@@ -10,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jxf.car.dao.customer.UserAccountDao;
 import com.jxf.car.dao.customer.UserDao;
+import com.jxf.car.export.user.UserAccountExport;
 import com.jxf.car.model.UserAccount;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
+import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -40,6 +45,18 @@ public class UserAccountService extends BaseService {
 			int iDisplayStart) {
 		return accountDao.findUserAccountPage(jsonObject, pageSize,
 				iDisplayStart);
+	}
+
+	public void excelUserAccount(HttpServletResponse response,
+			JSONObject jsonObject) {
+		BaseExport export = new UserAccountExport();
+		List<Map<String, Object>> list = accountDao
+				.findUserAccountList(jsonObject);
+		try {
+			export.toExcel(response, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -1,5 +1,8 @@
 package com.jxf.car.dao.system;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
@@ -54,6 +57,10 @@ public class SysUserDAO extends BaseDao {
 			int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(userSelectSQL, jsonObject,
 				pageSize, iDisplayStart);
+	}
+
+	public List<Map<String, Object>> findUserList(JSONObject jsonObject) {
+		return this.findListByJSONSqlMapping(userSelectSQL, jsonObject);
 	}
 
 	/**

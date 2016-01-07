@@ -12,7 +12,11 @@ jQuery(document).ready(function() {
 	jQuery('#queryBtn').click(function() {
 		userTable.reloadData();
 	});
-	
+
+	jQuery('#excelBtn').click(function() {
+		userTable.exportExcel();
+	});
+
 	$('#checkAll').click(function() {
 		User.selectAll($(this));
 	});

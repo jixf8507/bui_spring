@@ -111,4 +111,17 @@ public class UserAccount extends BasePO {
 		this.user = user;
 	}
 
+	public static String getStatus(String accountStatus) {
+		switch (accountStatus) {
+		case "1":
+			return "正常";
+		case "2":
+			return "不可取现可分期";
+		case "3":
+			return "不可取现不可分期";
+		default:
+			return "其它";
+		}
+	}
+
 }

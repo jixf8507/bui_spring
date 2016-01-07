@@ -3,12 +3,16 @@
  */
 
 $(document).ready(function() {
-	
+
 	userTable.reloadData();
 
 	// 点击查询按钮事件
 	$('#queryBtn').click(function() {
 		userTable.reloadData();
+	});
+
+	jQuery('#excelBtn').click(function() {
+		userTable.exportExcel();
 	});
 
 	$('#checkAll').click(function() {

@@ -68,6 +68,13 @@ public class MerchantGoodsController extends BaseController {
 		return jsonObject;
 	}
 
+	@RequestMapping("exportToExcel.htm")
+	public String exportToExcel(String paraData, HttpSession session,
+			HttpServletResponse response) throws Exception {
+		JSONObject jsonObject = getJsonPara(paraData, session);
+		merchantGoodsService.excelMerchantGoods(response, jsonObject);
+		return null;
+	}
 	@RequestMapping("edite")
 	public String edite(Integer id, Model model) {
 		model.addAttribute("merchantGoods",

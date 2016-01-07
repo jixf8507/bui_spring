@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
 	});
 
 	$('#checkAll').click(function() {
-		Role.selectAll($(this));
+		MerchantGoods.selectAll($(this));
 	});
 });
 

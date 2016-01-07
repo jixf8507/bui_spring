@@ -33,8 +33,7 @@ var User = {
 			}, {
 				"mDataProp" : "balance",
 				"sClass" : "center"
-			}, {
-				"mDataProp" : "accountStatus",
+			}, {				
 				"fnRender" : function(obj) {
 					var accountStatus = obj.aData['accountStatus'];
 					switch (accountStatus) {

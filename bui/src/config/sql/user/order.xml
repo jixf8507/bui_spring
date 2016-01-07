@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 查找操作订单时审核图片的SQL -->
+	<bean id="user_order_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+		<property name="select">
+			<value><![CDATA[
+      		select o.id,o.createTime,o.sfMoney,o.aging,o.`status`,o.type,u.`name` as userName,
+      		u.mobilePhone,g.`name` as goodsName,m.`name` as merchantName,g.price
+ 			from user_order o,`user` u,merchant_goods g,merchant m 
+			 where o.userId=u.id and o.goodsId=g.id and g.merchantId=m.id
+		 ]]></value>
+		</property>
+		<property name="conditions">
+			<list>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="name" />
+					<property name="value" value="and u.`name` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="goodsName" />
+					<property name="value" value="and g.`name` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="mobilePhone" />
+					<property name="value" value="and u.`mobilePhone` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="merchantId" />
+					<property name="value" value="and g.merchantId = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="type" />
+					<property name="value" value="and o.type  = ? " />
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="ORDER BY u.id desc " />
+	</bean>
+
+</beans>

@@ -23,6 +23,7 @@
 	src="${ctx}/js/plugins/jquery.validate.min.js"></script>
 <script type="text/javascript"
 	src="${ctx}/js/plugins/chosen.jquery.min.js"></script>
+
 <script type="text/javascript" src="${ctx}/js/common/pageDateTables.js"></script>
 <script type="text/javascript" src="${ctx}/js/common/comBox.js"></script>
 

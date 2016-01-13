@@ -7,12 +7,9 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
 
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.jxf.car.dao.BaseDao;
-import com.jxf.car.db.creator.MerchantGoodsCreator;
 import com.jxf.car.model.MerchantGoods;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.sql.JSONSqlMapping;
@@ -47,7 +44,7 @@ public class MerchantGoodsDao extends BaseDao {
 	}
 
 	public Map<String, Object> getMerchantGoodsMap(Integer id) {
-		return this.get(GET_BY_ID_SQL, new Object[] { id });
+		return this.get(MerchantGoods.GET_BY_ID_SQL, new Object[] { id });
 	}
 
 	/**
@@ -57,11 +54,7 @@ public class MerchantGoodsDao extends BaseDao {
 	 * @return
 	 */
 	public Integer create(MerchantGoods merchantGoods) {
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		this.getJdbcTemplate().update(
-				new MerchantGoodsCreator(INSERT_SQL, merchantGoods), keyHolder);
-		System.out.println(keyHolder.getKey().intValue() + "主键");
-		return keyHolder.getKey().intValue();
+		return merchantGoods.create(this);
 	}
 
 	/**
@@ -71,18 +64,7 @@ public class MerchantGoodsDao extends BaseDao {
 	 * @return
 	 */
 	public boolean update(MerchantGoods merchantGoods) {
-		int count = this.getJdbcTemplate().update(UPDATE_SQL,
-				merchantGoods.getMerchantId(), merchantGoods.getName(),
-				merchantGoods.getPrice(), merchantGoods.getImg(),
-				merchantGoods.getDes1(), merchantGoods.getDes2(),
-				merchantGoods.getDes3(), merchantGoods.getId());
-		return count > 0;
+		return merchantGoods.update(this) > 0;
 	}
-
-	private static final String GET_BY_ID_SQL = "select * from merchant_goods g  where g.id=? ";
-
-	private static final String INSERT_SQL = "insert into merchant_goods (merchantId,`name`,price,img,des1,des2,des3) values (?,?,?,?,?,?,?)";
-
-	private static final String UPDATE_SQL = "update merchant_goods set merchantId=?,`name`=?,price=?,img=?,des1=?,des2=?,des3=? where id=?";
 
 }

@@ -14,7 +14,7 @@ public class SysUserExtractor implements ResultSetExtractor<SysUser> {
 	public SysUser extractData(ResultSet rs) throws SQLException,
 			DataAccessException {
 		if (rs.next()) {
-			return new SysUser(rs);
+			return SysUser.create(rs);
 		}
 		return null;
 	}

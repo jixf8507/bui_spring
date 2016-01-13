@@ -47,7 +47,7 @@ public class MerchantDao extends BaseDao {
 	}
 
 	public Map<String, Object> getMerchantMap(Integer id) {
-		return this.get(GET_BY_ID_SQL, new Object[] { id });
+		return this.get(Merchant.GET_BY_ID_SQL, new Object[] { id });
 	}
 
 	/**
@@ -57,11 +57,7 @@ public class MerchantDao extends BaseDao {
 	 * @return
 	 */
 	public Integer create(Merchant merchant) {
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		this.getJdbcTemplate().update(
-				new MerchantCreator(INSERT_SQL, merchant), keyHolder);
-		System.out.println(keyHolder.getKey().intValue() + "主键");
-		return keyHolder.getKey().intValue();
+		return merchant.create(this);
 	}
 
 	/**
@@ -71,17 +67,7 @@ public class MerchantDao extends BaseDao {
 	 * @return
 	 */
 	public boolean update(Merchant merchant) {
-		int count = this.getJdbcTemplate().update(UPDATE_SQL,
-				merchant.getName(), merchant.getAddress(), merchant.getDes(),
-				merchant.getCorporation(), merchant.getMobilePhone(),
-				merchant.getId());
-		return count > 0;
+		return merchant.update(this) > 0;
 	}
-
-	private static final String GET_BY_ID_SQL = "select * from merchant u  where u.id=? ";
-
-	private static final String INSERT_SQL = "insert into merchant (name,address,des,corporation,mobilePhone) values (?,?,?,?,?)";
-
-	private static final String UPDATE_SQL = "update merchant set name=?,address=?,des=?,corporation=?,mobilePhone=? where id=?";
 
 }

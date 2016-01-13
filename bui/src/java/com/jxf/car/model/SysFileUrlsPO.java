@@ -1,8 +1,16 @@
 package com.jxf.car.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+
+import com.jxf.car.dao.BaseDao;
 
 public class SysFileUrlsPO {
 	private Integer id;
@@ -17,13 +25,15 @@ public class SysFileUrlsPO {
 
 	}
 
-	public SysFileUrlsPO(ResultSet rs) throws SQLException {
-		this.id = rs.getInt("id");
-		this.fileName = rs.getString("fileName");
-		this.fileType = rs.getString("fileType");
-		this.tableId = rs.getInt("tableId");
-		this.tableName = rs.getString("tableName");
-		this.fileUrl = rs.getString("fileUrl");
+	public static SysFileUrlsPO create(ResultSet rs) throws SQLException {
+		SysFileUrlsPO fileUrlsPO = new SysFileUrlsPO();
+		fileUrlsPO.id = rs.getInt("id");
+		fileUrlsPO.fileName = rs.getString("fileName");
+		fileUrlsPO.fileType = rs.getString("fileType");
+		fileUrlsPO.tableId = rs.getInt("tableId");
+		fileUrlsPO.tableName = rs.getString("tableName");
+		fileUrlsPO.fileUrl = rs.getString("fileUrl");
+		return fileUrlsPO;
 	}
 
 	public Integer getId() {
@@ -81,4 +91,28 @@ public class SysFileUrlsPO {
 	public void setCreatedTime(Timestamp createdTime) {
 		this.createdTime = createdTime;
 	}
+
+	public Integer create(BaseDao baseDao) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
+						PreparedStatement.RETURN_GENERATED_KEYS);
+				ps.setString(1, fileName);
+				ps.setString(2, fileType);
+				ps.setInt(3, tableId);
+				ps.setString(4, tableName);
+				ps.setString(5, fileUrl);
+				ps.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+				return ps;
+			}
+		}, keyHolder);
+		return keyHolder.getKey().intValue();
+	}
+
+	private static final String INSERT_SQL = "insert into sys_file_urls (fileName,fileType,tableId,tableName,fileUrl,createdTime) values (?,?,?,?,?,?)";
+	public static final String GET_SQL = "select * from  sys_file_urls where id=?";
+	public static final String DELETE_SYS_FILE_URL_SQL = "delete from sys_file_urls where id=?";
 }

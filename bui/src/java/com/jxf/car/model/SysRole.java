@@ -1,7 +1,15 @@
 package com.jxf.car.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+
+import com.jxf.car.dao.BaseDao;
 
 public class SysRole extends BasePO {
 
@@ -13,10 +21,12 @@ public class SysRole extends BasePO {
 
 	}
 
-	public SysRole(ResultSet rs) throws SQLException {
-		this.id = rs.getInt("id");
-		this.roleName = rs.getString("roleName");
-		this.roleRemark = rs.getString("roleRemark");
+	public static SysRole create(ResultSet rs) throws SQLException {
+		SysRole role = new SysRole();
+		role.id = rs.getInt("id");
+		role.roleName = rs.getString("roleName");
+		role.roleRemark = rs.getString("roleRemark");
+		return role;
 	}
 
 	public Integer getId() {
@@ -42,5 +52,47 @@ public class SysRole extends BasePO {
 	public void setRoleRemark(String roleRemark) {
 		this.roleRemark = roleRemark;
 	}
+
+	/**
+	 * 新增系统角色
+	 * 
+	 * @param role
+	 * @return
+	 */
+	public Integer create(BaseDao baseDao) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
+						PreparedStatement.RETURN_GENERATED_KEYS);
+				ps.setString(1, roleName);
+				ps.setString(2, roleRemark);
+				return ps;
+			}
+		}, keyHolder);
+		return keyHolder.getKey().intValue();
+	}
+
+	/**
+	 * 修改系统角色
+	 * 
+	 * @param merchantUserPO
+	 * @return
+	 */
+	public int update(BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.roleName,
+				this.roleRemark, this.id);
+	}
+
+	// 根据登录号查找系统员工的SQL
+	public static final String GET_BY_ID_SQL = "SELECT * from sys_role where id=? ";
+	// 新增系统员工的SQL
+	private static final String INSERT_SQL = "insert into sys_role (roleName,roleRemark) values (?,?)";
+	// 新增系统员工的SQL
+	private static final String UPDATE_SQL = "update sys_role set roleName=?,roleRemark=? where id=?";
+	// 删除系统员工的SQL
+	public static final String DELETE_SQL = "delete from  sys_role where id=?";
 
 }

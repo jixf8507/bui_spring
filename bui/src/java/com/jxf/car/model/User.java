@@ -1,5 +1,16 @@
 package com.jxf.car.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+
+import com.jxf.car.dao.BaseDao;
+import com.jxf.common.SysConfig;
+
 /**
  * 
  * @author Administrator
@@ -80,4 +91,65 @@ public class User extends BasePO {
 		this.idCard = idCard;
 	}
 
+	/**
+	 * 修改用户信息
+	 * 
+	 * @param baseDao
+	 * @return
+	 */
+	public int update(BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.getName(),
+				this.getMobilePhone(), this.getIdCard(), this.getId());
+	}
+
+	/**
+	 * 
+	 * @param status
+	 * @param statusDesc
+	 * @param id
+	 * @return
+	 */
+	public static User createUser(Integer status, String statusDesc, Integer id) {
+		User user = new User();
+		user.setId(id);
+		user.setStatusDesc(statusDesc);
+		user.setStatus(status);
+		return user;
+	}
+
+	/**
+	 * 修改用户状态
+	 * 
+	 * @param baseDao
+	 * @return
+	 */
+	public int updateStatus(BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(STATUS_UPDATE_SQL, status,
+				statusDesc, id);
+	}
+
+	public Integer create(BaseDao baseDao) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
+						PreparedStatement.RETURN_GENERATED_KEYS);
+				ps.setString(1, getName());
+				ps.setString(2, getMobilePhone());
+				ps.setString(3, getIdCard());
+				ps.setString(4, SysConfig.PASSWORD);
+				ps.setString(5, SysConfig.PASSWORD);
+				return ps;
+			}
+		}, keyHolder);
+		System.out.println(keyHolder.getKey().intValue() + "主键");
+		return keyHolder.getKey().intValue();
+	}
+
+	private static final String UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=? where id=?";
+	private static final String STATUS_UPDATE_SQL = "update user set status=?,statusDesc=? where id=?";
+	private static final String INSERT_SQL = "insert into user (name,mobilePhone,idCard,loginPassword,payPassword,lastVisitorTime,`status`,statusDesc) values (?,?,?,?,?,now(),1,'')";
+	public static final String GET_BY_ID_SQL = "select * from user u  where u.id=? ";
 }

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import net.sf.json.JSONArray;
 
-import org.omg.CORBA.INTERNAL;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 

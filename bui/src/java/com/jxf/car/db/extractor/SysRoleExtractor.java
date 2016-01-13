@@ -14,7 +14,7 @@ public class SysRoleExtractor implements ResultSetExtractor<SysRole> {
 	public SysRole extractData(ResultSet rs) throws SQLException,
 			DataAccessException {
 		if (rs.next()) {
-			return new SysRole(rs);
+			return SysRole.create(rs);
 		}
 		return null;
 	}

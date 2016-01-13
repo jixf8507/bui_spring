@@ -7,12 +7,9 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
 
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.jxf.car.dao.BaseDao;
-import com.jxf.car.db.creator.UserCreator;
 import com.jxf.car.model.User;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.sql.JSONSqlMapping;
@@ -52,7 +49,7 @@ public class UserDao extends BaseDao {
 	 * @return
 	 */
 	public Map<String, Object> getUserMap(Integer id) {
-		return this.get(GET_BY_ID_SQL, new Object[] { id });
+		return this.get(User.GET_BY_ID_SQL, new Object[] { id });
 	}
 
 	/**
@@ -62,11 +59,7 @@ public class UserDao extends BaseDao {
 	 * @return
 	 */
 	public Integer create(User user) {
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		this.getJdbcTemplate().update(new UserCreator(INSERT_SQL, user),
-				keyHolder);
-		System.out.println(keyHolder.getKey().intValue() + "主键");
-		return keyHolder.getKey().intValue();
+		return user.create(this);
 	}
 
 	/**
@@ -76,24 +69,12 @@ public class UserDao extends BaseDao {
 	 * @return
 	 */
 	public boolean update(User user) {
-		int count = this.getJdbcTemplate().update(UPDATE_SQL, user.getName(),
-				user.getMobilePhone(), user.getIdCard(), user.getId());
-		return count > 0;
+		return user.update(this) > 0;
 	}
 
 	public boolean updateStatus(Integer status, String statusDesc, Integer id) {
-		int count = this.getJdbcTemplate().update(STATUS_UPDATE_SQL, status,
-				statusDesc, id);
-		return count > 0;
+		User user = User.createUser(status, statusDesc, id);
+		return user.updateStatus(this) > 0;
 	}
-
-	// 根据登录号查找系统用户的SQL
-	private static final String GET_BY_ID_SQL = "select * from user u  where u.id=? ";
-
-	private static final String INSERT_SQL = "insert into user (name,mobilePhone,idCard,loginPassword,payPassword,lastVisitorTime,`status`,statusDesc) values (?,?,?,?,?,now(),1,'')";
-
-	private static final String UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=? where id=?";
-
-	private static final String STATUS_UPDATE_SQL = "update user set status=?,statusDesc=? where id=?";
 
 }

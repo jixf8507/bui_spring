@@ -53,7 +53,7 @@ public class UserAccountDao extends BaseDao {
 	 * @return
 	 */
 	public Map<String, Object> getAccountMap(Integer id) {
-		return this.get(GET_BY_ID_SQL, new Object[] { id });
+		return this.get(UserAccount.GET_BY_ID_SQL, new Object[] { id });
 	}
 
 	/**
@@ -63,11 +63,7 @@ public class UserAccountDao extends BaseDao {
 	 * @return
 	 */
 	public Integer create(UserAccount userAccount) {
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		this.getJdbcTemplate().update(
-				new UserAccountCreator(INSERT_SQL, userAccount), keyHolder);
-		System.out.println(keyHolder.getKey().intValue() + "主键");
-		return keyHolder.getKey().intValue();
+		return userAccount.create(this);
 	}
 
 	/**
@@ -77,17 +73,7 @@ public class UserAccountDao extends BaseDao {
 	 * @return
 	 */
 	public boolean update(UserAccount userAccount) {
-		int count = this.getJdbcTemplate().update(UPDATE_SQL,
-				userAccount.getUsableLimit(), userAccount.getWhiteBarLimit(),
-				userAccount.getId());
-		return count > 0;
+		return userAccount.update(this) > 0;
 	}
-
-	// 根据登录号查找系统用户的SQL
-	private static final String GET_BY_ID_SQL = "select a.*,u.`name`,u.mobilePhone,u.idCard from user_account a INNER JOIN user u on a.userId=u.id where a.id=? ";
-
-	private static final String INSERT_SQL = "insert into user_account (userId,usableLimit,curUsableLimit,whiteBarLimit,curWhiteBarLimit,statementDate,repaymentDate,`status`) values (?,?,?,?,?,now(),now(),1)";
-
-	private static final String UPDATE_SQL = "update user_account set usableLimit=?,whiteBarLimit=? where id=?";
 
 }

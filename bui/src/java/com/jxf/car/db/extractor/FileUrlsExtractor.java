@@ -14,7 +14,7 @@ public class FileUrlsExtractor implements ResultSetExtractor<SysFileUrlsPO> {
 	public SysFileUrlsPO extractData(ResultSet rs) throws SQLException,
 			DataAccessException {
 		if (rs.next()) {
-			return new SysFileUrlsPO(rs);
+			return SysFileUrlsPO.create(rs);
 		}
 		return null;
 	}

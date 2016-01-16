@@ -7,12 +7,9 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
 
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.jxf.car.dao.BaseDao;
-import com.jxf.car.db.creator.UserAccountCreator;
 import com.jxf.car.model.UserAccount;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.sql.JSONSqlMapping;

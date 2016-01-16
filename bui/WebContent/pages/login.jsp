@@ -32,7 +32,7 @@
 
 		<header>
 		<h1>
-			BUI <span>BUI</span>
+			大马花<span>管理平台</span>
 		</h1>
 		</header>
 		<section>

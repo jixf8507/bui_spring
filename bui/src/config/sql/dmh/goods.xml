@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 查找大马花的SQL -->
+	<bean id="dmh_goods_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+		<property name="select">
+			<value><![CDATA[
+      		select g.* from dmh_goods g where 1=1
+		 ]]></value>
+		</property>
+		<property name="conditions">
+			<list>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="name" />
+					<property name="value" value="and g.`name` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="status" />
+					<property name="value" value="and g.`status` = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="isTop" />
+					<property name="value" value="and g.`isTop` = ? " />
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="ORDER BY g.id desc " />
+	</bean>
+
+</beans>

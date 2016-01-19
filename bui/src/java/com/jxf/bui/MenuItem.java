@@ -7,7 +7,7 @@ public class MenuItem {
 	private String id;
 	private String text;
 	private String href;
-	private boolean closeable =true;
+	private boolean closeable = true;
 
 	private List<MenuItem> items;
 
@@ -15,11 +15,12 @@ public class MenuItem {
 		super();
 	}
 
-	public MenuItem(String id, String text, String href) {
-		super();
-		this.id = id;
-		this.text = text;
-		this.href = href;
+	public static MenuItem createMenuItem(String id, String text, String href) {
+		MenuItem mi = new MenuItem();
+		mi.id = id;
+		mi.text = text;
+		mi.href = href;
+		return mi;
 	}
 
 	public String getId() {

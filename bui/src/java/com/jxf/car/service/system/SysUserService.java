@@ -1,7 +1,5 @@
 package com.jxf.car.service.system;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jxf.bui.BuiMenu;
-import com.jxf.bui.ButtonMenu;
-import com.jxf.bui.ConfigMenu;
-import com.jxf.bui.MenuItem;
 import com.jxf.car.dao.system.SysRoleMenuDAO;
 import com.jxf.car.dao.system.SysUserDAO;
 import com.jxf.car.export.system.SysUserExport;
@@ -107,6 +102,12 @@ public class SysUserService extends BaseService {
 		return msg;
 	}
 
+	/**
+	 * 批量删除员工
+	 * 
+	 * @param jsonArray
+	 * @return
+	 */
 	@Transactional
 	public MSG deledteUser(JSONArray jsonArray) {
 		MSG msg = new MSG();
@@ -128,46 +129,7 @@ public class SysUserService extends BaseService {
 	 * @return
 	 */
 	public BuiMenu getConfigMunesByRoleId(Integer roleId, String contextPath) {
-		List<ConfigMenu> configMenus = new ArrayList<>();
 		List<Map<String, Object>> menus = roleMenuDAO.findMenusByRoleId(roleId);
-		Map<String, ConfigMenu> level1Map = new HashMap<String, ConfigMenu>();
-		Map<String, MenuItem> level2Map = new HashMap<String, MenuItem>();
-		Map<String, List<ButtonMenu>> buttomMap = new HashMap<>();
-		for (Map<String, Object> menuObj : menus) {
-			String id = menuObj.get("id") + "";
-			String level = menuObj.get("level") + "";
-			String moduleName = menuObj.get("moduleName") + "";
-			String moduleUrl = menuObj.get("moduleUrl") + "";
-
-			String pid = menuObj.get("pid") + "";
-			if ("0".equals(level)) {
-				ConfigMenu configMenu = new ConfigMenu(id, null, moduleName,
-						new ArrayList<MenuItem>());
-				level1Map.put(id, configMenu);
-				configMenus.add(configMenu);
-			} else if ("1".equals(level)) {
-				MenuItem menuItem = new MenuItem(id, moduleName, moduleUrl);
-				level2Map.put(id, menuItem);
-				level1Map.get(pid).getMenu().add(menuItem);
-			} else if ("2".equals(level)) {
-				MenuItem menuItem = new MenuItem(id, moduleName, contextPath
-						+ moduleUrl);
-				List<MenuItem> items = level2Map.get(pid).getItems();
-				if (items == null) {
-					items = new ArrayList<>();
-					level2Map.get(pid).setItems(items);
-				}
-				items.add(menuItem);
-			} else if ("3".equals(level)) {
-				ButtonMenu buttonMenu = new ButtonMenu(moduleName, moduleUrl);
-				List<ButtonMenu> list = buttomMap.get(pid);
-				if (list == null) {
-					list = new ArrayList<>();
-					buttomMap.put(pid, list);
-				}
-				list.add(buttonMenu);
-			}
-		}
-		return new BuiMenu(configMenus, buttomMap);
+		return BuiMenu.createBuiMenu(menus, contextPath);
 	}
 }

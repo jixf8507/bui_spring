@@ -13,13 +13,14 @@ public class ConfigMenu {
 		super();
 	}
 
-	public ConfigMenu(String id, String homePage, String text,
+	public static ConfigMenu createConfigMenu(String id, String homePage, String text,
 			List<MenuItem> menu) {
-		super();
-		this.id = id;
-		this.homePage = homePage;
-		this.text = text;
-		this.menu = menu;
+		ConfigMenu cm = new ConfigMenu();
+		cm.id = id;
+		cm.homePage = homePage;
+		cm.text = text;
+		cm.menu = menu;
+		return cm;
 	}
 
 	public String getId() {

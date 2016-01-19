@@ -9,10 +9,11 @@ public class ButtonMenu {
 
 	}
 
-	public ButtonMenu(String value, String onclick) {
-		super();
-		this.value = value;
-		this.onclick = onclick;
+	public static ButtonMenu createButtonMenu(String value, String onclick) {
+		ButtonMenu bm = new ButtonMenu();
+		bm.value = value;
+		bm.onclick = onclick;
+		return bm;
 	}
 
 	public String getValue() {

@@ -20,7 +20,6 @@ import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.tools.JSONTools;
-import com.jxf.common.tools.StringTools;
 
 @Controller
 @RequestMapping("/dmh/goods")
@@ -44,28 +43,18 @@ public class DmhGoodsController extends BaseController {
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = getJsonPara(paraData, session);
-		// jquery.datatables 分页查询的参数
-		JSONArray jsonArray = JSONArray.fromObject(aoData);
-		PageHelp pageHelp = JSONTools.toPageHelp(jsonArray);
-
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
 		PageResults pageResults = dmhGoodsService.findGoodsPage(jsonObject,
 				pageHelp.getiDisplayLength(), pageHelp.getiDisplayStart());
 		pageResults.setsEcho(pageHelp.getsEcho());
 		return pageResults;
 	}
 
-	private JSONObject getJsonPara(String paraData, HttpSession session) {
-		paraData = StringTools.decodeMethod(paraData);
-		// 动态查询条件参数
-		JSONObject jsonObject = JSONObject.fromObject(paraData);
-		return jsonObject;
-	}
-
 	@RequestMapping("exportToExcel.htm")
 	public String exportToExcel(String paraData, HttpSession session,
 			HttpServletResponse response) throws Exception {
-		JSONObject jsonObject = getJsonPara(paraData, session);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
 		dmhGoodsService.excelGoods(response, jsonObject);
 		return null;
 	}

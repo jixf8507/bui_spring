@@ -22,7 +22,6 @@ import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.tools.JSONTools;
-import com.jxf.common.tools.StringTools;
 
 /**
  * 系统角色管理
@@ -88,7 +87,7 @@ public class RoleManagerController extends BaseController {
 	@ResponseBody
 	public List<Map<String, Object>> ajaxList(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = getJsonPara(paraData, session);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
 		return roleService.findRoles(jsonObject);
 	}
 
@@ -96,28 +95,18 @@ public class RoleManagerController extends BaseController {
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = getJsonPara(paraData, session);
-		// jquery.datatables 分页查询的参数
-		JSONArray jsonArray = JSONArray.fromObject(aoData);
-		PageHelp pageHelp = JSONTools.toPageHelp(jsonArray);
-
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
 		PageResults pageResults = roleService.findRolePage(jsonObject,
 				pageHelp.getiDisplayLength(), pageHelp.getiDisplayStart());
 		pageResults.setsEcho(pageHelp.getsEcho());
 		return pageResults;
 	}
 
-	private JSONObject getJsonPara(String paraData, HttpSession session) {
-		paraData = StringTools.decodeMethod(paraData);
-		// 动态查询条件参数
-		JSONObject jsonObject = JSONObject.fromObject(paraData);
-		return jsonObject;
-	}
-
 	@RequestMapping("exportToExcel.htm")
 	public String exportToExcel(String paraData, HttpSession session,
 			HttpServletResponse response) throws Exception {
-		JSONObject jsonObject = getJsonPara(paraData, session);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
 		roleService.excelSysRole(response, jsonObject);
 		return null;
 	}

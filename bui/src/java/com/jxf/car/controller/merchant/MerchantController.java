@@ -52,28 +52,18 @@ public class MerchantController extends BaseController {
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = getJsonPara(paraData, session);
-		// jquery.datatables 分页查询的参数
-		JSONArray jsonArray = JSONArray.fromObject(aoData);
-		PageHelp pageHelp = JSONTools.toPageHelp(jsonArray);
-
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
 		PageResults pageResults = merchantService.findMerchantPage(jsonObject,
 				pageHelp.getiDisplayLength(), pageHelp.getiDisplayStart());
 		pageResults.setsEcho(pageHelp.getsEcho());
 		return pageResults;
 	}
 
-	private JSONObject getJsonPara(String paraData, HttpSession session) {
-		paraData = StringTools.decodeMethod(paraData);
-		// 动态查询条件参数
-		JSONObject jsonObject = JSONObject.fromObject(paraData);
-		return jsonObject;
-	}
-	
 	@RequestMapping("exportToExcel.htm")
 	public String exportToExcel(String paraData, HttpSession session,
 			HttpServletResponse response) throws Exception {
-		JSONObject jsonObject = getJsonPara(paraData, session);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
 		merchantService.excelMerchant(response, jsonObject);
 		return null;
 	}
@@ -82,7 +72,7 @@ public class MerchantController extends BaseController {
 	@ResponseBody
 	public List<Map<String, Object>> ajaxList(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = getJsonPara(paraData, session);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
 		return merchantService.findMerchantList(jsonObject);
 	}
 

@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.tools.JSONTools;
-import com.jxf.common.tools.StringTools;
 
 /**
  * 
@@ -49,11 +47,8 @@ public class MerchantGoodsController extends BaseController {
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = getJsonPara(paraData, session);
-		// jquery.datatables 分页查询的参数
-		JSONArray jsonArray = JSONArray.fromObject(aoData);
-		PageHelp pageHelp = JSONTools.toPageHelp(jsonArray);
-
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
 		PageResults pageResults = merchantGoodsService.findMerchantGoodsPage(
 				jsonObject, pageHelp.getiDisplayLength(),
 				pageHelp.getiDisplayStart());
@@ -61,20 +56,14 @@ public class MerchantGoodsController extends BaseController {
 		return pageResults;
 	}
 
-	private JSONObject getJsonPara(String paraData, HttpSession session) {
-		paraData = StringTools.decodeMethod(paraData);
-		// 动态查询条件参数
-		JSONObject jsonObject = JSONObject.fromObject(paraData);
-		return jsonObject;
-	}
-
 	@RequestMapping("exportToExcel.htm")
 	public String exportToExcel(String paraData, HttpSession session,
 			HttpServletResponse response) throws Exception {
-		JSONObject jsonObject = getJsonPara(paraData, session);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
 		merchantGoodsService.excelMerchantGoods(response, jsonObject);
 		return null;
 	}
+
 	@RequestMapping("edite")
 	public String edite(Integer id, Model model) {
 		model.addAttribute("merchantGoods",

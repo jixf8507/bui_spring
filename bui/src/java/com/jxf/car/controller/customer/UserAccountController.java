@@ -3,7 +3,6 @@ package com.jxf.car.controller.customer;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.tools.JSONTools;
-import com.jxf.common.tools.StringTools;
 
 /**
  * 用户信息管理
@@ -51,11 +49,8 @@ public class UserAccountController extends BaseController {
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = getJsonPara(paraData, session);
-		// jquery.datatables 分页查询的参数
-		JSONArray jsonArray = JSONArray.fromObject(aoData);
-		PageHelp pageHelp = JSONTools.toPageHelp(jsonArray);
-
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
 		PageResults pageResults = accountService.findUserAccountPage(
 				jsonObject, pageHelp.getiDisplayLength(),
 				pageHelp.getiDisplayStart());
@@ -63,17 +58,10 @@ public class UserAccountController extends BaseController {
 		return pageResults;
 	}
 
-	private JSONObject getJsonPara(String paraData, HttpSession session) {
-		paraData = StringTools.decodeMethod(paraData);
-		// 动态查询条件参数
-		JSONObject jsonObject = JSONObject.fromObject(paraData);
-		return jsonObject;
-	}
-
 	@RequestMapping("exportToExcel.htm")
 	public String exportToExcel(String paraData, HttpSession session,
 			HttpServletResponse response) throws Exception {
-		JSONObject jsonObject = getJsonPara(paraData, session);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
 		accountService.excelUserAccount(response, jsonObject);
 		return null;
 	}

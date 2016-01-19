@@ -153,16 +153,8 @@ public class BuiMenu {
 		return configMenus;
 	}
 
-	public void setConfigMenus(List<ConfigMenu> configMenus) {
-		this.configMenus = configMenus;
-	}
-
 	public Map<String, List<ButtonMenu>> getButtomMap() {
 		return buttomMap;
-	}
-
-	public void setButtomMap(Map<String, List<ButtonMenu>> buttomMap) {
-		this.buttomMap = buttomMap;
 	}
 
 }

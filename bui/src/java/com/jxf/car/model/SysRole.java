@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
+import com.jxf.car.db.extractor.SysRoleExtractor;
 
 public class SysRole extends BasePO {
 
@@ -67,8 +68,9 @@ public class SysRole extends BasePO {
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setString(1, roleName);
-				ps.setString(2, roleRemark);
+				int i = 1;
+				ps.setString(i++, roleName);
+				ps.setString(i++, roleRemark);
 				return ps;
 			}
 		}, keyHolder);
@@ -86,13 +88,22 @@ public class SysRole extends BasePO {
 				this.roleRemark, this.id);
 	}
 
+	public static SysRole get(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().query(GET_BY_ID_SQL,
+				new Object[] { id }, new SysRoleExtractor());
+	}
+
+	public static int delete(Object id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(DELETE_SQL, id);
+	}
+
 	// 根据登录号查找系统员工的SQL
-	public static final String GET_BY_ID_SQL = "SELECT * from sys_role where id=? ";
+	private static final String GET_BY_ID_SQL = "SELECT * from sys_role where id=? ";
 	// 新增系统员工的SQL
 	private static final String INSERT_SQL = "insert into sys_role (roleName,roleRemark) values (?,?)";
 	// 新增系统员工的SQL
 	private static final String UPDATE_SQL = "update sys_role set roleName=?,roleRemark=? where id=?";
 	// 删除系统员工的SQL
-	public static final String DELETE_SQL = "delete from  sys_role where id=?";
+	private static final String DELETE_SQL = "delete from  sys_role where id=?";
 
 }

@@ -44,7 +44,7 @@ public class MerchantGoodsDao extends BaseDao {
 	}
 
 	public Map<String, Object> getMerchantGoodsMap(Integer id) {
-		return this.get(MerchantGoods.GET_BY_ID_SQL, new Object[] { id });
+		return MerchantGoods.get(id, this);
 	}
 
 	/**

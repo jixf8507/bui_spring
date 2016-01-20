@@ -49,7 +49,7 @@ public class UserDao extends BaseDao {
 	 * @return
 	 */
 	public Map<String, Object> getUserMap(Integer id) {
-		return this.get(User.GET_BY_ID_SQL, new Object[] { id });
+		return User.get(id, this);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class UserDao extends BaseDao {
 	/**
 	 * 修改用户账户
 	 * 
-	 * @param merchantUserPO
+	 * @param user
 	 * @return
 	 */
 	public boolean update(User user) {

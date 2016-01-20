@@ -10,7 +10,6 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import com.jxf.car.dao.BaseDao;
-import com.jxf.car.db.extractor.SysUserExtractor;
 import com.jxf.car.model.SysUser;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.sql.JSONSqlMapping;
@@ -30,13 +29,11 @@ public class SysUserDAO extends BaseDao {
 	 * @return
 	 */
 	public SysUser findByCode(String code) {
-		return this.getJdbcTemplate().query(SysUser.GET_BY_CODE_SQL,
-				new Object[] { code }, new SysUserExtractor());
+		return SysUser.findByCode(code, this);
 	}
 
 	public SysUser get(Integer id) {
-		return this.getJdbcTemplate().query(SysUser.GET_BY_ID_SQL,
-				new Object[] { id }, new SysUserExtractor());
+		return SysUser.get(id, this);
 	}
 
 	@Resource(name = "system_user_select_sql")
@@ -87,8 +84,7 @@ public class SysUserDAO extends BaseDao {
 	 * @return
 	 */
 	public boolean delete(Object id) {
-		int count = this.getJdbcTemplate().update(SysUser.DELETE_SQL, id);
-		return count > 0;
+		return SysUser.delete(id, this) > 0;
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
+import com.jxf.car.db.extractor.SysUserExtractor;
 
 /**
  * 
@@ -116,12 +117,13 @@ public class SysUser extends BasePO {
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setString(1, code);
-				ps.setString(2, phone);
-				ps.setString(3, name);
-				ps.setInt(4, roleId);
-				ps.setString(5, "123456");
-				ps.setString(6, sex);
+				int i = 1;
+				ps.setString(i++, code);
+				ps.setString(i++, phone);
+				ps.setString(i++, name);
+				ps.setInt(i++, roleId);
+				ps.setString(i++, "123456");
+				ps.setString(i++, sex);
 				return ps;
 			}
 		}, keyHolder);
@@ -139,15 +141,29 @@ public class SysUser extends BasePO {
 				this.phone, this.name, this.roleId, this.sex, this.id);
 	}
 
+	public static SysUser findByCode(String code, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().query(GET_BY_CODE_SQL,
+				new Object[] { code }, new SysUserExtractor());
+	}
+
+	public static SysUser get(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().query(GET_BY_ID_SQL,
+				new Object[] { id }, new SysUserExtractor());
+	}
+
+	public static int delete(Object id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(DELETE_SQL, id);
+	}
+
 	// 根据登录号查找系统员工的SQL
-	public static final String GET_BY_CODE_SQL = "SELECT * from sys_user where code=? and `status`=1";
+	private static final String GET_BY_CODE_SQL = "SELECT * from sys_user where code=? and `status`=1";
 	// 根据登录号查找系统员工的SQL
-	public static final String GET_BY_ID_SQL = "SELECT * from sys_user where id=? ";
+	private static final String GET_BY_ID_SQL = "SELECT * from sys_user where id=? ";
 	// 新增系统员工的SQL
 	private static final String INSERT_SQL = "insert into sys_user (code,phone,name,roleId,password,sex) values (?,?,?,?,?,?)";
 	// 新增系统员工的SQL
 	private static final String UPDATE_SQL = "update sys_user set code=?,phone=?,name=?,roleId=?,sex=? where id=?";
 	// 删除系统员工的SQL
-	public static final String DELETE_SQL = "update  sys_user set `status`=0 where id=?";
+	private static final String DELETE_SQL = "update  sys_user set `status`=0 where id=?";
 
 }

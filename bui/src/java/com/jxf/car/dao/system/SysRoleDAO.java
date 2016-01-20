@@ -10,7 +10,6 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import com.jxf.car.dao.BaseDao;
-import com.jxf.car.db.extractor.SysRoleExtractor;
 import com.jxf.car.model.SysRole;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.sql.JSONSqlMapping;
@@ -30,8 +29,7 @@ public class SysRoleDAO extends BaseDao {
 	 * @return
 	 */
 	public SysRole get(Integer id) {
-		return this.getJdbcTemplate().query(SysRole.GET_BY_ID_SQL,
-				new Object[] { id }, new SysRoleExtractor());
+		return SysRole.get(id, this);
 	}
 
 	/**
@@ -61,8 +59,7 @@ public class SysRoleDAO extends BaseDao {
 	 * @return
 	 */
 	public boolean delete(Object id) {
-		int count = this.getJdbcTemplate().update(SysRole.DELETE_SQL, id);
-		return count > 0;
+		return SysRole.delete(id, this) > 0;
 	}
 
 	@Resource(name = "system_role_select_sql")

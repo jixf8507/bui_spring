@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Map;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -120,19 +121,6 @@ public class UserAccount extends BasePO {
 		this.user = user;
 	}
 
-	public static String getStatus(String accountStatus) {
-		switch (accountStatus) {
-		case "1":
-			return "正常";
-		case "2":
-			return "不可取现可分期";
-		case "3":
-			return "不可取现不可分期";
-		default:
-			return "其它";
-		}
-	}
-
 	/**
 	 * 修改客户账户
 	 * 
@@ -140,8 +128,8 @@ public class UserAccount extends BasePO {
 	 * @return
 	 */
 	public int update(BaseDao baseDao) {
-		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.usableLimit,
-				this.whiteBarLimit, this.id);
+		return baseDao.getJdbcTemplate().update(getUpdateSQL(),
+				this.usableLimit, this.whiteBarLimit, this.id);
 	}
 
 	/**
@@ -156,13 +144,14 @@ public class UserAccount extends BasePO {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
+				PreparedStatement ps = conn.prepareStatement(getInsertSQL(),
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setInt(1, userId);
-				ps.setBigDecimal(2, usableLimit);
-				ps.setBigDecimal(3, usableLimit);
-				ps.setBigDecimal(4, whiteBarLimit);
-				ps.setBigDecimal(5, whiteBarLimit);
+				int i = 1;
+				ps.setInt(i++, userId);
+				ps.setBigDecimal(i++, usableLimit);
+				ps.setBigDecimal(i++, usableLimit);
+				ps.setBigDecimal(i++, whiteBarLimit);
+				ps.setBigDecimal(i++, whiteBarLimit);
 				return ps;
 			}
 		}, keyHolder);
@@ -170,9 +159,32 @@ public class UserAccount extends BasePO {
 		return keyHolder.getKey().intValue();
 	}
 
-	// 根据登录号查找系统用户的SQL
-	public static final String GET_BY_ID_SQL = "select a.*,u.`name`,u.mobilePhone,u.idCard from user_account a INNER JOIN user u on a.userId=u.id where a.id=? ";
-	private static final String INSERT_SQL = "insert into user_account (userId,usableLimit,curUsableLimit,whiteBarLimit,curWhiteBarLimit,statementDate,repaymentDate,`status`) values (?,?,?,?,?,now(),now(),1)";
-	private static final String UPDATE_SQL = "update user_account set usableLimit=?,whiteBarLimit=? where id=?";
+	public static Map<String, Object> get(Integer id, BaseDao baseDao) {
+		return baseDao.get(getLoadSQL(), new Object[] { id });
+	}
 
+	public static String getStatus(String accountStatus) {
+		switch (accountStatus) {
+		case "1":
+			return "正常";
+		case "2":
+			return "不可取现可分期";
+		case "3":
+			return "不可取现不可分期";
+		default:
+			return "其它";
+		}
+	}
+
+	private static final String getLoadSQL() {
+		return "select a.*,u.`name`,u.mobilePhone,u.idCard from user_account a INNER JOIN user u on a.userId=u.id where a.id=? ";
+	}
+
+	private static final String getInsertSQL() {
+		return "insert into user_account (userId,usableLimit,curUsableLimit,whiteBarLimit,curWhiteBarLimit,statementDate,repaymentDate,`status`) values (?,?,?,?,?,now(),now(),1)";
+	}
+
+	private static final String getUpdateSQL() {
+		return "update user_account set usableLimit=?,whiteBarLimit=? where id=?";
+	}
 }

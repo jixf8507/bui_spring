@@ -3,6 +3,7 @@ package com.jxf.car.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -102,18 +103,23 @@ public class Merchant extends BasePO {
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setString(1, name);
-				ps.setString(2, address);
-				ps.setString(3, des);
-				ps.setString(4, corporation);
-				ps.setString(5, mobilePhone);
+				int i = 1;
+				ps.setString(i++, name);
+				ps.setString(i++, address);
+				ps.setString(i++, des);
+				ps.setString(i++, corporation);
+				ps.setString(i++, mobilePhone);
 				return ps;
 			}
 		}, keyHolder);
 		return keyHolder.getKey().intValue();
 	}
 
-	public static final String GET_BY_ID_SQL = "select * from merchant u  where u.id=? ";
+	public static Map<String, Object> get(Integer id, BaseDao baseDao) {
+		return baseDao.get(GET_BY_ID_SQL, new Object[] { id });
+	}
+
+	private static final String GET_BY_ID_SQL = "select * from merchant u  where u.id=? ";
 	private static final String INSERT_SQL = "insert into merchant (name,address,des,corporation,mobilePhone) values (?,?,?,?,?)";
 	private static final String UPDATE_SQL = "update merchant set name=?,address=?,des=?,corporation=?,mobilePhone=? where id=?";
 

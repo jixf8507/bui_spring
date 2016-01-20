@@ -39,7 +39,7 @@ public class DmhGoodsDao extends BaseDao {
 	}
 
 	public Map<String, Object> getMerchantGoodsMap(Integer id) {
-		return this.get(DmhGoods.GET_BY_ID_SQL, new Object[] { id });
+		return DmhGoods.get(id, this);
 	}
 
 	/**
@@ -63,6 +63,6 @@ public class DmhGoodsDao extends BaseDao {
 	}
 
 	public boolean delete(Object id) {
-		return getJdbcTemplate().update(DmhGoods.DELETE_ID_SQL, id) > 0;
+		return DmhGoods.delete(id, this) > 0;
 	}
 }

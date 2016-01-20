@@ -44,7 +44,7 @@ public class MerchantDao extends BaseDao {
 	}
 
 	public Map<String, Object> getMerchantMap(Integer id) {
-		return this.get(Merchant.GET_BY_ID_SQL, new Object[] { id });
+		return Merchant.get(id, this);
 	}
 
 	/**

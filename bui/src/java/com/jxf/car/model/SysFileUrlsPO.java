@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
+import com.jxf.car.db.extractor.FileUrlsExtractor;
 
 public class SysFileUrlsPO {
 	private Integer id;
@@ -100,19 +101,35 @@ public class SysFileUrlsPO {
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setString(1, fileName);
-				ps.setString(2, fileType);
-				ps.setInt(3, tableId);
-				ps.setString(4, tableName);
-				ps.setString(5, fileUrl);
-				ps.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+				int i = 1;
+				ps.setString(i++, fileName);
+				ps.setString(i++, fileType);
+				ps.setInt(i++, tableId);
+				ps.setString(i++, tableName);
+				ps.setString(i++, fileUrl);
+				ps.setTimestamp(i++, new Timestamp(System.currentTimeMillis()));
 				return ps;
 			}
 		}, keyHolder);
 		return keyHolder.getKey().intValue();
 	}
 
+	public static SysFileUrlsPO get(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().query(GET_SQL, new Object[] { id },
+				new FileUrlsExtractor());
+	}
+
+	/**
+	 * 删除sys_file_url表中的一条记录。
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static int delete(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(DELETE_SYS_FILE_URL_SQL, id);
+	}
+
 	private static final String INSERT_SQL = "insert into sys_file_urls (fileName,fileType,tableId,tableName,fileUrl,createdTime) values (?,?,?,?,?,?)";
-	public static final String GET_SQL = "select * from  sys_file_urls where id=?";
-	public static final String DELETE_SYS_FILE_URL_SQL = "delete from sys_file_urls where id=?";
+	private static final String GET_SQL = "select * from  sys_file_urls where id=?";
+	private static final String DELETE_SYS_FILE_URL_SQL = "delete from sys_file_urls where id=?";
 }

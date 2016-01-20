@@ -50,7 +50,7 @@ public class UserAccountDao extends BaseDao {
 	 * @return
 	 */
 	public Map<String, Object> getAccountMap(Integer id) {
-		return this.get(UserAccount.GET_BY_ID_SQL, new Object[] { id });
+		return UserAccount.get(id, this);
 	}
 
 	/**

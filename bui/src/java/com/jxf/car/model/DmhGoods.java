@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -142,44 +143,65 @@ public class DmhGoods extends BasePO {
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setString(1, manufacturer);
-				ps.setString(2, name);
-				ps.setBigDecimal(3, price);
-				ps.setString(4, img);
-				ps.setString(5, des1);
-				ps.setString(6, des2);
-				ps.setString(7, des3);
-				ps.setString(8, type);
-				ps.setInt(9, isTop);
+				int i = 1;
+				ps.setString(i++, manufacturer);
+				ps.setString(i++, name);
+				ps.setBigDecimal(i++, price);
+				ps.setString(i++, img);
+				ps.setString(i++, des1);
+				ps.setString(i++, des2);
+				ps.setString(i++, des3);
+				ps.setString(i++, type);
+				ps.setInt(i++, isTop);
 				return ps;
 			}
 		}, keyHolder);
 		return keyHolder.getKey().intValue();
 	}
 
-	public static final String GET_BY_ID_SQL = "select * from dmh_goods g  where g.id=? ";
-	private static final String INSERT_SQL = "insert into dmh_goods (manufacturer,`name`,price,img,des1,des2,des3,type,isTop,status) values (?,?,?,?,?,?,?,?,?,1)";
-	private static final String UPDATE_SQL = "update dmh_goods set manufacturer=?,`name`=?,price=?,img=?,des1=?,des2=?,des3=?,type=?,isTop=? where id=?";
-	public static final String DELETE_ID_SQL = "update dmh_goods set  status=0 where id=? ";
-
-	public static String getStatus(String status) {
-		if ("0".equals(status)) {
-			return "已下架";
-		}
-		if ("1".equals(status)) {
-			return "已上架";
-		}
-		return "";
+	public static Map<String, Object> get(Integer id, BaseDao baseDao) {
+		return baseDao.get(GET_BY_ID_SQL, new Object[] { id });
 	}
 
+	public static int delete(Object id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(DELETE_ID_SQL, id);
+	}
+
+	private static final String GET_BY_ID_SQL = "select * from dmh_goods g  where g.id=? ";
+	private static final String INSERT_SQL = "insert into dmh_goods (manufacturer,`name`,price,img,des1,des2,des3,type,isTop,status) values (?,?,?,?,?,?,?,?,?,1)";
+	private static final String UPDATE_SQL = "update dmh_goods set manufacturer=?,`name`=?,price=?,img=?,des1=?,des2=?,des3=?,type=?,isTop=? where id=?";
+	private static final String DELETE_ID_SQL = "update dmh_goods set  status=0 where id=? ";
+
+	/**
+	 * 获取商品状态
+	 * 
+	 * @param status
+	 *            商品状态编码
+	 * @return
+	 */
+	public static String getStatus(String status) {
+		switch (status) {
+		case "0":
+			return "已下架";
+		case "1":
+			return "已上架";
+		default:
+			return "";
+		}
+	}
+
+	/**
+	 * 是否收益显示
+	 */
 	public static String getTop(String isTop) {
-		if ("0".equals(isTop)) {
+		switch (isTop) {
+		case "0":
 			return "否";
-		}
-		if ("1".equals(isTop)) {
+		case "1":
 			return "是";
+		default:
+			return "";
 		}
-		return "";
 	}
 
 }

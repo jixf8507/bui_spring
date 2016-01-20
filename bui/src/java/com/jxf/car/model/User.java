@@ -3,6 +3,7 @@ package com.jxf.car.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -136,11 +137,12 @@ public class User extends BasePO {
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setString(1, getName());
-				ps.setString(2, getMobilePhone());
-				ps.setString(3, getIdCard());
-				ps.setString(4, SysConfig.PASSWORD);
-				ps.setString(5, SysConfig.PASSWORD);
+				int i = 1;
+				ps.setString(i++, getName());
+				ps.setString(i++, getMobilePhone());
+				ps.setString(i++, getIdCard());
+				ps.setString(i++, SysConfig.PASSWORD);
+				ps.setString(i++, SysConfig.PASSWORD);
 				return ps;
 			}
 		}, keyHolder);
@@ -148,8 +150,12 @@ public class User extends BasePO {
 		return keyHolder.getKey().intValue();
 	}
 
+	public static Map<String, Object> get(Integer id, BaseDao baseDao) {
+		return baseDao.get(GET_BY_ID_SQL, new Object[] { id });
+	}
+
 	private static final String UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=? where id=?";
 	private static final String STATUS_UPDATE_SQL = "update user set status=?,statusDesc=? where id=?";
 	private static final String INSERT_SQL = "insert into user (name,mobilePhone,idCard,loginPassword,payPassword,lastVisitorTime,`status`,statusDesc) values (?,?,?,?,?,now(),1,'')";
-	public static final String GET_BY_ID_SQL = "select * from user u  where u.id=? ";
+	private static final String GET_BY_ID_SQL = "select * from user u  where u.id=? ";
 }

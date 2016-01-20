@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.jxf.car.dao.customer.UserOrderDao;
 import com.jxf.car.export.user.UserOrderExport;
 import com.jxf.car.service.BaseService;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -32,14 +31,13 @@ public class UserOrderService extends BaseService {
 		return userOrderDao.findUserOrderPage(jsonObject, pageSize,
 				iDisplayStart);
 	}
-	
+
 	public void excelUserOrder(HttpServletResponse response,
 			JSONObject jsonObject) {
-		BaseExport export = new UserOrderExport();
-		List<Map<String, Object>> list = userOrderDao
-				.findUserOrderList(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = userOrderDao
+					.findUserOrderList(jsonObject);
+			UserOrderExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

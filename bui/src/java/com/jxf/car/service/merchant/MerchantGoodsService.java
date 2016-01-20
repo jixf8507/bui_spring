@@ -15,7 +15,6 @@ import com.jxf.car.export.mechant.MerchantGoodsExport;
 import com.jxf.car.model.MerchantGoods;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -37,38 +36,31 @@ public class MerchantGoodsService extends BaseService {
 
 	public void excelMerchantGoods(HttpServletResponse response,
 			JSONObject jsonObject) {
-		BaseExport export = new MerchantGoodsExport();
-		List<Map<String, Object>> list = merchantGoodsDao
-				.findMerchantGoodsList(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = merchantGoodsDao
+					.findMerchantGoodsList(jsonObject);
+			MerchantGoodsExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public MSG createMerchantGoods(MerchantGoods merchantGoods) {
-		MSG msg = new MSG();
 		try {
 			merchantGoodsDao.create(merchantGoods);
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
-			e.printStackTrace();
-			msg.setSuccess(false);
-			msg.setInfo("新增商家失败");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "新增商家失败");
 	}
 
 	public MSG updateMerchantGoods(MerchantGoods merchantGoods) {
-		MSG msg = new MSG();
 		try {
 			merchantGoodsDao.update(merchantGoods);
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
-			e.printStackTrace();
-			msg.setSuccess(false);
-			msg.setInfo("修改商家失败");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "修改商家失败");
 	}
 
 	public Map<String, Object> getMerchantGoodsMap(Integer id) {

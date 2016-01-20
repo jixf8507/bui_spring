@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.jxf.car.dao.customer.UserDao;
 import com.jxf.car.export.user.UserExport;
 import com.jxf.car.service.BaseService;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -42,10 +41,9 @@ public class UserService extends BaseService {
 	}
 
 	public void excelUser(HttpServletResponse response, JSONObject jsonObject) {
-		BaseExport export = new UserExport();
-		List<Map<String, Object>> list = userDao.findUserList(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = userDao.findUserList(jsonObject);
+			UserExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

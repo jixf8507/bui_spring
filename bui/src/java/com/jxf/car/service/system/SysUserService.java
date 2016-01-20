@@ -19,7 +19,6 @@ import com.jxf.car.export.system.SysUserExport;
 import com.jxf.car.model.SysUser;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -69,10 +68,10 @@ public class SysUserService extends BaseService {
 	}
 
 	public void excelSysUser(HttpServletResponse response, JSONObject jsonObject) {
-		BaseExport export = new SysUserExport();
-		List<Map<String, Object>> list = sysUserDAO.findUserList(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = sysUserDAO
+					.findUserList(jsonObject);
+			SysUserExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,22 +83,17 @@ public class SysUserService extends BaseService {
 	 * @return
 	 */
 	public MSG createUser(SysUser sysUser) {
-		MSG msg = new MSG();
-		Integer id = sysUserDAO.create(sysUser);
-		if (id == null) {
-			msg.setSuccess(false);
-			msg.setInfo("保存员工信息失败！");
+		if (sysUserDAO.create(sysUser) == null) {
+			return MSG.createErrorMSG(1, "保存员工信息失败！");
 		}
-		return msg;
+		return MSG.createSuccessMSG();
 	}
 
 	public MSG updateUser(SysUser sysUser) {
-		MSG msg = new MSG();
-		if (!sysUserDAO.update(sysUser)) {
-			msg.setSuccess(false);
-			msg.setInfo("修改员工信息失败！");
+		if (sysUserDAO.update(sysUser)) {
+			return MSG.createSuccessMSG();
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "修改员工信息失败！");
 	}
 
 	/**
@@ -110,16 +104,14 @@ public class SysUserService extends BaseService {
 	 */
 	@Transactional
 	public MSG deledteUser(JSONArray jsonArray) {
-		MSG msg = new MSG();
 		try {
 			for (Object id : jsonArray) {
 				sysUserDAO.delete(id);
 			}
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
-			msg.setSuccess(false);
-			msg.setInfo("删除员工信息失败！");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "删除员工信息失败！");
 	}
 
 	/**

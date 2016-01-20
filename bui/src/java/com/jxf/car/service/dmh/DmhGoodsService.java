@@ -17,7 +17,6 @@ import com.jxf.car.export.dmh.DmhGoodsExport;
 import com.jxf.car.model.DmhGoods;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 @Service
@@ -33,38 +32,33 @@ public class DmhGoodsService extends BaseService {
 	}
 
 	public void excelGoods(HttpServletResponse response, JSONObject jsonObject) {
-		BaseExport export = new DmhGoodsExport();
-		List<Map<String, Object>> list = dmhGoodsDao
-				.findMerchantGoodsList(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = dmhGoodsDao
+					.findMerchantGoodsList(jsonObject);
+			DmhGoodsExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public MSG createGoods(DmhGoods dmhGoods) {
-		MSG msg = new MSG();
 		try {
 			dmhGoodsDao.create(dmhGoods);
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg.setSuccess(false);
-			msg.setInfo("新增商品失败");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "新增商品失败！");
 	}
 
 	public MSG updateGoods(DmhGoods dmhGoods) {
-		MSG msg = new MSG();
 		try {
 			dmhGoodsDao.update(dmhGoods);
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg.setSuccess(false);
-			msg.setInfo("修改商品失败");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "修改商品失败！");
 	}
 
 	public Map<String, Object> getGoodsMap(Integer id) {
@@ -73,17 +67,15 @@ public class DmhGoodsService extends BaseService {
 
 	@Transactional
 	public MSG deleteGoods(JSONArray jsonArray) {
-		MSG msg = new MSG();
 		try {
 			for (Object id : jsonArray) {
 				dmhGoodsDao.delete(id);
 			}
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg.setSuccess(false);
-			msg.setInfo("下架商品失败！");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "下架商品失败！");
 	}
 
 }

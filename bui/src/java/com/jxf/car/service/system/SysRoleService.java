@@ -17,7 +17,6 @@ import com.jxf.car.export.system.SysRoleExport;
 import com.jxf.car.model.SysRole;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -45,10 +44,9 @@ public class SysRoleService extends BaseService {
 	}
 
 	public void excelSysRole(HttpServletResponse response, JSONObject jsonObject) {
-		BaseExport export = new SysRoleExport();
-		List<Map<String, Object>> list = this.findRoles(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = this.findRoles(jsonObject);
+			SysRoleExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,36 +67,29 @@ public class SysRoleService extends BaseService {
 	}
 
 	public MSG createRole(SysRole role) {
-		MSG msg = new MSG();
-		Integer id = roleDAO.create(role);
-		if (id == null) {
-			msg.setSuccess(false);
-			msg.setInfo("保存员工信息失败！");
+		if (roleDAO.create(role) == null) {
+			return MSG.createErrorMSG(1, "保存角色信息失败！");
 		}
-		return msg;
+		return MSG.createSuccessMSG();
 	}
 
 	public MSG updateRole(SysRole role) {
-		MSG msg = new MSG();
-		if (!roleDAO.update(role)) {
-			msg.setSuccess(false);
-			msg.setInfo("修改员工信息失败！");
+		if (roleDAO.update(role)) {
+			return MSG.createSuccessMSG();
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "修改角色信息失败！");
 	}
 
 	@Transactional
 	public MSG deledteRole(JSONArray jsonArray) {
-		MSG msg = new MSG();
 		try {
 			for (Object id : jsonArray) {
 				roleDAO.delete(id);
 			}
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
-			msg.setSuccess(false);
-			msg.setInfo("删除员工信息失败！");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "删除角色信息失败！");
 	}
 
 }

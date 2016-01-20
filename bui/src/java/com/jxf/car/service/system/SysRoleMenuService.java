@@ -55,11 +55,13 @@ public class SysRoleMenuService extends BaseService {
 	 */
 	@Transactional
 	public MSG saveRoleMenus(Integer roleId, JSONArray jsonArray) {
-		sysRoleMenuDAO.delteByRoleId(roleId);
-		boolean bool = sysRoleMenuDAO.batchCreate(roleId, jsonArray);
-		MSG msg = new MSG();
-		msg.setSuccess(bool);
-		return msg;
-	}
+		try {
+			sysRoleMenuDAO.delteByRoleId(roleId);
+			sysRoleMenuDAO.batchCreate(roleId, jsonArray);
+			return MSG.createSuccessMSG();
+		} catch (Exception e) {
 
+		}
+		return MSG.createErrorMSG(1, "保存成功");
+	}
 }

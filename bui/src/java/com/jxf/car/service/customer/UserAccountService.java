@@ -17,7 +17,6 @@ import com.jxf.car.export.user.UserAccountExport;
 import com.jxf.car.model.UserAccount;
 import com.jxf.car.service.BaseService;
 import com.jxf.car.web.MSG;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -37,8 +36,11 @@ public class UserAccountService extends BaseService {
 	 * 分页查询系统用户列表
 	 * 
 	 * @param jsonObject
+	 *            查询条件
 	 * @param pageSize
+	 *            每页条数
 	 * @param iDisplayStart
+	 *            起始条数
 	 * @return
 	 */
 	public PageResults findUserAccountPage(JSONObject jsonObject, int pageSize,
@@ -47,13 +49,19 @@ public class UserAccountService extends BaseService {
 				iDisplayStart);
 	}
 
+	/**
+	 * 导出用户账户信息
+	 * 
+	 * @param response
+	 * @param jsonObject
+	 *            查询条件
+	 */
 	public void excelUserAccount(HttpServletResponse response,
 			JSONObject jsonObject) {
-		BaseExport export = new UserAccountExport();
-		List<Map<String, Object>> list = accountDao
-				.findUserAccountList(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = accountDao
+					.findUserAccountList(jsonObject);
+			UserAccountExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,37 +78,42 @@ public class UserAccountService extends BaseService {
 	}
 
 	/**
+	 * 新增用户账户
 	 * 
 	 * @param account
+	 *            用户账户信息
 	 * @return
 	 */
 	@Transactional
 	public MSG createUserAccount(UserAccount userAccount) {
-		MSG msg = new MSG();
 		try {
 			userDao.updateStatus(2, userAccount.getUser().getStatusDesc(),
 					userAccount.getUserId());
 			accountDao.create(userAccount);
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg.setSuccess(false);
-			msg.setInfo("新增用户账户失败");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "新增用户账户失败");
 	}
 
+	/**
+	 * 修改用户账户
+	 * 
+	 * @param userAccount
+	 *            用户账户信息
+	 * @return
+	 */
 	@Transactional
 	public MSG updateUserAccount(UserAccount userAccount) {
-		MSG msg = new MSG();
 		try {
 			userDao.update(userAccount.getUser());
 			accountDao.update(userAccount);
+			return MSG.createSuccessMSG();
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg.setSuccess(false);
-			msg.setInfo("修改用户账户失败");
 		}
-		return msg;
+		return MSG.createErrorMSG(1, "修改用户账户失败");
 	}
 
 }

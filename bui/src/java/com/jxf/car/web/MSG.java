@@ -13,6 +13,34 @@ public class MSG {
 	private Object info = "成功";
 	private int code = 0;
 
+	public static MSG createMSG(int code, boolean isSuccess, Object info) {
+		MSG msg = new MSG();
+		msg.isSuccess = isSuccess;
+		msg.code = code;
+		msg.info = info;
+		return msg;
+	}
+
+	/**
+	 * 创建出错消息
+	 * 
+	 * @param code
+	 * @param info
+	 * @return
+	 */
+	public static MSG createErrorMSG(int code, Object info) {
+		return createMSG(code, false, info);
+	}
+
+	/**
+	 * 创建成功消息
+	 * 
+	 * @return
+	 */
+	public static MSG createSuccessMSG() {
+		return createMSG(0, false, "");
+	}
+
 	/**
 	 * @return the isSuccess
 	 */

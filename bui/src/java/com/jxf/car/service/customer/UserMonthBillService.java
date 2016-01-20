@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.jxf.car.dao.customer.UserMonthBillDao;
 import com.jxf.car.export.user.UserMonthBillExport;
 import com.jxf.car.service.BaseService;
-import com.jxf.common.base.BaseExport;
 import com.jxf.common.base.PageResults;
 
 /**
@@ -41,13 +40,18 @@ public class UserMonthBillService extends BaseService {
 				iDisplayStart);
 	}
 
+	/**
+	 * 导出每月账单
+	 * 
+	 * @param response
+	 * @param jsonObject
+	 */
 	public void excelUserMonthBill(HttpServletResponse response,
 			JSONObject jsonObject) {
-		BaseExport export = new UserMonthBillExport();
-		List<Map<String, Object>> list = userMonthBillDao
-				.findUserMonthBillList(jsonObject);
 		try {
-			export.toExcel(response, list);
+			List<Map<String, Object>> list = userMonthBillDao
+					.findUserMonthBillList(jsonObject);
+			UserMonthBillExport.createExcel(response, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

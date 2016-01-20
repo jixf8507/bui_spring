@@ -4,12 +4,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import jxl.write.Label;
 
 import com.jxf.car.model.DmhGoods;
 import com.jxf.common.base.BaseExport;
 
 public class DmhGoodsExport extends BaseExport {
+
+	public static void createExcel(HttpServletResponse response,
+			List<Map<String, Object>> list) throws Exception {
+		BaseExport be = new DmhGoodsExport();
+		be.toExcel(response, list);
+	}
 
 	@Override
 	protected void writeTile() throws Exception {

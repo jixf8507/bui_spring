@@ -3,6 +3,7 @@ package com.jxf.car.model;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
+import com.jxf.car.db.extractor.UserAccountExtractor;
 
 /**
  * 客户账户
@@ -31,6 +33,20 @@ public class UserAccount extends BasePO {
 	private Timestamp statementDate;
 	private Timestamp repaymentDate;
 	private int status;
+
+	public static UserAccount create(ResultSet rs) throws SQLException {
+		UserAccount ua = new UserAccount();
+		ua.id = rs.getInt("id");
+		ua.userId = rs.getInt("userId");
+		ua.usableLimit = rs.getBigDecimal("usableLimit");
+		ua.curUsableLimit = rs.getBigDecimal("curUsableLimit");
+		ua.whiteBarLimit = rs.getBigDecimal("whiteBarLimit");
+		ua.curWhiteBarLimit = rs.getBigDecimal("curWhiteBarLimit");
+		ua.balance = rs.getBigDecimal("balance");
+		ua.statementDate = rs.getTimestamp("statementDate");
+		ua.repaymentDate = rs.getTimestamp("repaymentDate");
+		return ua;
+	}
 
 	private User user;
 
@@ -152,6 +168,17 @@ public class UserAccount extends BasePO {
 		return baseDao.get(getLoadSQL(), new Object[] { id });
 	}
 
+	public static UserAccount getByUserId(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().query(GET_BY_USER_ID_SQL,
+				new Object[] { id }, new UserAccountExtractor());
+	}
+
+	public static int addCurUsableLimit(BigDecimal balance, Integer id,
+			BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(ADD_CUR_USABLE_LIMIT_SQL,
+				new Object[] { balance, id });
+	}
+
 	public static String getStatus(String accountStatus) {
 		switch (accountStatus) {
 		case "1":
@@ -176,4 +203,7 @@ public class UserAccount extends BasePO {
 	private static final String getUpdateSQL() {
 		return "update user_account set usableLimit=?,whiteBarLimit=? where id=?";
 	}
+
+	public static final String GET_BY_USER_ID_SQL = "select * from user_account where userId=?";
+	public static final String ADD_CUR_USABLE_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+? where id=?";
 }

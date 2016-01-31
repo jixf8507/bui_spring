@@ -76,6 +76,10 @@
 						${userOrder.sfMoney}&nbsp;&nbsp; </span>
 				</p>
 				<p>
+					<label>分期数</label> <span class="field">
+						${userOrder.aging}&nbsp;&nbsp; </span>
+				</p>
+				<p>
 					<label>消费时间</label> <span class="field">
 						${userOrder.createTime}&nbsp;&nbsp; </span>
 				</p>

@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import com.jxf.car.dao.BaseDao;
+import com.jxf.car.model.UserOrder;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.sql.JSONSqlMapping;
 
@@ -35,10 +36,15 @@ public class UserOrderDao extends BaseDao {
 	}
 
 	public Map<String, Object> getUserOrderMap(Integer id) {
-		return this.get(GET_BY_ID_SQL, new Object[] { id });
+		return UserOrder.get(id, this);
 	}
 
-	private static final String GET_BY_ID_SQL = "select o.*,u.`name` as userName,u.mobilePhone,u.idCard,g.`name` as goodName,g.img,g.price,g.des1,g.des2,g.des3,m.`name` as merchantName,m.address,m.corporation"
-			+ " from user_order o LEFT JOIN `user` u on o.userId=u.id LEFT JOIN merchant_goods g on o.goodsId=g.id LEFT JOIN merchant m on g.merchantId=m.id where o.id=? ";
+	public UserOrder getUserOrder(Integer id) {
+		return UserOrder.getUserOrder(id, this);
+	}
+
+	public boolean submitCheckOrder(UserOrder userOrder) {
+		return userOrder.updateStatus(this) > 0;
+	}
 
 }

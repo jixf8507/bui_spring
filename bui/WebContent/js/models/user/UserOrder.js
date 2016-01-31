@@ -40,6 +40,9 @@ var UserOrder = {
 				"mDataProp" : "orderPrice",
 				"sClass" : "center"
 			}, {
+				"mDataProp" : "aging",
+				"sClass" : "center"
+			}, {
 				"fnRender" : function(obj) {
 					var status = obj.aData['status'];
 					switch (status) {
@@ -117,7 +120,56 @@ var UserOrder = {
 		diag.MessageTitle = $('#' + value[0]).attr('title');
 		diag.show();
 	},
+	checkOrder : function() {
+		var value = this.getSelectValue();
+		if (value.length == 0) {
+			alert('请先选择一条的记录');
+			return;
+		} else if (value.length > 1) {
+			alert('只能选择一条记录');
+			return;
+		}
+		var diag = new Dialog();
+		diag.Width = 700;
+		diag.Height = 500;
+		diag.Title = "审核用户消费信息";
+		diag.URL = contextPath + "/user/order/checkDetail.htm?id=" + value[0];
+		diag.MessageTitle = $('#' + value[0]).attr('title');
+		diag.show();
+	},
 	callBack : function() {
 		location.reload();
+	},
+	validateCheck : function(formObj) {
+		formObj.validate({
+			rules : {
+				'des1' : {
+					"required" : true
+				}
+			}
+		});
+	},
+	// 提交用户表单
+	submitCheckForm : function(formObj, callBack) {
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : contextPath + '/user/order/submitCheck.htm?',
+			data : formObj.serialize(),
+			async : false,
+			dataType : 'json',
+			error : function(request) {
+				Dialog.alert("提示：操作失败");
+			},
+			success : function(data) {
+				if (data.success) {
+					Dialog.alert("提示：操作成功", function() {
+						callBack();
+					});
+				} else {
+					Dialog.alert("提示：" + data.info);
+				}
+			}
+		});
 	}
 };

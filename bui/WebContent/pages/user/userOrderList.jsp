@@ -57,9 +57,10 @@
 						<th class="head0">商家</th>
 						<th class="head1">首付金额</th>
 						<th class="head0">订单金额</th>
-						<th class="head1">订单状态</th>
-						<th class="head0">类型</th>
-						<th class="head1">消费时间</th>
+						<th class="head1">分期数</th>
+						<th class="head0">订单状态</th>
+						<th class="head1">类型</th>
+						<th class="head0">消费时间</th>
 					</tr>
 				</thead>
 				<tbody>

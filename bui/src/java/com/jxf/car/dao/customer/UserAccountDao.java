@@ -1,5 +1,6 @@
 package com.jxf.car.dao.customer;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -39,12 +40,20 @@ public class UserAccountDao extends BaseDao {
 		return UserAccount.get(id, this);
 	}
 
+	public UserAccount getByUserId(Integer id) {
+		return UserAccount.getByUserId(id, this);
+	}
+
 	public Integer create(UserAccount userAccount) {
 		return userAccount.create(this);
 	}
 
 	public boolean update(UserAccount userAccount) {
 		return userAccount.update(this) > 0;
+	}
+
+	public boolean addCurUsableLimit(BigDecimal balance, Integer id) {
+		return UserAccount.addCurUsableLimit(balance, id, this) > 0;
 	}
 
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 查找操作订单时审核图片的SQL -->
+	<bean id="system_file_url_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+		<property name="select">
+			<value><![CDATA[
+      		select * from sys_file_urls u where 1=1		
+		 ]]></value>
+		</property>
+		<property name="conditions">
+			<list>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="tableId" />
+					<property name="value" value="and u.`tableId` = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="tableName" />
+					<property name="value" value="and u.`tableName` = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="fileType" />
+					<property name="value" value="and u.fileType = ? " />
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="ORDER BY u.id desc " />
+	</bean>
+
+</beans>

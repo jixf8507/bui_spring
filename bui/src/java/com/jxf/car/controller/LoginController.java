@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jxf.car.model.Merchant;
 import com.jxf.car.model.SysUser;
+import com.jxf.car.service.merchant.MerchantService;
 import com.jxf.car.service.system.SysUserService;
 import com.jxf.car.web.MSG;
 import com.jxf.car.web.SessionUserBO;
@@ -28,6 +30,8 @@ public class LoginController extends BaseController {
 
 	@Resource
 	private SysUserService sysUserService;
+	@Resource
+	private MerchantService merchantService;
 
 	@RequestMapping("login")
 	public String login(HttpServletRequest request,
@@ -56,6 +60,31 @@ public class LoginController extends BaseController {
 			return MSG.createErrorMSG(1, "用户名或密码不正确！");
 		}
 		session.setAttribute(SysConfig.SESSION_USER, new SessionUserBO(sysUser));
+		return MSG.createSuccessMSG();
+	}
+
+	/**
+	 * 提交登录
+	 * 
+	 * @param request
+	 * @param username
+	 * @param password
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("merchant/submit")
+	@ResponseBody
+	public MSG merchantSubmit(HttpSession session, String username,
+			String password, Model model) {
+		if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+			return MSG.createErrorMSG(1, "用户名或密码不能为空！");
+		}
+		Merchant merchant = merchantService.getMerchantMap(username);
+		if (merchant == null || !merchant.checkPassword(password)) {
+			return MSG.createErrorMSG(1, "用户名或密码不正确！");
+		}
+		session.setAttribute(SysConfig.SESSION_USER,
+				new SessionUserBO(merchant));
 		return MSG.createSuccessMSG();
 	}
 

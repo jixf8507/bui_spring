@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jxf.bui.BuiMenu;
 import com.jxf.car.dao.merchant.MerchantDao;
 import com.jxf.car.export.mechant.MerchantExport;
 import com.jxf.car.model.Merchant;
@@ -55,7 +56,6 @@ public class MerchantService extends BaseService {
 	}
 
 	public MSG updateMerchant(Merchant merchant) {
-
 		try {
 			merchantDao.update(merchant);
 			return MSG.createSuccessMSG();
@@ -65,12 +65,31 @@ public class MerchantService extends BaseService {
 		return MSG.createErrorMSG(1, "修改商家失败");
 	}
 
+	public MSG updateMerchantPassword(Merchant merchant) {
+		try {
+			merchantDao.updatePassword(merchant);
+			return MSG.createSuccessMSG();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return MSG.createErrorMSG(1, "修改密码失败");
+	}
+
 	public Map<String, Object> getMerchantMap(Integer id) {
 		return merchantDao.getMerchantMap(id);
 	}
 
+	public Merchant getMerchantMap(String code) {
+		return merchantDao.getMerchantMap(code);
+	}
+
 	public List<Map<String, Object>> findMerchantList(JSONObject jsonObject) {
 		return merchantDao.findMerchantList(jsonObject);
+	}
+
+	public BuiMenu getConfigMunes(String contextPath) {
+		List<Map<String, Object>> menus = merchantDao.findMerchantMenus();
+		return BuiMenu.createBuiMenu(menus, contextPath);
 	}
 
 }

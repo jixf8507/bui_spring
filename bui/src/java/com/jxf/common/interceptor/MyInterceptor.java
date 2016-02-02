@@ -1,5 +1,6 @@
 package com.jxf.common.interceptor;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,19 +32,27 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 		Object obj = request.getSession().getAttribute(SysConfig.SESSION_USER);
 
 		if (obj == null) {
-			PrintWriter out = response.getWriter();
-			StringBuilder sb = new StringBuilder();
-			sb.append("<script type='text/javascript' charset='utf-8'>");
-			sb.append("alert('页面过期，请重新登录');");
-			sb.append("window.location.href='" + request.getContextPath()
-					+ "/index.html';");
-			sb.append("</script>");
-			out.print(sb.toString());
-			out.close();
+			String loginUrl = request.getContextPath() + "/index.html';";
+			if (url.indexOf("sj/") != -1) {
+				loginUrl = request.getContextPath() + "/merchant.html';";
+			}
+			gotoPage(response, loginUrl);
 			return false;
 		}
 
 		return super.preHandle(request, response, handler);
+	}
+
+	private void gotoPage(HttpServletResponse response, String loginUrl)
+			throws IOException {
+		PrintWriter out = response.getWriter();
+		StringBuilder sb = new StringBuilder();
+		sb.append("<script type='text/javascript' charset='utf-8'>");
+		sb.append("alert('页面过期，请重新登录');");
+		sb.append("window.location.href='" + loginUrl);
+		sb.append("</script>");
+		out.print(sb.toString());
+		out.close();
 	}
 
 }

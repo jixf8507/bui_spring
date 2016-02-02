@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import com.jxf.car.web.SessionUserBO;
 import com.jxf.common.base.PageHelp;
 
 /**
@@ -82,4 +83,11 @@ public class JSONTools {
 		return JSONObject.fromObject(paraData);
 	}
 
+	public static JSONObject getJsonPara(String paraData, SessionUserBO userBO) {
+		JSONObject jsonObject = getJsonPara(paraData);
+		if (userBO.getMerchant() != null) {
+			jsonObject.put("merchantId", userBO.getMerchant().getId());
+		}
+		return jsonObject;
+	}
 }

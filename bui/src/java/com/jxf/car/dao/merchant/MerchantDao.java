@@ -35,8 +35,16 @@ public class MerchantDao extends BaseDao {
 		return this.findListByJSONSqlMapping(merchantSelectSQL, jsonObject);
 	}
 
+	public List<Map<String, Object>> findMerchantMenus() {
+		return this.findListBySQL(SELECT_BY_ROLE_SQL, new Object[] {});
+	}
+
 	public Map<String, Object> getMerchantMap(Integer id) {
 		return Merchant.get(id, this);
+	}
+
+	public Merchant getMerchantMap(String code) {
+		return Merchant.get(code, this);
 	}
 
 	public Integer create(Merchant merchant) {
@@ -46,5 +54,12 @@ public class MerchantDao extends BaseDao {
 	public boolean update(Merchant merchant) {
 		return merchant.update(this) > 0;
 	}
+
+	public boolean updatePassword(Merchant merchant) {
+		return merchant.updatePassword(this) > 0;
+	}
+
+	// 根据ID查找资产的SQL
+	private static final String SELECT_BY_ROLE_SQL = "select m.* from merchant_menu m order by m.`level`,m.pid,m.sort";
 
 }

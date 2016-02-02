@@ -38,7 +38,8 @@ public class UserOrderController extends BaseController {
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData,
+				this.getSesseionUser(session));
 		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
 		PageResults pageResults = userOrderService.findUserOrderPage(
 				jsonObject, pageHelp.getiDisplayLength(),
@@ -50,7 +51,8 @@ public class UserOrderController extends BaseController {
 	@RequestMapping("exportToExcel.htm")
 	public String exportToExcel(String paraData, HttpSession session,
 			HttpServletResponse response) throws Exception {
-		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData,
+				this.getSesseionUser(session));
 		userOrderService.excelUserOrder(response, jsonObject);
 		return null;
 	}

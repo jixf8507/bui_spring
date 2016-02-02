@@ -47,7 +47,8 @@ public class MerchantGoodsController extends BaseController {
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
-		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData,
+				this.getSesseionUser(session));
 		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
 		PageResults pageResults = merchantGoodsService.findMerchantGoodsPage(
 				jsonObject, pageHelp.getiDisplayLength(),
@@ -59,7 +60,8 @@ public class MerchantGoodsController extends BaseController {
 	@RequestMapping("exportToExcel.htm")
 	public String exportToExcel(String paraData, HttpSession session,
 			HttpServletResponse response) throws Exception {
-		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData,
+				this.getSesseionUser(session));
 		merchantGoodsService.excelMerchantGoods(response, jsonObject);
 		return null;
 	}

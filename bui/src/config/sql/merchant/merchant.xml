@@ -23,6 +23,10 @@
 					<property name="key" value="corporation" />
 					<property name="value" value="and m.corporation like ? " />
 				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="merchantId" />
+					<property name="value" value="and m.id =  ? " />
+				</bean>
 			</list>
 		</property>
 		<property name="order" value="ORDER BY m.id desc " />

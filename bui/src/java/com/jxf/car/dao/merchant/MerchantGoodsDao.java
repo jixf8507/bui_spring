@@ -25,14 +25,6 @@ public class MerchantGoodsDao extends BaseDao {
 	@Resource(name = "merchant_goods_select_sql")
 	private JSONSqlMapping goodsSelectSQL;
 
-	/**
-	 * 分页查找系统用户信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findMerchantGoodsPage(JSONObject jsonObject,
 			int pageSize, int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(goodsSelectSQL, jsonObject,
@@ -47,22 +39,10 @@ public class MerchantGoodsDao extends BaseDao {
 		return MerchantGoods.get(id, this);
 	}
 
-	/**
-	 * 新增用户信息
-	 * 
-	 * @param userAccount
-	 * @return
-	 */
 	public Integer create(MerchantGoods merchantGoods) {
 		return merchantGoods.create(this);
 	}
 
-	/**
-	 * 修改用户账户
-	 * 
-	 * @param merchantUserPO
-	 * @return
-	 */
 	public boolean update(MerchantGoods merchantGoods) {
 		return merchantGoods.update(this) > 0;
 	}

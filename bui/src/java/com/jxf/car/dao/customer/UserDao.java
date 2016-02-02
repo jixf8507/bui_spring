@@ -25,14 +25,6 @@ public class UserDao extends BaseDao {
 	@Resource(name = "user_user_select_sql")
 	private JSONSqlMapping userSelectSQL;
 
-	/**
-	 * 分页查找系统用户信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findUserPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(userSelectSQL, jsonObject,
@@ -43,31 +35,14 @@ public class UserDao extends BaseDao {
 		return this.findListByJSONSqlMapping(userSelectSQL, jsonObject);
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public Map<String, Object> getUserMap(Integer id) {
 		return User.get(id, this);
 	}
 
-	/**
-	 * 新增用户信息
-	 * 
-	 * @param userAccount
-	 * @return
-	 */
 	public Integer create(User user) {
 		return user.create(this);
 	}
 
-	/**
-	 * 修改用户账户
-	 * 
-	 * @param user
-	 * @return
-	 */
 	public boolean update(User user) {
 		return user.update(this) > 0;
 	}

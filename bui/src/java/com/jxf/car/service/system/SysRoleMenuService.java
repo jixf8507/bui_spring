@@ -25,34 +25,14 @@ public class SysRoleMenuService extends BaseService {
 	@Resource
 	private SysRoleMenuDAO sysRoleMenuDAO;
 
-	/**
-	 * 查询系统菜单列表
-	 * 
-	 * @return
-	 */
 	public List<Map<String, Object>> findMenus() {
 		return sysRoleMenuDAO.findMenus();
 	}
 
-	/**
-	 * 查询角色菜单列表
-	 * 
-	 * @param roleId
-	 * @return
-	 */
 	public List<Map<String, Object>> findRoleMenus(Integer roleId) {
 		return sysRoleMenuDAO.findRoleMenus(roleId);
 	}
 
-	/**
-	 * 保存系统角色菜单
-	 * 
-	 * @param roleId
-	 *            角色ID
-	 * @param jsonArray
-	 *            菜单列表
-	 * @return
-	 */
 	@Transactional
 	public MSG saveRoleMenus(Integer roleId, JSONArray jsonArray) {
 		try {

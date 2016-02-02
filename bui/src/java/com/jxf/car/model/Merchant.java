@@ -11,6 +11,12 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
 
+/**
+ * 商家
+ * 
+ * @author Administrator
+ * 
+ */
 public class Merchant extends BasePO {
 
 	private Integer id;
@@ -20,6 +26,8 @@ public class Merchant extends BasePO {
 	private String des;
 	private String corporation;
 	private String mobilePhone;
+	private String code;
+	private String password = "123456";
 
 	public Integer getId() {
 		return id;
@@ -77,24 +85,28 @@ public class Merchant extends BasePO {
 		this.mobilePhone = mobilePhone;
 	}
 
-	/**
-	 * 修改商家信息
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.name,
 				this.address, this.des, this.corporation, this.mobilePhone,
-				this.id);
+				this.code, this.id);
 	}
 
-	/**
-	 * 新增商家信息
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
 	public Integer create(BaseDao baseDao) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {
@@ -109,6 +121,8 @@ public class Merchant extends BasePO {
 				ps.setString(i++, des);
 				ps.setString(i++, corporation);
 				ps.setString(i++, mobilePhone);
+				ps.setString(i++, code);
+				ps.setString(i++, password);
 				return ps;
 			}
 		}, keyHolder);
@@ -120,7 +134,7 @@ public class Merchant extends BasePO {
 	}
 
 	private static final String GET_BY_ID_SQL = "select * from merchant u  where u.id=? ";
-	private static final String INSERT_SQL = "insert into merchant (name,address,des,corporation,mobilePhone) values (?,?,?,?,?)";
-	private static final String UPDATE_SQL = "update merchant set name=?,address=?,des=?,corporation=?,mobilePhone=? where id=?";
+	private static final String INSERT_SQL = "insert into merchant (name,address,des,corporation,mobilePhone,code,password) values (?,?,?,?,?)";
+	private static final String UPDATE_SQL = "update merchant set name=?,address=?,des=?,corporation=?,mobilePhone=?,code=? where id=?";
 
 }

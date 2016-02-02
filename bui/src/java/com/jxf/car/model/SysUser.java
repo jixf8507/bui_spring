@@ -13,6 +13,7 @@ import com.jxf.car.dao.BaseDao;
 import com.jxf.car.db.extractor.SysUserExtractor;
 
 /**
+ * 系统用户
  * 
  * @author jixf
  * @date 2015年11月21日
@@ -130,15 +131,14 @@ public class SysUser extends BasePO {
 		return keyHolder.getKey().intValue();
 	}
 
-	/**
-	 * 修改系统角色
-	 * 
-	 * @param merchantUserPO
-	 * @return
-	 */
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.code,
 				this.phone, this.name, this.roleId, this.sex, this.id);
+	}
+
+	public int updatePassword(BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(UPDATE_PASSWORD_SQL,
+				this.password, this.id);
 	}
 
 	public static SysUser findByCode(String code, BaseDao baseDao) {
@@ -155,15 +155,18 @@ public class SysUser extends BasePO {
 		return baseDao.getJdbcTemplate().update(DELETE_SQL, id);
 	}
 
-	// 根据登录号查找系统员工的SQL
+	public boolean checkPassword(String password) {
+		if (this.password.equals(password)) {
+			return true;
+		}
+		return false;
+	}
+
 	private static final String GET_BY_CODE_SQL = "SELECT * from sys_user where code=? and `status`=1";
-	// 根据登录号查找系统员工的SQL
 	private static final String GET_BY_ID_SQL = "SELECT * from sys_user where id=? ";
-	// 新增系统员工的SQL
 	private static final String INSERT_SQL = "insert into sys_user (code,phone,name,roleId,password,sex) values (?,?,?,?,?,?)";
-	// 新增系统员工的SQL
 	private static final String UPDATE_SQL = "update sys_user set code=?,phone=?,name=?,roleId=?,sex=? where id=?";
-	// 删除系统员工的SQL
+	private static final String UPDATE_PASSWORD_SQL = "update sys_user set password=? where id=?";
 	private static final String DELETE_SQL = "update  sys_user set `status`=0 where id=?";
 
 }

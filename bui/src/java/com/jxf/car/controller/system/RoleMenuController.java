@@ -34,39 +34,18 @@ public class RoleMenuController extends BaseController {
 		return "system/roleMenusSelect";
 	}
 
-	/**
-	 * 动态返回所有系统菜单列表
-	 * 
-	 * @return
-	 */
 	@RequestMapping("ajaxMenus")
 	@ResponseBody
 	public List<Map<String, Object>> ajaxMenus() {
 		return roleMenuService.findMenus();
 	}
 
-	/**
-	 * 动态返回角色菜单列表
-	 * 
-	 * @param roleId
-	 *            角色ID
-	 * @return
-	 */
 	@RequestMapping("ajaxRoleMenus")
 	@ResponseBody
 	public List<Map<String, Object>> ajaxRoleMenus(Integer roleId) {
 		return roleMenuService.findRoleMenus(roleId);
 	}
 
-	/**
-	 * 更改角色菜单
-	 * 
-	 * @param roleId
-	 *            角色ID
-	 * @param mIds
-	 *            菜单id
-	 * @return
-	 */
 	@RequestMapping("saveRoleMenus")
 	@ResponseBody
 	public MSG saveRoleMenus(Integer roleId, String mIds) {

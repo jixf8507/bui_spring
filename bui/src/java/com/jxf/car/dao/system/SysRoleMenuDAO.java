@@ -20,57 +20,24 @@ import com.jxf.car.dao.BaseDao;
 @Repository
 public class SysRoleMenuDAO extends BaseDao {
 
-	/**
-	 * 根据角色查找系统菜单列表
-	 * 
-	 * @param roleId
-	 *            角色ID
-	 * @return
-	 */
 	public List<Map<String, Object>> findMenusByRoleId(Integer roleId) {
 		return this.findListBySQL(SELECT_BY_ROLE_SQL, new Object[] { roleId });
 	}
 
-	/**
-	 * 查询所有系统菜单
-	 * 
-	 * @return
-	 */
 	public List<Map<String, Object>> findMenus() {
 		return this.findListBySQL(SELECT_LIST_SQL, null);
 	}
 
-	/**
-	 * 查询角色菜单列表
-	 * 
-	 * @param roleId
-	 * @return
-	 */
 	public List<Map<String, Object>> findRoleMenus(Integer roleId) {
 		return this.findListBySQL(SELECT_ROLES_MENUS_SQL,
 				new Object[] { roleId });
 	}
 
-	/**
-	 * 删除系统角色菜单
-	 * 
-	 * @param roleId
-	 * @return
-	 */
 	public boolean delteByRoleId(Integer roleId) {
 		int count = this.getJdbcTemplate().update(DELETE_BY_ROLEID_SQL, roleId);
 		return count > 0;
 	}
 
-	/**
-	 * 批量创建系统角色菜单
-	 * 
-	 * @param roleId
-	 *            角色ID
-	 * @param jsonArray
-	 *            菜单列表
-	 * @return
-	 */
 	public boolean batchCreate(final Integer roleId, final JSONArray jsonArray) {
 		int[] count = this.getJdbcTemplate().batchUpdate(INSERT_SQL,
 				new BatchPreparedStatementSetter() {

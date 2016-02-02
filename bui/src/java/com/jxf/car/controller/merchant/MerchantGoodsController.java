@@ -71,13 +71,6 @@ public class MerchantGoodsController extends BaseController {
 		return "merchant/merchantGoodsEdite";
 	}
 
-	/**
-	 * 提交保存员工信息
-	 * 
-	 * @param sysUser
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("submit.htm")
 	@ResponseBody
 	public MSG submit(MerchantGoods merchantGoods) throws Exception {

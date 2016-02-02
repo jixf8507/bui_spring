@@ -24,14 +24,6 @@ public class UserOrderDao extends BaseDao {
 	@Resource(name = "user_order_select_sql")
 	private JSONSqlMapping orderSelectSQL;
 
-	/**
-	 * 分页查找用户订单信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findUserOrderPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(orderSelectSQL, jsonObject,
@@ -42,11 +34,6 @@ public class UserOrderDao extends BaseDao {
 		return this.findListByJSONSqlMapping(orderSelectSQL, jsonObject);
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public Map<String, Object> getUserOrderMap(Integer id) {
 		return this.get(GET_BY_ID_SQL, new Object[] { id });
 	}

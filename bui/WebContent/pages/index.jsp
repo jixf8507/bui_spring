@@ -20,6 +20,8 @@
 	src="${ctx}/assets/js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/assets/js/bui.js"></script>
 <script type="text/javascript" src="${ctx}/assets/js/config.js"></script>
+<script type="text/javascript" src="${ctx}/js/zdialog/zDrag.js"></script>
+<script type="text/javascript" src="${ctx}/js/zdialog/zDialog.js"></script>
 <script type="text/javascript" src="${ctx}/js/pages/index.js"></script>
 
 <body>
@@ -33,7 +35,7 @@
 		<div class="dl-log">
 			欢迎您，<span class="dl-log-user">${sessionScope.webUser.sysUser.name}</span><a
 				href="${ctx}/login/out.htm" title="退出系统" class="dl-log-quit">[退出]</a><a
-				href="#" title="文档库" class="dl-log-quit">帮助文档</a>
+				href="javaScript:updatePwd();" title="修改密码" class="dl-log-quit">修改密码</a>
 		</div>
 	</div>
 	<div class="content">

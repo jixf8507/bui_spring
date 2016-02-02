@@ -20,14 +20,6 @@ public class DmhGoodsDao extends BaseDao {
 	@Resource(name = "dmh_goods_select_sql")
 	private JSONSqlMapping goodsSelectSQL;
 
-	/**
-	 * 分页查找系统用户信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findMerchantGoodsPage(JSONObject jsonObject,
 			int pageSize, int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(goodsSelectSQL, jsonObject,
@@ -42,22 +34,10 @@ public class DmhGoodsDao extends BaseDao {
 		return DmhGoods.get(id, this);
 	}
 
-	/**
-	 * 新增用户信息
-	 * 
-	 * @param userAccount
-	 * @return
-	 */
 	public Integer create(DmhGoods dmhGoods) {
 		return dmhGoods.create(this);
 	}
 
-	/**
-	 * 修改用户账户
-	 * 
-	 * @param merchantUserPO
-	 * @return
-	 */
 	public boolean update(DmhGoods dmhGoods) {
 		return dmhGoods.update(this) > 0;
 	}

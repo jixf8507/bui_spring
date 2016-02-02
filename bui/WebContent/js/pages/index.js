@@ -238,3 +238,20 @@ var config = [ {
 		} ]
 	} ]
 } ];
+
+var updatePwd = function() {
+	var diag = new Dialog();
+	diag.Width = 600;
+	diag.Height = 300;
+	diag.Title = "修改密码";
+	diag.URL = contextPath + "/pages/updatePwd.jsp";
+	diag.MessageTitle = '修改密码';
+	diag.OKEvent = function() {
+		diag.innerFrame.contentWindow.submit(outLogin);
+	};// 点击确定后调用的方法
+	diag.show();
+};
+//保存方法
+var outLogin = function() {
+	location.href = contextPath + '/login/out.htm';
+};

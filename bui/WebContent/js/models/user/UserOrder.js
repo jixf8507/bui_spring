@@ -37,6 +37,37 @@ var UserOrder = {
 				"mDataProp" : "sfMoney",
 				"sClass" : "center"
 			}, {
+				"mDataProp" : "orderPrice",
+				"sClass" : "center"
+			}, {
+				"fnRender" : function(obj) {
+					var status = obj.aData['status'];
+					switch (status) {
+					case '1':
+						return "审核中";
+						break;
+					case '2':
+						return "已通过";
+						break;
+					case '3':
+						return "未通过";
+						break;
+					case '4':
+						return "购买中";
+						break;
+					case '5':
+						return "已配送";
+						break;
+					case '6':
+						return "已收货";
+						break;
+					default:
+						return "其它";
+						break;
+					}
+				},
+				"sClass" : "center"
+			}, {
 				"fnRender" : function(obj) {
 					var accountStatus = obj.aData['type'];
 					switch (accountStatus) {

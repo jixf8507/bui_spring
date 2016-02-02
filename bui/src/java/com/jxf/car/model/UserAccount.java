@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import com.jxf.car.dao.BaseDao;
 
 /**
+ * 客户账户
  * 
  * @author Administrator
  * 
@@ -121,23 +122,11 @@ public class UserAccount extends BasePO {
 		this.user = user;
 	}
 
-	/**
-	 * 修改客户账户
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(getUpdateSQL(),
 				this.usableLimit, this.whiteBarLimit, this.id);
 	}
 
-	/**
-	 * 新增客户账户
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
 	public Integer create(BaseDao baseDao) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {

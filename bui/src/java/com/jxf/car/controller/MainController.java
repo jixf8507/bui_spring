@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jxf.bui.BuiMenu;
+import com.jxf.car.model.SysUser;
 import com.jxf.car.service.system.SysUserService;
+import com.jxf.car.web.MSG;
 import com.jxf.car.web.SessionUserBO;
 
 @Controller
@@ -40,6 +42,19 @@ public class MainController extends BaseController {
 		SessionUserBO sesseionUser = this.getSesseionUser(session);
 		return sysUserService.getConfigMunesByRoleId(sesseionUser.getSysUser()
 				.getRoleId(), contextPath);
+	}
+
+	@RequestMapping("updatePwd.htm")
+	@ResponseBody
+	public MSG updatePwd(String ypassword, String password, HttpSession session)
+			throws Exception {
+		SessionUserBO sessionUserBO = this.getSesseionUser(session);
+		SysUser sysUser = sessionUserBO.getSysUser();
+		if (sysUser.checkPassword(ypassword)) {
+			sysUser.setPassword(password);
+			return sysUserService.updateUserPassword(sysUser);
+		}
+		return MSG.createErrorMSG(1, "原密码输入错误");
 	}
 
 }

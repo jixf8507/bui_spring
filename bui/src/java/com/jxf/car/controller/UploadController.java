@@ -1,10 +1,16 @@
 package com.jxf.car.controller;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jxf.car.model.SysFileUrlsPO;
 import com.jxf.car.service.UploadService;
 import com.jxf.car.web.MSG;
+import com.jxf.common.base.PageHelp;
+import com.jxf.common.base.PageResults;
+import com.jxf.common.tools.JSONTools;
 import com.jxf.common.tools.MyDateUtil;
 import com.jxf.common.tools.StringTools;
 
@@ -113,6 +122,57 @@ public class UploadController extends BaseController {
 		}
 		String fileUrl = filePath + newFileName;
 		return fileUrl;
+	}
+
+	@RequestMapping(value = "/imgManager.htm")
+	public String imgManager(Model model, HttpServletRequest request) {
+		model.addAttribute("pathType",
+				StringTools.decodeMethod(request.getParameter("pathType")));
+		model.addAttribute("fileType",
+				StringTools.decodeMethod(request.getParameter("fileType")));
+		model.addAttribute("tableId",
+				StringTools.decodeInteger(request.getParameter("tableId")));
+		model.addAttribute("tableName",
+				StringTools.decodeMethod(request.getParameter("tableName")));
+		return "upload/imgManager";
+	}
+
+	@RequestMapping("ajaxFileUrls.htm")
+	@ResponseBody
+	public List<Map<String, Object>> ajaxFileUrls(String paraData)
+			throws Exception {
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		return uploadService.findUrlList(jsonObject);
+	}
+
+	@RequestMapping("ajaxData")
+	@ResponseBody
+	public PageResults ajaxData(String aoData, String paraData,
+			HttpSession session) {
+		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
+		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
+		PageResults pageResults = uploadService.findUrlPage(jsonObject,
+				pageHelp.getiDisplayLength(), pageHelp.getiDisplayStart());
+		pageResults.setsEcho(pageHelp.getsEcho());
+		return pageResults;
+	}
+
+	@RequestMapping(value = "/imgAdd.htm")
+	public String imgAdd(Model model, HttpServletRequest request) {
+		model.addAttribute("fileType",
+				StringTools.decodeMethod(request.getParameter("fileType")));
+		model.addAttribute("tableId",
+				StringTools.decodeInteger(request.getParameter("tableId")));
+		model.addAttribute("tableName",
+				StringTools.decodeMethod(request.getParameter("tableName")));
+		return "upload/imgAdd";
+	}
+
+	@RequestMapping("delete.htm")
+	@ResponseBody
+	public MSG delete(String ids) throws Exception {
+		JSONArray jsonArray = JSONArray.fromObject(ids);
+		return uploadService.deledteFileUrl(jsonArray);
 	}
 
 }

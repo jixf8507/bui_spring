@@ -3,16 +3,15 @@
  */
 
 jQuery(document).ready(function() {
-
-	merchantCombox.requestData();
+	$('#status,#type').chosen();
 
 	userTable.reloadData();
 
 	// 点击查询按钮事件
-	jQuery('#queryBtn').click(function() {
+	$('#queryBtn').click(function() {
 		userTable.reloadData();
 	});
-	
+
 	jQuery('#excelBtn').click(function() {
 		userTable.exportExcel();
 	});
@@ -21,9 +20,6 @@ jQuery(document).ready(function() {
 		UserOrder.selectAll($(this));
 	});
 });
-
-// 创建系统角色选择框
-var merchantCombox = Merchant.createMerchantCombox('merchantId');
 
 // 用户列表
 var userTable = new PageDataTables(
@@ -44,7 +40,8 @@ var userTable = new PageDataTables(
 							+ $('#name').val() + '%',
 					"goodsName" : $('#goodsName').val() == '' ? '' : '%'
 							+ $('#goodsName').val() + '%',
-					"merchantId" : $('#merchantId').val()
+					"type" : $('#type').val(),
+					"status" : $('#status').val()
 				};
 			}
 		});

@@ -9,9 +9,9 @@
 		<property name="select">
 			<value><![CDATA[
       		select o.id,o.createTime,o.sfMoney,o.aging,o.`status`,o.type,u.`name` as userName,
-      		u.mobilePhone,g.`name` as goodsName,m.`name` as merchantName,g.price
- 			from user_order o,`user` u,merchant_goods g,merchant m 
-			 where o.userId=u.id and o.goodsId=g.id and g.merchantId=m.id
+      		u.mobilePhone,g.`name` as goodsName,g.merchantName,g.price,o.price as orderPrice
+ 			from user_order o,`user` u,vs_goods g 
+			 where o.userId=u.id and o.goodsId=g.id and g.type=o.type
 		 ]]></value>
 		</property>
 		<property name="conditions">
@@ -35,6 +35,10 @@
 				<bean class="com.jxf.common.sql.Condition">
 					<property name="key" value="type" />
 					<property name="value" value="and o.type  = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="status" />
+					<property name="value" value="and o.status  = ? " />
 				</bean>
 			</list>
 		</property>

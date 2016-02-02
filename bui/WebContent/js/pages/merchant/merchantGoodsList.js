@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
 	jQuery('#queryBtn').click(function() {
 		userTable.reloadData();
 	});
-	
+
 	jQuery('#excelBtn').click(function() {
 		userTable.exportExcel();
 	});
@@ -37,6 +37,9 @@ var userTable = new PageDataTables({
 	}, {
 		value : "修改",
 		onclick : 'MerchantGoods.editeMerchant()'
+	}, {
+		value : "商品详情图片",
+		onclick : 'MerchantGoods.picsManager()'
 	} ],
 	beforeload : function() {
 		this.paraData = {

@@ -65,13 +65,6 @@ public class DmhGoodsController extends BaseController {
 		return "dmh/dmhGoodsEdite";
 	}
 
-	/**
-	 * 提交保存员工信息
-	 * 
-	 * @param sysUser
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("submit.htm")
 	@ResponseBody
 	public MSG submit(DmhGoods dmhGoods) throws Exception {

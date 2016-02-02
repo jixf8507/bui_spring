@@ -12,6 +12,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import com.jxf.car.dao.BaseDao;
 import com.jxf.car.db.extractor.SysRoleExtractor;
 
+/**
+ * 系统角色
+ * 
+ * @author Administrator
+ * 
+ */
 public class SysRole extends BasePO {
 
 	private Integer id;
@@ -54,12 +60,6 @@ public class SysRole extends BasePO {
 		this.roleRemark = roleRemark;
 	}
 
-	/**
-	 * 新增系统角色
-	 * 
-	 * @param role
-	 * @return
-	 */
 	public Integer create(BaseDao baseDao) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {
@@ -77,12 +77,6 @@ public class SysRole extends BasePO {
 		return keyHolder.getKey().intValue();
 	}
 
-	/**
-	 * 修改系统角色
-	 * 
-	 * @param merchantUserPO
-	 * @return
-	 */
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.roleName,
 				this.roleRemark, this.id);

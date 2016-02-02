@@ -12,6 +12,12 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
 
+/**
+ * 商家商品
+ * 
+ * @author Administrator
+ * 
+ */
 public class MerchantGoods extends BasePO {
 
 	private Integer id;
@@ -93,12 +99,6 @@ public class MerchantGoods extends BasePO {
 				this.des3, this.id);
 	}
 
-	/**
-	 * 新增商家信息
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
 	public Integer create(BaseDao baseDao) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {

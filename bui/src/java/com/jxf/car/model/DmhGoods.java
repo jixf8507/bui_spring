@@ -12,6 +12,12 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
 
+/**
+ * 大马花商品
+ * 
+ * @author Administrator
+ * 
+ */
 public class DmhGoods extends BasePO {
 
 	private Integer id;
@@ -129,12 +135,6 @@ public class DmhGoods extends BasePO {
 				this.des3, this.type, this.isTop, this.id);
 	}
 
-	/**
-	 * 新增商家信息
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
 	public Integer create(BaseDao baseDao) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		baseDao.getJdbcTemplate().update(new PreparedStatementCreator() {
@@ -191,7 +191,7 @@ public class DmhGoods extends BasePO {
 	}
 
 	/**
-	 * 是否收益显示
+	 * 是否首页显示
 	 */
 	public static String getTop(String isTop) {
 		switch (isTop) {

@@ -26,26 +26,12 @@ public class UserMonthBillService extends BaseService {
 	@Autowired
 	private UserMonthBillDao userMonthBillDao;
 
-	/**
-	 * 分页查找系统用户月还款账单
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findUserMonthBillPage(JSONObject jsonObject,
 			int pageSize, int iDisplayStart) {
 		return userMonthBillDao.findUserMonthBillPage(jsonObject, pageSize,
 				iDisplayStart);
 	}
 
-	/**
-	 * 导出每月账单
-	 * 
-	 * @param response
-	 * @param jsonObject
-	 */
 	public void excelUserMonthBill(HttpServletResponse response,
 			JSONObject jsonObject) {
 		try {
@@ -57,11 +43,6 @@ public class UserMonthBillService extends BaseService {
 		}
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public Map<String, Object> getUserMonthBillMap(Integer id) {
 		return userMonthBillDao.getUserMonthBillMap(id);
 	}

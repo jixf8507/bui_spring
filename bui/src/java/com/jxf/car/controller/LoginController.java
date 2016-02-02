@@ -48,21 +48,15 @@ public class LoginController extends BaseController {
 	@ResponseBody
 	public MSG submit(HttpSession session, String username, String password,
 			Model model) {
-		MSG msg = new MSG();
-		msg.setSuccess(false);
 		if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-			msg.setInfo("用户名或密码不能为空！");
-			return msg;
+			return MSG.createErrorMSG(1, "用户名或密码不能为空！");
 		}
 		SysUser sysUser = sysUserService.findUserByCode(username);
-		if (sysUser == null || !sysUser.getPassword().equals(password)) {
-			msg.setInfo("用户名或密码不正确！");
-			return msg;
+		if (sysUser == null || !sysUser.checkPassword(password)) {
+			return MSG.createErrorMSG(1, "用户名或密码不正确！");
 		}
-
 		session.setAttribute(SysConfig.SESSION_USER, new SessionUserBO(sysUser));
-		msg.setSuccess(true);
-		return msg;
+		return MSG.createSuccessMSG();
 	}
 
 	@RequestMapping("out")

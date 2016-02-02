@@ -34,22 +34,12 @@ public class UserOrderController extends BaseController {
 		return "user/userOrderList";
 	}
 
-	/**
-	 * 分页加载系统用户信息
-	 * 
-	 * @param aoData
-	 * @param paraData
-	 * @param session
-	 * @return
-	 */
 	@RequestMapping("ajaxData")
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
 			HttpSession session) {
 		JSONObject jsonObject = JSONTools.getJsonPara(paraData);
-		// jquery.datatables 分页查询的参数
 		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
-
 		PageResults pageResults = userOrderService.findUserOrderPage(
 				jsonObject, pageHelp.getiDisplayLength(),
 				pageHelp.getiDisplayStart());

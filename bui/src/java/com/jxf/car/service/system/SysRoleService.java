@@ -30,14 +30,6 @@ public class SysRoleService extends BaseService {
 	@Resource
 	private SysRoleDAO roleDAO;
 
-	/**
-	 * 分页查找系统角色信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findRolePage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return roleDAO.findRolePage(jsonObject, pageSize, iDisplayStart);
@@ -52,12 +44,6 @@ public class SysRoleService extends BaseService {
 		}
 	}
 
-	/**
-	 * 条件查询系统角色列表
-	 * 
-	 * @param jsonObject
-	 * @return
-	 */
 	public List<Map<String, Object>> findRoles(JSONObject jsonObject) {
 		return roleDAO.findRoles(jsonObject);
 	}

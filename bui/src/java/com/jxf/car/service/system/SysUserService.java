@@ -35,33 +35,14 @@ public class SysUserService extends BaseService {
 	@Resource
 	private SysRoleMenuDAO roleMenuDAO;
 
-	/**
-	 * 根据登录号查找用户
-	 * 
-	 * @param code
-	 * @return
-	 */
 	public SysUser findUserByCode(String code) {
 		return sysUserDAO.findByCode(code);
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public SysUser getUser(Integer id) {
 		return sysUserDAO.get(id);
 	}
 
-	/**
-	 * 分页查找系统员工信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findUserPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return sysUserDAO.findUserPage(jsonObject, pageSize, iDisplayStart);
@@ -77,11 +58,6 @@ public class SysUserService extends BaseService {
 		}
 	}
 
-	/**
-	 * 
-	 * @param sysUser
-	 * @return
-	 */
 	public MSG createUser(SysUser sysUser) {
 		if (sysUserDAO.create(sysUser) == null) {
 			return MSG.createErrorMSG(1, "保存员工信息失败！");
@@ -96,12 +72,6 @@ public class SysUserService extends BaseService {
 		return MSG.createErrorMSG(1, "修改员工信息失败！");
 	}
 
-	/**
-	 * 批量删除员工
-	 * 
-	 * @param jsonArray
-	 * @return
-	 */
 	@Transactional
 	public MSG deledteUser(JSONArray jsonArray) {
 		try {
@@ -114,14 +84,15 @@ public class SysUserService extends BaseService {
 		return MSG.createErrorMSG(1, "删除员工信息失败！");
 	}
 
-	/**
-	 * 根据用户角色得到系统菜单对象
-	 * 
-	 * @param roleId
-	 * @return
-	 */
 	public BuiMenu getConfigMunesByRoleId(Integer roleId, String contextPath) {
 		List<Map<String, Object>> menus = roleMenuDAO.findMenusByRoleId(roleId);
 		return BuiMenu.createBuiMenu(menus, contextPath);
+	}
+
+	public MSG updateUserPassword(SysUser sysUser) {
+		if (sysUserDAO.updatePassword(sysUser)) {
+			return MSG.createSuccessMSG();
+		}
+		return MSG.createErrorMSG(1, "修改密码失败！");
 	}
 }

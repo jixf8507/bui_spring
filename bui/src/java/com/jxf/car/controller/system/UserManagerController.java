@@ -34,28 +34,12 @@ public class UserManagerController extends BaseController {
 	@Resource
 	private SysUserService sysUserService;
 
-	/**
-	 * 用户管理
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
 	@RequestMapping("manager")
 	public String manager(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		return "system/userManager";
 	}
 
-	/**
-	 * 添加系统员工
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
 	@RequestMapping("add")
 	public String add(HttpServletRequest request, HttpServletResponse response,
 			Model model) {
@@ -68,13 +52,6 @@ public class UserManagerController extends BaseController {
 		return "system/userEdite";
 	}
 
-	/**
-	 * 提交保存员工信息
-	 * 
-	 * @param sysUser
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("submit.htm")
 	@ResponseBody
 	public MSG submit(SysUser sysUser) throws Exception {
@@ -85,13 +62,6 @@ public class UserManagerController extends BaseController {
 		}
 	}
 
-	/**
-	 * 删除系统用户
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("delete.htm")
 	@ResponseBody
 	public MSG delete(String ids) throws Exception {
@@ -99,14 +69,6 @@ public class UserManagerController extends BaseController {
 		return sysUserService.deledteUser(jsonArray);
 	}
 
-	/**
-	 * 分页加载系统员工数据
-	 * 
-	 * @param aoData
-	 * @param paraData
-	 * @param session
-	 * @return
-	 */
 	@RequestMapping("ajaxData")
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,

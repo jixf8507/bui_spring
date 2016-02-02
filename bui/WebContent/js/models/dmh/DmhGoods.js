@@ -114,6 +114,28 @@ var DmhGoods = {
 		};
 		diag.show();
 	},
+	picsManager : function() {
+		var value = this.getSelectValue();
+		if (value.length == 0) {
+			alert('请先选择要修改的记录');
+			return;
+		} else if (value.length > 1) {
+			alert('只能选择一条记录');
+			return;
+		}
+		var diag = new Dialog();
+		diag.Width = 700;
+		diag.Height = 500;
+		diag.Title = "商品图片管理";
+		diag.URL = contextPath
+				+ "/upload/imgManager.htm?tableName=dmh_goods&pathType=dmh&tableId="
+				+ value[0];
+		diag.MessageTitle = $('#' + value[0]).attr('title');
+		diag.OKEvent = function() {
+			diag.close();
+		};
+		diag.show();
+	},
 	deleteMerchant : function() {
 		var thiz = this;
 		var value = this.getSelectValue();

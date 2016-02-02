@@ -13,6 +13,7 @@ import com.jxf.car.dao.BaseDao;
 import com.jxf.common.SysConfig;
 
 /**
+ * 客户对象
  * 
  * @author Administrator
  * 
@@ -92,24 +93,11 @@ public class User extends BasePO {
 		this.idCard = idCard;
 	}
 
-	/**
-	 * 修改用户信息
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.getName(),
 				this.getMobilePhone(), this.getIdCard(), this.getId());
 	}
 
-	/**
-	 * 
-	 * @param status
-	 * @param statusDesc
-	 * @param id
-	 * @return
-	 */
 	public static User createUser(Integer status, String statusDesc, Integer id) {
 		User user = new User();
 		user.setId(id);
@@ -118,12 +106,6 @@ public class User extends BasePO {
 		return user;
 	}
 
-	/**
-	 * 修改用户状态
-	 * 
-	 * @param baseDao
-	 * @return
-	 */
 	public int updateStatus(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(STATUS_UPDATE_SQL, status,
 				statusDesc, id);

@@ -24,29 +24,16 @@ public class UserMonthBillDao extends BaseDao {
 	@Resource(name = "user_month_bill_select_sql")
 	private JSONSqlMapping billSelectSQL;
 
-	/**
-	 * 分页查找系统用户信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findUserMonthBillPage(JSONObject jsonObject,
 			int pageSize, int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(billSelectSQL, jsonObject,
 				pageSize, iDisplayStart);
 	}
-	
+
 	public List<Map<String, Object>> findUserMonthBillList(JSONObject jsonObject) {
 		return this.findListByJSONSqlMapping(billSelectSQL, jsonObject);
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public Map<String, Object> getUserMonthBillMap(Integer id) {
 		return this.get(GET_BY_ID_SQL, new Object[] { id });
 	}

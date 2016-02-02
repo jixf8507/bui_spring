@@ -22,42 +22,18 @@ import com.jxf.common.sql.JSONSqlMapping;
 @Repository
 public class SysRoleDAO extends BaseDao {
 
-	/**
-	 * 获取系统角色
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public SysRole get(Integer id) {
 		return SysRole.get(id, this);
 	}
 
-	/**
-	 * 新增系统角色
-	 * 
-	 * @param role
-	 * @return
-	 */
 	public Integer create(SysRole role) {
 		return role.create(this);
 	}
 
-	/**
-	 * 修改系统角色
-	 * 
-	 * @param merchantUserPO
-	 * @return
-	 */
 	public boolean update(SysRole role) {
 		return role.update(this) > 0;
 	}
 
-	/**
-	 * 删除系统角色
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public boolean delete(Object id) {
 		return SysRole.delete(id, this) > 0;
 	}
@@ -65,26 +41,12 @@ public class SysRoleDAO extends BaseDao {
 	@Resource(name = "system_role_select_sql")
 	private JSONSqlMapping roleSelectSQL;
 
-	/**
-	 * 分页查找系统角色信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findRolePage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(roleSelectSQL, jsonObject,
 				pageSize, iDisplayStart);
 	}
 
-	/**
-	 * 条件查询系统角色列表
-	 * 
-	 * @param jsonObject
-	 * @return
-	 */
 	public List<Map<String, Object>> findRoles(JSONObject jsonObject) {
 		return this.findListByJSONSqlMapping(roleSelectSQL, jsonObject);
 	}

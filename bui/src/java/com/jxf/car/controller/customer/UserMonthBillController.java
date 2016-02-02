@@ -34,14 +34,6 @@ public class UserMonthBillController extends BaseController {
 		return "user/userMonthBillList";
 	}
 
-	/**
-	 * 分页加载系统用户信息
-	 * 
-	 * @param aoData
-	 * @param paraData
-	 * @param session
-	 * @return
-	 */
 	@RequestMapping("ajaxData")
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,

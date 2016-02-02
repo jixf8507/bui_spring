@@ -77,6 +77,10 @@ public class SysUserDAO extends BaseDao {
 		return sysUser.update(this) > 0;
 	}
 
+	public boolean updatePassword(SysUser sysUser) {
+		return sysUser.updatePassword(this) > 0;
+	}
+
 	/**
 	 * 删除商家工作人员
 	 * 

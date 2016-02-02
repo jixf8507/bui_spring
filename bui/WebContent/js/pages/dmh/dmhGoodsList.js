@@ -35,8 +35,12 @@ var userTable = new PageDataTables({
 		value : "修改",
 		onclick : 'DmhGoods.editeMerchant()'
 	}, {
+		value : "商品详情图片",
+		onclick : 'DmhGoods.picsManager()'
+	}, {
 		value : "下架",
 		onclick : 'DmhGoods.deleteMerchant()'
+
 	} ],
 	beforeload : function() {
 		this.paraData = {

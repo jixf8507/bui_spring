@@ -6,8 +6,6 @@
 <title>BUI 管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
-<script type="text/javascript"
-	src="${ctx}/js/models/merchant/Merchant.js"></script>
 <script type="text/javascript" src="${ctx}/js/models/user/UserOrder.js"></script>
 <script type="text/javascript"
 	src="${ctx}/js/pages/user/userOrderList.js"></script>
@@ -17,9 +15,20 @@
 		<div id="list" class="subcontent">
 			<div class="overviewhead">
 				<div class="overviewselect">
-					<select id="merchantId" class="chzn-select" style="width: 200px;"
+					<select id="type" class="chzn-select" style="width: 200px;"
 						tabindex="2">
-						<option value=""></option>
+						<option value="">请选择</option>
+						<option value="1">大马花消费</option>
+						<option value="2">商家消费</option>
+					</select> <select id="status" class="chzn-select" style="width: 200px;"
+						tabindex="2">
+						<option value="">请选择</option>
+						<option value="1">审核中</option>
+						<option value="2">已通过</option>
+						<option value="3">未通过</option>
+						<option value="4">购买中</option>
+						<option value="5">已配送</option>
+						<option value="6">已收货</option>
 					</select>
 				</div>
 				用户姓名: &nbsp;<input type="text" id="name" /> &nbsp; 手机号码: &nbsp;<input
@@ -47,6 +56,8 @@
 						<th class="head1">价格</th>
 						<th class="head0">商家</th>
 						<th class="head1">首付金额</th>
+						<th class="head0">订单金额</th>
+						<th class="head1">订单状态</th>
 						<th class="head0">类型</th>
 						<th class="head1">消费时间</th>
 					</tr>

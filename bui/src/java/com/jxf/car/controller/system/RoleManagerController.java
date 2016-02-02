@@ -52,13 +52,6 @@ public class RoleManagerController extends BaseController {
 		return "system/roleEdite";
 	}
 
-	/**
-	 * 提交保存员工信息
-	 * 
-	 * @param sysUser
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("submit.htm")
 	@ResponseBody
 	public MSG submit(SysRole role) throws Exception {
@@ -69,13 +62,6 @@ public class RoleManagerController extends BaseController {
 		}
 	}
 
-	/**
-	 * 删除系统用户
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("delete.htm")
 	@ResponseBody
 	public MSG delete(String ids) throws Exception {

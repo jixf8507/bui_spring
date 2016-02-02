@@ -27,14 +27,6 @@ public class UserService extends BaseService {
 	@Autowired
 	private UserDao userDao;
 
-	/**
-	 * 分页查询用户信息列表
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findUserPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return userDao.findUserPage(jsonObject, pageSize, iDisplayStart);
@@ -49,12 +41,6 @@ public class UserService extends BaseService {
 		}
 	}
 
-	/**
-	 * 获取用户信息
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public Map<String, Object> getUserMap(Integer id) {
 		return userDao.getUserMap(id);
 	}

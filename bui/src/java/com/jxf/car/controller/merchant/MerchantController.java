@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.tools.JSONTools;
-import com.jxf.common.tools.StringTools;
 
 /**
  * 
@@ -82,13 +80,6 @@ public class MerchantController extends BaseController {
 		return "merchant/merchantEdite";
 	}
 
-	/**
-	 * 提交保存员工信息
-	 * 
-	 * @param sysUser
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("submit.htm")
 	@ResponseBody
 	public MSG submit(Merchant merchant) throws Exception {

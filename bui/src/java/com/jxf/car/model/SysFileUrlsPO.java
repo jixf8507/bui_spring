@@ -13,6 +13,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import com.jxf.car.dao.BaseDao;
 import com.jxf.car.db.extractor.FileUrlsExtractor;
 
+/**
+ * 系统文件
+ * 
+ * @author Administrator
+ * 
+ */
 public class SysFileUrlsPO {
 	private Integer id;
 	private String fileName;
@@ -119,13 +125,7 @@ public class SysFileUrlsPO {
 				new FileUrlsExtractor());
 	}
 
-	/**
-	 * 删除sys_file_url表中的一条记录。
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public static int delete(Integer id, BaseDao baseDao) {
+	public static int delete(Object id, BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(DELETE_SYS_FILE_URL_SQL, id);
 	}
 

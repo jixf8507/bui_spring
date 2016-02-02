@@ -32,30 +32,12 @@ public class UserAccountService extends BaseService {
 	@Autowired
 	private UserDao userDao;
 
-	/**
-	 * 分页查询系统用户列表
-	 * 
-	 * @param jsonObject
-	 *            查询条件
-	 * @param pageSize
-	 *            每页条数
-	 * @param iDisplayStart
-	 *            起始条数
-	 * @return
-	 */
 	public PageResults findUserAccountPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return accountDao.findUserAccountPage(jsonObject, pageSize,
 				iDisplayStart);
 	}
 
-	/**
-	 * 导出用户账户信息
-	 * 
-	 * @param response
-	 * @param jsonObject
-	 *            查询条件
-	 */
 	public void excelUserAccount(HttpServletResponse response,
 			JSONObject jsonObject) {
 		try {
@@ -67,26 +49,14 @@ public class UserAccountService extends BaseService {
 		}
 	}
 
-	/**
-	 * 根据用户ID查找用户信息
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public Map<String, Object> getAccountMap(Integer id) {
 		return accountDao.getAccountMap(id);
 	}
 
-	/**
-	 * 新增用户账户
-	 * 
-	 * @param account
-	 *            用户账户信息
-	 * @return
-	 */
 	@Transactional
 	public MSG createUserAccount(UserAccount userAccount) {
 		try {
+			// 更改用户状态
 			userDao.updateStatus(2, userAccount.getUser().getStatusDesc(),
 					userAccount.getUserId());
 			accountDao.create(userAccount);
@@ -97,13 +67,6 @@ public class UserAccountService extends BaseService {
 		return MSG.createErrorMSG(1, "新增用户账户失败");
 	}
 
-	/**
-	 * 修改用户账户
-	 * 
-	 * @param userAccount
-	 *            用户账户信息
-	 * @return
-	 */
 	@Transactional
 	public MSG updateUserAccount(UserAccount userAccount) {
 		try {

@@ -37,14 +37,6 @@ public class UserAccountController extends BaseController {
 		return "user/userAccount";
 	}
 
-	/**
-	 * 分页加载系统用户信息
-	 * 
-	 * @param aoData
-	 * @param paraData
-	 * @param session
-	 * @return
-	 */
 	@RequestMapping("ajaxData")
 	@ResponseBody
 	public PageResults ajaxData(String aoData, String paraData,
@@ -78,13 +70,6 @@ public class UserAccountController extends BaseController {
 		return "user/accountDetail";
 	}
 
-	/**
-	 * 提交保存员工信息
-	 * 
-	 * @param sysUser
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping("submit.htm")
 	@ResponseBody
 	public MSG submit(UserAccount userAccount) throws Exception {

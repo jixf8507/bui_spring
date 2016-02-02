@@ -91,6 +91,7 @@ var Merchant = {
 					"phone" : true
 				},
 				'address' : "required",
+				'code' : "required",
 				'corporation' : "required"
 			}
 		});

@@ -20,6 +20,11 @@
 			</span>
 		</p>
 		<p>
+			<label>商家登录号</label> <span class="field"> <input type="text"
+				name="code" id="code" class="longinput" style="width: 200px;" />&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
 			<label>负责人</label> <span class="field"> <input type="text"
 				name="corporation" id="corporation" class="longinput"
 				style="width: 200px;" />&nbsp;&nbsp;

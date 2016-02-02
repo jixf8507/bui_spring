@@ -25,14 +25,6 @@ public class UserAccountDao extends BaseDao {
 	@Resource(name = "user_account_select_sql")
 	private JSONSqlMapping userSelectSQL;
 
-	/**
-	 * 分页查找系统用户信息
-	 * 
-	 * @param jsonObject
-	 * @param pageSize
-	 * @param iDisplayStart
-	 * @return
-	 */
 	public PageResults findUserAccountPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
 		return this.findPageByJSONSqlMapping(userSelectSQL, jsonObject,
@@ -43,32 +35,14 @@ public class UserAccountDao extends BaseDao {
 		return this.findListByJSONSqlMapping(userSelectSQL, jsonObject);
 	}
 
-	/**
-	 * 
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public Map<String, Object> getAccountMap(Integer id) {
 		return UserAccount.get(id, this);
 	}
 
-	/**
-	 * 新增用户账户
-	 * 
-	 * @param userAccount
-	 * @return
-	 */
 	public Integer create(UserAccount userAccount) {
 		return userAccount.create(this);
 	}
 
-	/**
-	 * 修改用户账户
-	 * 
-	 * @param merchantUserPO
-	 * @return
-	 */
 	public boolean update(UserAccount userAccount) {
 		return userAccount.update(this) > 0;
 	}

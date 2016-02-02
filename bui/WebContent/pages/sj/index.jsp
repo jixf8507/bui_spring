@@ -29,11 +29,11 @@
 	<div class="header">
 
 		<div class="dl-title">
-			<span class="lp-title-port">大马花.</span><span class="dl-title-text">管理平台</span>
+			<span class="lp-title-port">大马花.</span><span class="dl-title-text">商家管理平台 [${sessionScope.webUser.merchant.name}]</span>
 		</div>
 
 		<div class="dl-log">
-			欢迎您，<span class="dl-log-user">${sessionScope.webUser.sysUser.name}</span><a
+			欢迎您，<span class="dl-log-user">${sessionScope.webUser.merchant.name}</span><a
 				href="${ctx}/sj/home/out.htm" title="退出系统" class="dl-log-quit">[退出]</a><a
 				href="javaScript:updatePwd();" title="修改密码" class="dl-log-quit">修改密码</a>
 		</div>

@@ -26,7 +26,7 @@ var DmhGoods = {
 			{
 				"fnRender" : function(obj) {
 					var img = obj.aData['img'];
-					return '<img src="' + contextPath + '/' + img
+					return '<img src="' + contextPath + img
 							+ '"  alt="商品图片" width="50px;" height="50px;" />';
 				},
 				"sClass" : "center"

@@ -16,7 +16,7 @@ var Img = {
 			},
 			{
 				"fnRender" : function(obj) {
-					var img = contextPath + '/' + obj.aData['fileUrl'];
+					var img = contextPath  + obj.aData['fileUrl'];
 					return '<a href="'
 							+ img
 							+ '" target="_blank"><img src="'

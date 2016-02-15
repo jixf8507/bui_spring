@@ -135,21 +135,8 @@ public class MyDateUtil extends DateUtils {
 	/**
 	 * 字符串转换为时间
 	 */
-	public static Date stringToDate(String str)throws ParseException{
-		str = str.replaceAll("年", "-");
-		str = str.replaceAll("月", "-");
-		str = str.replaceAll("日", " ");
-		str = str.replaceAll("点", ":");
-		if(str.indexOf("分") != -1 && str.indexOf("秒") != -1)
-		    str = str.replaceAll("分", ":");
-		else if(str.indexOf("分") != -1 && str.indexOf("秒") == -1)
-		    str = str.replaceAll("分", "");
-		
-		if(str.indexOf("秒")==-1)
-			str += ":00";
-		else
-		    str = str.replaceAll("秒", "");
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(str);
+	public static Date stringToDate(String str)throws ParseException{		
+		return new SimpleDateFormat("yyyy-MM-dd").parse(str);
 	}
 	
 	/**

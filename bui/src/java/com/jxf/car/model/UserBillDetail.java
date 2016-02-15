@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class UserBillDetail {
@@ -17,35 +16,44 @@ public class UserBillDetail {
 	private BigDecimal totleCost;
 	private Timestamp repaymentTime;
 
-	public static List<UserBillDetail> createUserBill(BigDecimal price,
-			BigDecimal interest, int aging) {
-		
-		
-//		Calendar current = Calendar.getInstance();		
-//		current.add(Calendar.HOUR, 24);
-//		Date tempDate = current.getTime();
-//
-//		while (tempDate.getTime() <= useEndTime.getTime()) {
-//			useDays++;
-//			current.add(Calendar.HOUR, 24);
-//			tempDate = current.getTime();
-//		}
-//
-//		current.add(Calendar.HOUR, -24);
-//		tempDate = current.getTime();
-		
-		// Date date = MyDateUti
+	public static List<UserBillDetail> createUserBillDetailByOrder(
+			UserOrder uo, BigDecimal interest) {
+		Calendar current = Calendar.getInstance();
 		List<UserBillDetail> list = new ArrayList<>();
-		BigDecimal billCapital = price.divide(new BigDecimal(aging));
-		BigDecimal totleInterest = price.subtract(interest);
-		BigDecimal billInterest = totleInterest.divide(new BigDecimal(aging));
+		BigDecimal billCapital = uo.getPrice().divide(
+				new BigDecimal(uo.getAging()), 5, BigDecimal.ROUND_UP);
+		BigDecimal totleInterest = uo.getPrice().multiply(interest);
+		BigDecimal billInterest = totleInterest.divide(
+				new BigDecimal(uo.getAging()), 5, BigDecimal.ROUND_UP);
 
 		BigDecimal tempCapital = new BigDecimal(0);
 		BigDecimal tempInterest = new BigDecimal(0);
-		for (int i = 0; i <= aging; i++) {
-
+		for (int i = 0; i < uo.getAging(); i++) {
+			if (i == uo.getAging() - 1) {
+				billCapital = uo.getPrice().subtract(tempCapital);
+				billInterest = totleInterest.subtract(tempInterest);
+			}
+			UserBillDetail billDetail = createUserBillDetail(uo.getUserId(),
+					uo.getId(), current, billCapital, billInterest);
+			current.add(Calendar.MONTH, 1);
+			tempCapital = tempCapital.add(billCapital);
+			tempInterest = tempInterest.add(tempInterest);
+			list.add(billDetail);
 		}
 		return list;
+	}
+
+	public static UserBillDetail createUserBillDetail(Integer userId,
+			Integer orderId, Calendar current, BigDecimal billCapital,
+			BigDecimal billInterest) {
+		UserBillDetail billDetail = new UserBillDetail();
+		billDetail.userId = userId;
+		billDetail.orderId = orderId;
+		billDetail.capital = billCapital;
+		billDetail.interest = billInterest;
+		billDetail.totleCost = billDetail.capital.add(billDetail.interest);
+		billDetail.repaymentTime = new Timestamp(current.getTime().getTime());
+		return billDetail;
 	}
 
 	public Integer getId() {

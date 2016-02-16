@@ -78,9 +78,8 @@ public class UserOrderController extends BaseController {
 
 	@RequestMapping("submitCheck.htm")
 	@ResponseBody
-	public MSG submitCheck(UserOrder userOrder) throws Exception {
-		
-		return MSG.createSuccessMSG();
+	public MSG submitCheck(UserOrder userOrder) throws Exception {		
+		return userOrderService.submitCheckOrder(userOrder);
 	}
 
 }

@@ -67,23 +67,72 @@ public class UserMonthBillService extends BaseService {
 	}
 
 	@Transactional
-	public void countUserMonthBillForDay(String day) {
+	public void countUserMonthBillForDay() {
 		List<Map<String, Object>> lastMonthBill = userMonthBillDao
 				.findLastMonthBill();
 		BigDecimal dayInterest = settingDao.findSysDayInterest();
 		List<UserMonthBill> userBills = new ArrayList<>();
 		List<UserAccount> accounts = new ArrayList<>();
 		for (Map<String, Object> billMap : lastMonthBill) {
-			UserMonthBill bill = UserMonthBill.createUserBill(billMap);
 			UserAccount account = new UserAccount();
-			account.setCurUsableLimit(bill.getPaid());
+			UserMonthBill bill = UserMonthBill.createUserBill(billMap);
+			if (bill.getPaid().compareTo(bill.getLastBalance()) <= 0) {
+				account.setCurUsableLimit(bill.getPaid());
+				bill.setLastBalance(bill.getLastBalance().subtract(
+						bill.getPaid()));
+				bill.setLastLnterest(bill.getLastLnterest().add(
+						bill.getLastBalance().multiply(dayInterest)));
+			} else if (bill.getPaid().compareTo(
+					bill.getLastBalance().add(bill.getCurBalance())) <= 0) {
+				account.setCurUsableLimit(bill.getPaid());
+				bill.setCurBalance(bill.getCurBalance()
+						.add(bill.getLastBalance()).subtract(bill.getPaid()));
+				bill.setLastBalance(new BigDecimal(0));
+			} else if (bill.getPaid().compareTo(
+					bill.getLastBalance().add(bill.getCurBalance())
+							.add(bill.getLastLnterest())) <= 0) {
+				bill.setLastBalance(new BigDecimal(0));
+				bill.setCurBalance(new BigDecimal(0));
+				bill.setLastLnterest(bill.getLastBalance()
+						.add(bill.getCurBalance()).add(bill.getLastLnterest())
+						.subtract(bill.getPaid()));
+				account.setCurUsableLimit(bill.getCurBalance().add(
+						bill.getLastBalance()));
+			} else if (bill.getPaid().compareTo(
+					bill.getLastBalance().add(bill.getCurBalance())
+							.add(bill.getLastLnterest())
+							.add(bill.getCurLnterest())) < 0) {
+				bill.setLastBalance(new BigDecimal(0));
+				bill.setCurBalance(new BigDecimal(0));
+				bill.setLastLnterest(new BigDecimal(0));
+				bill.setCurLnterest(bill.getLastBalance()
+						.add(bill.getCurBalance()).add(bill.getLastLnterest())
+						.add(bill.getCurLnterest()).subtract(bill.getPaid()));
+				account.setCurUsableLimit(bill.getCurBalance().add(
+						bill.getLastBalance()));
+			} else {
+				bill.setLastBalance(new BigDecimal(0));
+				bill.setCurBalance(new BigDecimal(0));
+				bill.setLastLnterest(new BigDecimal(0));
+				bill.setCurLnterest(new BigDecimal(0));
+				account.setCurUsableLimit(bill.getPaid().subtract(
+						bill.getCurBalance().add(bill.getLastBalance())));
+				bill.setStatus(1);
+			}
+			if (bill.isBeyondRepaymentDate()) {
+				bill.setCurLnterest(bill.getCurLnterest().add(
+						bill.getCurBalance().multiply(dayInterest)));
+			}
+			bill.setPaid(new BigDecimal(0));
+
 			account.setUserId(bill.getUserId());
 			accounts.add(account);
-						
+
 			userBills.add(bill);
 		}
-		
+
 		accountDao.batchAddCurUsableLimit(accounts);
+		userMonthBillDao.batchUpdateUserMonthBill(userBills);
 	}
 
 	@Transactional

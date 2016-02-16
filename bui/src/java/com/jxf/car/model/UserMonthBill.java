@@ -114,4 +114,9 @@ public class UserMonthBill {
 		this.lastBalance = lastBalance;
 	}
 
+	public boolean isBeyondRepaymentDate() {
+		return getCurBalance().compareTo(new BigDecimal(0)) > 0
+				&& new Timestamp(System.currentTimeMillis()).getTime() > getRepaymentDate().getTime();
+	}
+
 }

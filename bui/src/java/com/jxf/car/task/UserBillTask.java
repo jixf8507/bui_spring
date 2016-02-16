@@ -23,7 +23,7 @@ public class UserBillTask {
 	@Scheduled(cron = "0 0/1 * * * *?")
 	public void dayJob() {
 		logger.info("------------开始执行每日任务");
-		
+		billService.countUserMonthBillForDay();
 		billService.createUserMonthBillByDay(MyDateUtil.getYestoday());
 		logger.info("-----------结束执行每日任务");
 	}

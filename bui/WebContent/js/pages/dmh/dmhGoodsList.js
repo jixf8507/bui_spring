@@ -4,7 +4,7 @@
 
 jQuery(document).ready(function() {
 
-	$('#status,#isTop').chosen();
+	$('#status,#isTop,#type').chosen();
 
 	userTable.reloadData();
 
@@ -44,6 +44,7 @@ var userTable = new PageDataTables({
 	} ],
 	beforeload : function() {
 		this.paraData = {
+			"type" : jQuery('#type').val(),
 			"status" : jQuery('#status').val(),
 			"isTop" : jQuery('#isTop').val(),
 			"name" : jQuery('#name').val() == '' ? '' : '%'

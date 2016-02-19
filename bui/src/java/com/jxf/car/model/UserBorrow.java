@@ -120,11 +120,6 @@ public class UserBorrow implements UserAgingOrder {
 	}
 
 	@Override
-	public BigDecimal getPrice() {
-		return this.getCost();
-	}
-
-	@Override
 	public String getOrderTable() {
 		return "user_borrow";
 	}

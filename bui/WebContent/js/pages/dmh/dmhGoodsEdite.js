@@ -4,6 +4,8 @@
 
 $(document).ready(function() {
 
+	$('#isTop,#type').chosen();
+
 	// 员工表单验证
 	DmhGoods.validate($("#form1"));
 
@@ -19,14 +21,18 @@ $(document).ready(function() {
 var submit = function(callBack) {
 	var formObj = $("#form1");
 	if (formObj.valid()) {
-		if ($("#merchant").val() == '') {
-			Dialog.alert("提示：请选择商家");
+		if ($("#type").val() == '') {
+			Dialog.alert("提示：请选择类型");
+			return false;
+		}
+		if ($("#isTop").val() == '') {
+			Dialog.alert("提示：请选择是否首页显示");
 			return false;
 		}
 		DmhGoods.submitForm(formObj, callBack);
 	}
 };
 
-var getPic = function(idArr, urlArr) {	
-	$('#img').val( urlArr[0]);
+var getPic = function(idArr, urlArr) {
+	$('#img').val(urlArr[0]);
 };

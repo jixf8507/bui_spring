@@ -8,7 +8,7 @@ public interface UserAgingOrder {
 
 	public Integer getUserId();
 
-	public BigDecimal getPrice();
+	public BigDecimal getCost();
 
 	public Integer getAging();
 

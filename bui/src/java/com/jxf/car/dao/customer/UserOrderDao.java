@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Repository;
@@ -45,6 +46,12 @@ public class UserOrderDao extends BaseDao {
 
 	public boolean submitCheckOrder(UserOrder userOrder) {
 		return userOrder.updateStatus(this) > 0;
+	}
+	
+	
+	public boolean batchUpdateStatus(int status,
+			JSONArray jsonArray){
+		return UserOrder.batchUpdateStatus(status, jsonArray, this);
 	}
 
 }

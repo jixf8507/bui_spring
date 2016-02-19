@@ -21,9 +21,9 @@ public class UserBillDetail {
 			UserAgingOrder uo, BigDecimal interest) {
 		Calendar current = Calendar.getInstance();
 		List<UserBillDetail> list = new ArrayList<>();
-		BigDecimal billCapital = uo.getPrice().divide(
+		BigDecimal billCapital = uo.getCost().divide(
 				new BigDecimal(uo.getAging()), 5, BigDecimal.ROUND_UP);
-		BigDecimal totleInterest = uo.getPrice().multiply(interest);
+		BigDecimal totleInterest = uo.getCost().multiply(interest);
 		BigDecimal billInterest = totleInterest.divide(
 				new BigDecimal(uo.getAging()), 5, BigDecimal.ROUND_UP);
 
@@ -31,7 +31,7 @@ public class UserBillDetail {
 		BigDecimal tempInterest = new BigDecimal(0);
 		for (int i = 0; i < uo.getAging(); i++) {
 			if (i == uo.getAging() - 1) {
-				billCapital = uo.getPrice().subtract(tempCapital);
+				billCapital = uo.getCost().subtract(tempCapital);
 				billInterest = totleInterest.subtract(tempInterest);
 			}
 			UserBillDetail billDetail = createUserBillDetail(uo.getUserId(),

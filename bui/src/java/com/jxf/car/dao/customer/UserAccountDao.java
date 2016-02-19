@@ -60,8 +60,9 @@ public class UserAccountDao extends BaseDao {
 		return userAccount.update(this) > 0;
 	}
 
-	public boolean addCurUsableLimit(BigDecimal balance, Integer id) {
-		return UserAccount.addCurUsableLimit(balance, id, this) > 0;
+	public void addCurUsableLimit(BigDecimal balance, Integer id) {
+		UserAccount.addCurUsableLimit(balance, id, this);
+		UserAccount.updateCurWhiteBarLimit(id, this);
 	}
 
 	public boolean addCurWhiteBarLimit(BigDecimal balance, Integer id) {

@@ -32,8 +32,12 @@
 		</p>
 
 		<p>
-			<label>类型</label> <span class="field"><input type="text"
-				name="type" id="type" class="longinput" style="width: 200px;" />&nbsp;&nbsp;</span>
+			<label>类型</label> <span class="field"><select id="type" 
+				name="type" class="chzn-select" style="width: 200px;" tabindex="2">
+					<option value="">请选择</option>
+					<option value="1">3c数码</option>
+					<option value="2">分期游</option>
+			</select>&nbsp;&nbsp;</span>
 
 		</p>
 		<p>

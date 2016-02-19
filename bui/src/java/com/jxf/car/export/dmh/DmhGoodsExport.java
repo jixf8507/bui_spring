@@ -54,8 +54,8 @@ public class DmhGoodsExport extends BaseExport {
 						.get("name")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("price")), wcsB));
-				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("type")), wcsB));
+				wsheet.addCell(new Label(column++, i + 2, DmhGoods
+						.getType(toString(map.get("type"))), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, DmhGoods
 						.getTop(toString(map.get("isTop"))), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, DmhGoods

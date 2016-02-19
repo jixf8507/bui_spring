@@ -24,8 +24,23 @@
 			<label>可用额度</label> <span class="field">${userAccount.usableLimit}&nbsp;&nbsp;</span>
 		</p>
 		<p>
-			<label>白条额度</label> <span class="field">
+			<label>当前可用额度</label> <span class="field">${userAccount.curUsableLimit}&nbsp;&nbsp;</span>
+		</p>
+		<p>
+			<label>提现额度</label> <span class="field">
 				${userAccount.whiteBarLimit}&nbsp;&nbsp; </span>
+		</p>
+		<p>
+			<label>当前提现额度</label> <span class="field">
+				${userAccount.curWhiteBarLimit}&nbsp;&nbsp; </span>
+		</p>
+		<p>
+			<label>账单日</label> <span class="field">
+				${userAccount.statementDate}&nbsp;&nbsp; </span>
+		</p>
+		<p>
+			<label>还款日</label> <span class="field">
+				${userAccount.repaymentDate}&nbsp;&nbsp; </span>
 		</p>
 	</form>
 

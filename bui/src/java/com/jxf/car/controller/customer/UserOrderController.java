@@ -1,8 +1,10 @@
 package com.jxf.car.controller.customer;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.tools.JSONTools;
+import com.jxf.common.tools.StringTools;
 
 /**
  * 
@@ -39,6 +42,13 @@ public class UserOrderController extends BaseController {
 	@RequestMapping("checkList")
 	public String checkList() {
 		return "user/userOrderCheckList";
+	}
+
+	@RequestMapping("buyList")
+	public String buyList(Model model, HttpServletRequest request) {
+		model.addAttribute("type",
+				StringTools.decodeMethod(request.getParameter("type")));
+		return "user/userOrderBuyList";
 	}
 
 	@RequestMapping("ajaxData")
@@ -82,6 +92,13 @@ public class UserOrderController extends BaseController {
 			throws Exception {
 		userOrder.setCheckMen(this.getSesseionUser(session).getName());
 		return userOrderService.submitCheckOrder(userOrder);
+	}
+
+	@RequestMapping("updateBuyStatus.htm")
+	@ResponseBody
+	public MSG updateBuyStatus(Integer status, String ids) throws Exception {
+		JSONArray jsonArray = JSONArray.fromObject(ids);
+		return userOrderService.batchUpdateStatus(status, jsonArray);
 	}
 
 }

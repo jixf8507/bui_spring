@@ -1,9 +1,14 @@
 package com.jxf.car.model;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+
+import net.sf.json.JSONArray;
+
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 
 import com.jxf.car.dao.BaseDao;
 import com.jxf.car.db.extractor.UserOrderExtractor;
@@ -117,8 +122,8 @@ public class UserOrder implements UserAgingOrder {
 	}
 
 	public int updateStatus(BaseDao baseDao) {
-		return baseDao.getJdbcTemplate().update(STATUS_UPDATE_SQL, this.status,
-				this.checkDisc, this.checkMen, this.id);
+		return baseDao.getJdbcTemplate().update(ORDER_CHECK_UPDATE_SQL,
+				this.status, this.checkDisc, this.checkMen, this.id);
 	}
 
 	public static Map<String, Object> get(Integer id, BaseDao baseDao) {
@@ -138,12 +143,38 @@ public class UserOrder implements UserAgingOrder {
 				+ "where o.id=? ";
 	}
 
-	private static final String STATUS_UPDATE_SQL = "update user_order set `status`=?,checkDisc=?,checkMen=? where id=?";
+	public static boolean batchUpdateStatus(final int status,
+			final JSONArray jsonArray, BaseDao baseDao) {
+		int[] count = baseDao.getJdbcTemplate().batchUpdate(STATUS_UPDATE_SQL,
+				new BatchPreparedStatementSetter() {
+					@Override
+					public void setValues(PreparedStatement ps, int i)
+							throws SQLException {
+						int num = 1;
+						ps.setInt(num++, status);
+						ps.setObject(num++, jsonArray.get(i));
+					}
+
+					@Override
+					public int getBatchSize() {
+						return jsonArray.size();
+					}
+				});
+		return count.length == jsonArray.size();
+	}
+
+	private static final String ORDER_CHECK_UPDATE_SQL = "update user_order set `status`=?,checkDisc=?,checkMen=? where id=?";
+	private static final String STATUS_UPDATE_SQL = "update user_order set `status`=? where id=?";
 	private static final String GET_SQL = "select * from user_order where id=?";
 
 	@Override
 	public String getOrderTable() {
 		return "user_order";
+	}
+
+	@Override
+	public BigDecimal getCost() {
+		return this.price.subtract(this.sfMoney);
 	}
 
 }

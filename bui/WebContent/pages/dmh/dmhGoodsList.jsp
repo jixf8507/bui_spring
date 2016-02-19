@@ -15,7 +15,12 @@
 		<div id="list" class="subcontent">
 			<div class="overviewhead">
 				<div class="overviewselect">
-					<select id="status" class="chzn-select" style="width: 200px;"
+					<select id="type"  class="chzn-select"
+						style="width: 200px;" tabindex="2">
+						<option value="">请选择类型</option>
+						<option value="1">3c数码</option>
+						<option value="2">分期游</option>
+					</select> <select id="status" class="chzn-select" style="width: 200px;"
 						tabindex="2">
 						<option value="">请选择状态</option>
 						<option value="0">已下架</option>

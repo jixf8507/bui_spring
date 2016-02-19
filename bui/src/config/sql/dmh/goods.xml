@@ -25,6 +25,10 @@
 					<property name="key" value="isTop" />
 					<property name="value" value="and g.`isTop` = ? " />
 				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="type" />
+					<property name="value" value="and g.`type` = ? " />
+				</bean>
 			</list>
 		</property>
 		<property name="order" value="ORDER BY g.id desc " />

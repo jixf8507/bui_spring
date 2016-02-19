@@ -11,7 +11,7 @@
       		select o.id,o.createTime,o.sfMoney,o.aging,o.`status`,o.type,u.`name` as userName,
       		u.mobilePhone,g.`name` as goodsName,g.merchantName,g.price,o.price as orderPrice
  			from user_order o,`user` u,vs_goods g 
-			 where o.userId=u.id and o.goodsId=g.id and g.type=o.type
+			 where o.userId=u.id and o.goodsId=g.id and g.type=o.type 
 		 ]]></value>
 		</property>
 		<property name="conditions">
@@ -39,6 +39,10 @@
 				<bean class="com.jxf.common.sql.Condition">
 					<property name="key" value="status" />
 					<property name="value" value="and o.status  = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="buyStatus" />
+					<property name="value" value="and o.status  in (?,4,5,6) " />
 				</bean>
 			</list>
 		</property>

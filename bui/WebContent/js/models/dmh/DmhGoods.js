@@ -31,7 +31,20 @@ var DmhGoods = {
 				},
 				"sClass" : "center"
 			}, {
-				"mDataProp" : "type",
+				"fnRender" : function(obj) {
+					var type = obj.aData['type'];
+					switch (type) {
+					case '1':
+						return "3c数码";
+						break;
+					case '2':
+						return "分期游";
+						break;
+					default:
+						return "其它";
+						break;
+					}
+				},
 				"sClass" : "center"
 			}, {
 				"fnRender" : function(obj) {

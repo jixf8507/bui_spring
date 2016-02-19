@@ -26,7 +26,7 @@ public class DmhGoods extends BasePO {
 	private String img;
 	private String detailsImg;
 	private String manufacturer = "大马花";
-	private String type;
+	private Integer type;
 	private Integer isTop;
 	private Integer status;
 	private String des1;
@@ -57,11 +57,11 @@ public class DmhGoods extends BasePO {
 		this.manufacturer = manufacturer;
 	}
 
-	public String getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 
@@ -151,7 +151,7 @@ public class DmhGoods extends BasePO {
 				ps.setString(i++, des1);
 				ps.setString(i++, des2);
 				ps.setString(i++, des3);
-				ps.setString(i++, type);
+				ps.setInt(i++, type);
 				ps.setInt(i++, isTop);
 				return ps;
 			}
@@ -179,6 +179,17 @@ public class DmhGoods extends BasePO {
 	 *            商品状态编码
 	 * @return
 	 */
+	public static String getType(String type) {
+		switch (type) {
+		case "1":
+			return "3c数码";
+		case "2":
+			return "分期游";
+		default:
+			return "";
+		}
+	}
+
 	public static String getStatus(String status) {
 		switch (status) {
 		case "0":

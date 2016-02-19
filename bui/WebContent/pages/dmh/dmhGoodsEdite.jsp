@@ -17,14 +17,14 @@
 		<input type="hidden" name="id" value="${dmhGoods.id}" />
 		<p>
 			<label>商品名称</label> <span class="field"> <input type="text"
-				name="name" id="name" value="${dmhGoods.name}"
-				class="longinput" style="width: 200px;" />&nbsp;&nbsp;
+				name="name" id="name" value="${dmhGoods.name}" class="longinput"
+				style="width: 200px;" />&nbsp;&nbsp;
 			</span>
 		</p>
 		<p>
 			<label>价格</label> <span class="field"> <input type="text"
-				name="price" id="price" value="${dmhGoods.price}"
-				class="longinput" style="width: 200px;" />&nbsp;&nbsp;
+				name="price" id="price" value="${dmhGoods.price}" class="longinput"
+				style="width: 200px;" />&nbsp;&nbsp;
 			</span>
 		</p>
 		<p>
@@ -35,19 +35,23 @@
 		</p>
 
 		<p>
-			<label>类型</label> <span class="field"><input type="text"
-				name="type" id="type" value="${dmhGoods.type}"
-				class="longinput" style="width: 200px;" />&nbsp;&nbsp;</span>
+			<label>类型</label> <span class="field"><select id="type"
+				name="type" class="chzn-select" style="width: 200px;" tabindex="2">
+					<option value="">请选择</option>
+					<option value="1">3c数码</option>
+					<option value="2">分期游</option>
+			</select> <script type="text/javascript">
+				$('#type').val('${dmhGoods.type}');
+			</script>&nbsp;&nbsp;</span>
 
 		</p>
 		<p>
-			<label>是否首页显示</label> <span class="field"><select id="isTop" name="isTop"
-				class="chzn-select" style="width: 200px;" tabindex="2">
+			<label>是否首页显示</label> <span class="field"><select id="isTop"
+				name="isTop" class="chzn-select" style="width: 200px;" tabindex="2">
 					<option value="">请选择</option>
 					<option value="1">是</option>
 					<option value="0">否</option>
-			</select>
-			<script type="text/javascript">
+			</select> <script type="text/javascript">
 				$('#isTop').val('${dmhGoods.isTop}');
 			</script>&nbsp;&nbsp;</span>
 

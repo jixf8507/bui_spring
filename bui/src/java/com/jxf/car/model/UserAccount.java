@@ -186,6 +186,11 @@ public class UserAccount extends BasePO {
 				new Object[] { balance, balance, id });
 	}
 
+	public static int updateCurWhiteBarLimit(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(CUR_WHITE_BAR_LIMIT_UPDATE_SQL,
+				new Object[] { id });
+	}
+
 	public static int curWhiteBarLimitAllUpdate(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(
 				CUR_WHITE_BAR_LIMIT_ALL_UPDATE_SQL);
@@ -242,6 +247,7 @@ public class UserAccount extends BasePO {
 	public static final String GET_BY_USER_ID_SQL = "select * from user_account where userId=?";
 
 	public static final String ADD_CUR_USABLE_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+? where id=?";
+	public static final String CUR_WHITE_BAR_LIMIT_UPDATE_SQL = "update user_account set curWhiteBarLimit=curUsableLimit where curWhiteBarLimit>curUsableLimit and id=?";
 	public static final String CUR_WHITE_BAR_LIMIT_ALL_UPDATE_SQL = "update user_account set curWhiteBarLimit=whiteBarLimit where curWhiteBarLimit>whiteBarLimit ";
 	public static final String ADD_CUR_WHITE_BAR_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+?,curWhiteBarLimit=curWhiteBarLimit+? where id=?";
 	public static final String BATCH_ADD_CUR_USABLE_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+?,curWhiteBarLimit=curWhiteBarLimit+? where userId=?";

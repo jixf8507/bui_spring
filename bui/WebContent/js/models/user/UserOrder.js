@@ -141,6 +141,40 @@ var UserOrder = {
 		};
 		diag.show();
 	},
+	updateOrderStatus : function(status) {
+		var thiz = this;
+		var value = this.getSelectValue();
+		if (value.length == 0) {
+			alert('请先选择要操作的记录');
+			return;
+		}
+		if (!window.confirm('你确定要操作选中订单吗')) {
+			return true;
+		}
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : contextPath + '/user/order/updateBuyStatus.htm?',
+			data : {
+				'ids' : JSON.stringify(value),
+				'status' : status
+			},
+			async : false,
+			dataType : 'json',
+			error : function(request) {
+				Dialog.alert("提示：操作失败");
+			},
+			success : function(data) {
+				if (data.success) {
+					Dialog.alert("提示：操作成功", function() {
+						thiz.callBack();
+					});
+				} else {
+					Dialog.alert("提示：" + data.info);
+				}
+			}
+		});
+	},
 	billDetail : function() {
 		var value = this.getSelectValue();
 		if (value.length == 0) {

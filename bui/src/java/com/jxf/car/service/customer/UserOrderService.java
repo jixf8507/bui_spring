@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,17 +75,25 @@ public class UserOrderService extends BaseService {
 		return msg;
 	}
 
+	@Transactional
+	public MSG batchUpdateStatus(int status, JSONArray jsonArray) {
+		if (userOrderDao.batchUpdateStatus(status, jsonArray)) {
+			return MSG.createSuccessMSG();
+		}
+		return MSG.createErrorMSG(1, "操作订单失败！");
+	}
+
 	private MSG createUserBill(UserOrder userOrder) {
 		switch (userOrder.getStatus()) {
 		case 2:
 			UserOrder uo = userOrderDao.getUserOrder(userOrder.getId());
-			UserAccount ua = accountDao.getByUserId(uo.getUserId());			
-			if (ua.getCurUsableLimit().compareTo(uo.getPrice()) < 0) {
+			UserAccount ua = accountDao.getByUserId(uo.getUserId());
+			if (ua.getCurUsableLimit().compareTo(uo.getCost()) < 0) {
 				return MSG.createErrorMSG(1, "用户账户余额不足");
 			}
 			BigDecimal interest = settingDao.findSysInterest();
 			accountDao.addCurUsableLimit(
-					new BigDecimal(0).subtract(uo.getPrice()), ua.getId());
+					new BigDecimal(0).subtract(uo.getCost()), ua.getId());
 			List<UserBillDetail> userBillList = UserBillDetail
 					.createUserBillDetailByOrder(uo, interest);
 			billDetailDao.batchCreateUserBillDetail(userBillList);

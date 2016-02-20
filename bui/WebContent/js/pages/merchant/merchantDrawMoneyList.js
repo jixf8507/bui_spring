@@ -3,7 +3,7 @@
  */
 
 jQuery(document).ready(function() {
-
+	$('#status').chosen();
 	userTable.reloadData();
 
 	// 点击查询按钮事件

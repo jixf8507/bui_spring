@@ -20,7 +20,19 @@
 			<label>身份证</label> <span class="field">
 				${user.idCard}&nbsp;&nbsp; </span>
 		</p>
-
+		<p>
+			<label>身份证图片</label> <span class="field"> <img
+				src="${ctx}${user.idCardImg}" alt="" width="350px;" /> &nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
+			<label>账户状态</label> <span class="field"> <c:if
+					test="${user.status == '1' }">审核中	</c:if> <c:if
+					test="${user.status == '2' }">已通过审核	</c:if> <c:if
+					test="${user.status == '3' }">审核不通过	</c:if> <c:if
+					test="${user.status == '4' }">冻结	</c:if> &nbsp;&nbsp;
+			</span>
+		</p>
 	</form>
 
 </body>

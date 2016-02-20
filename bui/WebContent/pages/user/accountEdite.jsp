@@ -12,8 +12,8 @@
 <body>
 
 	<form id="form1" class="stdform stdform2" method="post" action="">
-		<input type="hidden" name="id" value="${userAccount.id}" />
-		<input type="hidden" name="user.id" value="${userAccount.userId}" />
+		<input type="hidden" name="id" value="${userAccount.id}" /> <input
+			type="hidden" name="user.id" value="${userAccount.userId}" />
 		<p>
 			<label>用户名称</label> <span class="field"> <input type="text"
 				name="user.name" id="name" value="${userAccount.name}"
@@ -30,6 +30,24 @@
 			<label>身份证</label> <span class="field"> <input type="text"
 				name="user.idCard" id="idCard" value="${userAccount.idCard}"
 				class="longinput" style="width: 200px;" />&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
+			<label>身份证图片</label> <span class="field"><input type="text"
+				name="user.idCardImg" id="idCardImg" value="${userAccount.idCardImg}"
+				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="bt" value="上传图片" /></span>
+		</p>
+		<p>
+			<label>账户状态</label> <span class="field"> <select id="status"
+				name="status" class="chzn-select" style="width: 200px;" tabindex="2">
+					<option value="">请选择</option>
+					<option value="1">正常</option>
+					<option value="2">不可取现可分期</option>
+					<option value="3">不可取现不可分期</option>
+			</select>&nbsp;&nbsp; <script type="text/javascript">
+				$('#status').val('${userAccount.status}');
+			</script>
 			</span>
 		</p>
 		<p>

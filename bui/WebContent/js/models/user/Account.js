@@ -122,6 +122,9 @@ var User = {
 					"required" : true,
 					"idcard" : true
 				},
+				'user.idCardImg' : {
+					"required" : true,
+				},
 				'usableLimit' : {
 					"required" : true,
 					"number" : true

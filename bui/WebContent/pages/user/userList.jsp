@@ -7,13 +7,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <script type="text/javascript" src="${ctx}/js/models/user/User.js"></script>
-<script type="text/javascript"
-	src="${ctx}/js/pages/user/userCheckList.js"></script>
+<script type="text/javascript" src="${ctx}/js/pages/user/userList.js"></script>
 <body>
 
 	<div id="contentwrapper" class="contentwrapper">
 		<div id="list" class="subcontent">
 			<div class="overviewhead">
+				<div class="overviewselect">
+					<select id="status" class="chzn-select" style="width: 200px;"
+						tabindex="2">
+						<option value="">请选择用户状态</option>
+						<option value="1">审核中</option>
+						<option value="2">已通过审核</option>
+						<option value="3">审核未通过</option>
+						<option value="4">已冻结</option>
+					</select>
+				</div>
 				用户姓名: &nbsp;<input type="text" id="name" /> &nbsp; 手机号码: &nbsp;<input
 					type="text" id="mobilePhone" /> &nbsp; 身份证号: &nbsp;<input
 					type="text" id="idCard" /> &nbsp;

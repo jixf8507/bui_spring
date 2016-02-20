@@ -24,6 +24,31 @@ var User = {
 				"mDataProp" : "idCard",
 				"sClass" : "center"
 			}, {
+				"fnRender" : function(obj) {
+					var status = obj.aData['status'];
+					switch (status) {
+					case '1':
+						return "审核中";
+						break;
+					case '2':
+						return "已通过审核";
+						break;
+					case '3':
+						return "审核未通过";
+						break;
+					case '4':
+						return "已冻结";
+						break;
+					default:
+						return "其它";
+						break;
+					}
+				},
+				"sClass" : "center"
+			}, {
+				"mDataProp" : "lastVisitorTime",
+				"sClass" : "center"
+			}, {
 				"mDataProp" : "createdTime",
 				"sClass" : "center"
 			} ],

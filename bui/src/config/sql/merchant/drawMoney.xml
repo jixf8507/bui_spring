@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 查找商家的SQL -->
+	<bean id="merchant_draw_money_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+		<property name="select">
+			<value><![CDATA[
+      		select d.*,m.`name`,m.`code` from merchant_draw_money d,merchant m where d.merchantId=m.id		
+		 ]]></value>
+		</property>
+		<property name="conditions">
+			<list>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="name" />
+					<property name="value" value="and m.`name` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="corporation" />
+					<property name="value" value="and m.corporation like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="merchantId" />
+					<property name="value" value="and d.merchantId =  ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="status" />
+					<property name="value" value="and d.`status` =  ? " />
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="ORDER BY d.id desc " />
+	</bean>
+
+</beans>

@@ -52,4 +52,8 @@ public class UserDao extends BaseDao {
 		return user.updateStatus(this) > 0;
 	}
 
+	public boolean updateUserForCheck(User user) {
+		return user.updateUserForCheck(this) > 0;
+	}
+
 }

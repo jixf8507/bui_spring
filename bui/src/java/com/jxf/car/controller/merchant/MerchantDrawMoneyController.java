@@ -1,8 +1,5 @@
 package com.jxf.car.controller.merchant;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jxf.car.controller.BaseController;
-import com.jxf.car.model.Merchant;
-import com.jxf.car.service.merchant.MerchantService;
+import com.jxf.car.model.MerchantDrawMoney;
+import com.jxf.car.service.merchant.MerchantDrawMoneyService;
 import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
@@ -29,21 +26,21 @@ import com.jxf.common.tools.JSONTools;
  * 
  */
 @Controller
-@RequestMapping("/merchant")
-public class MerchantController extends BaseController {
+@RequestMapping("/merchant/drawMoney")
+public class MerchantDrawMoneyController extends BaseController {
 
 	@Autowired
-	private MerchantService merchantService;
+	private MerchantDrawMoneyService drawMoneyService;
 
 	@RequestMapping("list")
 	public String list() {
-		return "merchant/merchantList";
+		return "merchant/merchantDrawMoneyList";
 	}
 
 	@RequestMapping("add")
 	public String add(HttpServletRequest request, HttpServletResponse response,
 			Model model) {
-		return "merchant/merchantAdd";
+		return "merchant/merchantDrawMoneyAdd";
 	}
 
 	@RequestMapping("ajaxData")
@@ -53,8 +50,9 @@ public class MerchantController extends BaseController {
 		JSONObject jsonObject = JSONTools.getJsonPara(paraData,
 				this.getSesseionUser(session));
 		PageHelp pageHelp = JSONTools.toPageHelp(aoData);
-		PageResults pageResults = merchantService.findMerchantPage(jsonObject,
-				pageHelp.getiDisplayLength(), pageHelp.getiDisplayStart());
+		PageResults pageResults = drawMoneyService.findMerchantDrawMoneyPage(
+				jsonObject, pageHelp.getiDisplayLength(),
+				pageHelp.getiDisplayStart());
 		pageResults.setsEcho(pageHelp.getsEcho());
 		return pageResults;
 	}
@@ -64,51 +62,27 @@ public class MerchantController extends BaseController {
 			HttpServletResponse response) throws Exception {
 		JSONObject jsonObject = JSONTools.getJsonPara(paraData,
 				this.getSesseionUser(session));
-		merchantService.excelMerchant(response, jsonObject);
+		drawMoneyService.excelMerchantDrawMoney(response, jsonObject);
 		return null;
-	}
-
-	@RequestMapping("ajaxList")
-	@ResponseBody
-	public List<Map<String, Object>> ajaxList(String aoData, String paraData,
-			HttpSession session) {
-		JSONObject jsonObject = JSONTools.getJsonPara(paraData,
-				this.getSesseionUser(session));
-		return merchantService.findMerchantList(jsonObject);
-	}
-
-	@RequestMapping("edite")
-	public String edite(Integer id, Model model, HttpSession session) {
-		if (id == null) {
-			if (this.getSesseionUser(session).getMerchant() == null) {
-				return null;
-			}
-			id = this.getSesseionUser(session).getMerchant().getId();
-		}
-		model.addAttribute("merchant", merchantService.getMerchantMap(id));
-		return "merchant/merchantEdite";
 	}
 
 	@RequestMapping("detail")
 	public String detail(Integer id, Model model, HttpSession session) {
-		if (id == null) {
-			if (this.getSesseionUser(session).getMerchant() == null) {
-				return null;
-			}
-			id = this.getSesseionUser(session).getMerchant().getId();
-		}
-		model.addAttribute("merchant", merchantService.getMerchantMap(id));
-		return "merchant/merchantDetail";
+		model.addAttribute("drawMoney",
+				drawMoneyService.getMerchantDrawMoneyMap(id));
+		return "merchant/merchantDrawMoneyDetail";
 	}
 
 	@RequestMapping("submit.htm")
 	@ResponseBody
-	public MSG submit(Merchant merchant) throws Exception {
-		if (merchant.getId() == null) {
-			return merchantService.createMerchant(merchant);
-		} else {
-			return merchantService.updateMerchant(merchant);
+	public MSG submit(MerchantDrawMoney drawMoney, HttpSession session)
+			throws Exception {
+		if (this.getSesseionUser(session).getMerchant() == null) {
+			return MSG.createErrorMSG(1, "商家信息获取失败");
 		}
+		drawMoney.setMerchantId(this.getSesseionUser(session).getMerchant()
+				.getId());
+		return drawMoneyService.createMerchantDrawMoney(drawMoney);
 	}
 
 }

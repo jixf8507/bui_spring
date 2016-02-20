@@ -6,7 +6,7 @@
 <title>BUI 管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
-
+<script type="text/javascript" src="${ctx}/js/models/upload/Upload.js"></script>
 <script type="text/javascript" src="${ctx}/js/models/user/Account.js"></script>
 <script type="text/javascript"
 	src="${ctx}/js/pages/user/accountEdite.js"></script>
@@ -34,9 +34,24 @@
 			</span>
 		</p>
 		<p>
+			<label>身份证图片</label> <span class="field"><input type="text"
+				name="user.idCardImg" id="idCardImg" value="${user.idCardImg}"
+				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="bt" value="上传图片" /></span>
+		</p>
+		<p>
+			<label>审核状态</label> <span class="field"> <select id="status"
+				name="user.status" class="chzn-select" style="width: 200px;"
+				tabindex="2">
+					<option value="">请选择</option>
+					<option value="2">通过</option>
+					<option value="3">不通过</option>
+			</select>&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
 			<label>审核说明</label> <span class="field"> <input type="text"
-				name="user.statusDesc" id="statusDesc" =
-				class="longinput"
+				name="user.statusDesc" id="statusDesc" class="longinput"
 				style="width: 200px;" />&nbsp;&nbsp;
 			</span>
 		</p>

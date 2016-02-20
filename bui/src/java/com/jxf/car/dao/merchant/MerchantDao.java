@@ -1,5 +1,6 @@
 package com.jxf.car.dao.merchant;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -47,12 +48,20 @@ public class MerchantDao extends BaseDao {
 		return Merchant.get(code, this);
 	}
 
+	public Merchant getMerchant(Integer id) {
+		return Merchant.getById(id, this);
+	}
+
 	public Integer create(Merchant merchant) {
 		return merchant.create(this);
 	}
 
 	public boolean update(Merchant merchant) {
 		return merchant.update(this) > 0;
+	}
+
+	public boolean freezeMoney(BigDecimal money, Integer id) {
+		return Merchant.freezeMoney(money, id, this) > 0;
 	}
 
 	public boolean updatePassword(Merchant merchant) {

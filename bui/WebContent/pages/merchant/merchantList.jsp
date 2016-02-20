@@ -24,18 +24,28 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="stdtable"
 				id="userTable">
 				<colgroup>
-					<col class="con1" width="20px" />
+					<col class="con0" width="20px" />
+					<col class="con1" />
 					<col class="con0" />
 					<col class="con1" />
+					<col class="con0" />
+					<col class="con1" />
+					<col class="con0" />
+					<col class="con1" />
+					<col class="con0" />
 				</colgroup>
 				<thead>
 					<tr>
-						<th class="head1" width="30px"><input type="checkbox"
+						<th class="head0" width="30px"><input type="checkbox"
 							style="width: 20px;" name="checkAll" value="" id="checkAll" /></th>
+						<th class="head1">图片</th>
 						<th class="head0">商户名称</th>
 						<th class="head1">地址</th>
 						<th class="head0">负责人</th>
 						<th class="head1">联系电话</th>
+						<th class="head0">账户金额</th>
+						<th class="head1">冻结金额</th>
+						<th class="head0">状态</th>
 					</tr>
 				</thead>
 				<tbody>

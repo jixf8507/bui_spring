@@ -2,10 +2,12 @@
  * 系统工作人员
  */
 
-var Merchant = {
-	pageUrl : contextPath + "/merchant/ajaxData.htm?t=" + new Date().getTime(),
-	listUrl : contextPath + "/merchant/ajaxList.htm?t=" + new Date().getTime(),
-	exportUrl : contextPath + "/merchant/exportToExcel.htm?",
+var MerchantDrawMoney = {
+	pageUrl : contextPath + "/merchant/drawMoney/ajaxData.htm?t="
+			+ new Date().getTime(),
+	listUrl : contextPath + "/merchant/drawMoney/ajaxList.htm?t="
+			+ new Date().getTime(),
+	exportUrl : contextPath + "/merchant/drawMoney/exportToExcel.htm?",
 	tableColumns : [ // 设定各列宽度
 			{
 				"fnRender" : function(obj) {
@@ -15,47 +17,45 @@ var Merchant = {
 							+ id + '" title="' + name + '" value="' + id + '">';
 				},
 				"sClass" : "center"
-			},
-			{
-				"fnRender" : function(obj) {
-					var img = obj.aData['img'];
-					return '<img src="' + contextPath + img
-							+ '"  alt="图片" width="50px;" height="50px;" />';
-				},
+			}, {
+				"mDataProp" : "code",
 				"sClass" : "center"
 			}, {
 				"mDataProp" : "name",
 				"sClass" : "center"
 			}, {
-				"mDataProp" : "address",
+				"mDataProp" : "money",
 				"sClass" : "center"
 			}, {
-				"mDataProp" : "corporation",
+				"mDataProp" : "bankName",
 				"sClass" : "center"
 			}, {
-				"mDataProp" : "mobilePhone",
-				"sClass" : "center"
-			}, {
-				"mDataProp" : "totalMoney",
-				"sClass" : "center"
-			}, {
-				"mDataProp" : "freezeMoney",
+				"mDataProp" : "cardNumber",
 				"sClass" : "center"
 			}, {
 				"fnRender" : function(obj) {
 					var status = obj.aData['status'];
 					switch (status) {
 					case '1':
-						return "正常";
+						return "完成提款";
 						break;
 					case '0':
-						return "冻结";
+						return "申请中";
+						break;
+					case '2':
+						return "不通过";
+						break;
+					case '3':
+						return "已取消";
 						break;
 					default:
 						return "其它";
 						break;
 					}
 				},
+				"sClass" : "center"
+			}, {
+				"mDataProp" : "createdTime",
 				"sClass" : "center"
 			} ],
 	selectAll : function(thiz) {
@@ -77,15 +77,15 @@ var Merchant = {
 		var diag = new Dialog();
 		diag.Width = 700;
 		diag.Height = 500;
-		diag.Title = "新增商家";
-		diag.URL = contextPath + "/merchant/add.htm";
-		diag.MessageTitle = "新增商家";
+		diag.Title = "申请提款";
+		diag.URL = contextPath + "/merchant/drawMoney/add.htm";
+		diag.MessageTitle = "申请提款";
 		diag.OKEvent = function() {
 			diag.innerFrame.contentWindow.submit(thiz.callBack);
 		};
 		diag.show();
 	},
-	editeMerchant : function() {
+	detail : function() {
 		var value = this.getSelectValue();
 		if (value.length == 0) {
 			alert('请先选择要修改的记录');
@@ -94,16 +94,13 @@ var Merchant = {
 			alert('只能选择一条记录');
 			return;
 		}
-		var thiz = this;
 		var diag = new Dialog();
 		diag.Width = 700;
 		diag.Height = 500;
-		diag.Title = "修改商家信息";
-		diag.URL = contextPath + "/merchant/edite.htm?id=" + value[0];
+		diag.Title = "查看提款信息";
+		diag.URL = contextPath + "/merchant/drawMoney/detail.htm?id="
+				+ value[0];
 		diag.MessageTitle = $('#' + value[0]).attr('title');
-		diag.OKEvent = function() {
-			diag.innerFrame.contentWindow.submit(thiz.callBack);
-		};
 		diag.show();
 	},
 	callBack : function() {
@@ -113,19 +110,15 @@ var Merchant = {
 	validate : function(formObj) {
 		formObj.validate({
 			rules : {
-				'img' : {
+				'remarks' : {
 					"required" : true
 				},
-				'name' : {
-					"required" : true
-				},
-				'mobilePhone' : {
+				'money' : {
 					"required" : true,
-					"phone" : true
+					"number" : true
 				},
-				'address' : "required",
-				'code' : "required",
-				'corporation' : "required"
+				'bankName' : "required",
+				'cardNumber' : "required"
 			}
 		});
 	},
@@ -134,7 +127,7 @@ var Merchant = {
 		$.ajax({
 			cache : true,
 			type : "POST",
-			url : contextPath + '/merchant/submit.htm?',
+			url : contextPath + '/merchant/drawMoney/submit.htm?',
 			data : formObj.serialize(),
 			async : false,
 			dataType : 'json',

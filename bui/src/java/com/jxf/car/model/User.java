@@ -28,6 +28,7 @@ public class User extends BasePO {
 	private String statusDesc;
 	private String name;
 	private String idCard;
+	private String idCardImg;
 
 	public Integer getId() {
 		return id;
@@ -93,9 +94,23 @@ public class User extends BasePO {
 		this.idCard = idCard;
 	}
 
+	public String getIdCardImg() {
+		return idCardImg;
+	}
+
+	public void setIdCardImg(String idCardImg) {
+		this.idCardImg = idCardImg;
+	}
+
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.getName(),
-				this.getMobilePhone(), this.getIdCard(), this.getId());
+				this.getMobilePhone(), this.getIdCard(),this.idCardImg, this.getId());
+	}
+
+	public int updateUserForCheck(BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(USER_CHECK_UPDATE_SQL,
+				this.getName(), this.getMobilePhone(), this.getIdCard(),
+				this.idCardImg, this.status, this.getId());
 	}
 
 	public static User createUser(Integer status, String statusDesc, Integer id) {
@@ -136,7 +151,8 @@ public class User extends BasePO {
 		return baseDao.get(GET_BY_ID_SQL, new Object[] { id });
 	}
 
-	private static final String UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=? where id=?";
+	private static final String USER_CHECK_UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=?,idCardImg=?,status=? where id=?";
+	private static final String UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=?,idCardImg=? where id=?";
 	private static final String STATUS_UPDATE_SQL = "update user set status=?,statusDesc=? where id=?";
 	private static final String INSERT_SQL = "insert into user (name,mobilePhone,idCard,loginPassword,payPassword,lastVisitorTime,`status`,statusDesc) values (?,?,?,?,?,now(),1,'')";
 	private static final String GET_BY_ID_SQL = "select * from user u  where u.id=? ";

@@ -34,6 +34,11 @@ public class UserController extends BaseController {
 	public String checkList() {
 		return "user/userCheckList";
 	}
+	
+	@RequestMapping("list")
+	public String list() {
+		return "user/userList";
+	}
 
 	@RequestMapping("ajaxData")
 	@ResponseBody

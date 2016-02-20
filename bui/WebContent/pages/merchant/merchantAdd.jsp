@@ -13,7 +13,11 @@
 <body>
 
 	<form id="form1" class="stdform stdform2" method="post" action="">
-
+		<p>
+			<label>商家图片</label> <span class="field"><input type="text"
+				name="img" id="img" class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="bt" value="上传图片" /></span>
+		</p>
 		<p>
 			<label>商家名称</label> <span class="field"> <input type="text"
 				name="name" id="name" class="longinput" style="width: 200px;" />&nbsp;&nbsp;

@@ -6,6 +6,7 @@
 <title>BUI 管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
+<script type="text/javascript" src="${ctx}/js/models/upload/Upload.js"></script>
 <script type="text/javascript"
 	src="${ctx}/js/models/merchant/Merchant.js"></script>
 <script type="text/javascript"
@@ -14,6 +15,11 @@
 
 	<form id="form1" class="stdform stdform2" method="post" action="">
 		<input type="hidden" name="id" value="${merchant.id}" />
+		<p>
+			<label>商家图片</label> <span class="field"><input type="text"
+				name="img" id="img" class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="bt" value="上传图片" /></span>
+		</p>
 		<p>
 			<label>商家名称</label> <span class="field"> <input type="text"
 				name="name" id="name" value="${merchant.name}" class="longinput"

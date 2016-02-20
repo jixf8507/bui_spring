@@ -21,6 +21,12 @@
 				${userAccount.idCard}&nbsp;&nbsp; </span>
 		</p>
 		<p>
+			<label>身份证图片</label> <span class="field"> <img
+				src="${ctx}${userAccount.idCardImg}" alt="" width="350px;" />
+				&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
 			<label>可用额度</label> <span class="field">${userAccount.usableLimit}&nbsp;&nbsp;</span>
 		</p>
 		<p>
@@ -41,6 +47,13 @@
 		<p>
 			<label>还款日</label> <span class="field">
 				${userAccount.repaymentDate}&nbsp;&nbsp; </span>
+		</p>
+		<p>
+			<label>账户状态</label> <span class="field"> <c:if
+					test="${userAccount.status == '1' }">正常	</c:if> <c:if
+					test="${userAccount.status == '2' }">不可取现可分期	</c:if> <c:if
+					test="${userAccount.status == '2' }">不可取现不可分期	</c:if> &nbsp;&nbsp;
+			</span>
 		</p>
 	</form>
 

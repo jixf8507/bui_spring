@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import jxl.write.Label;
 
-import com.jxf.car.model.Merchant;
+import com.jxf.car.model.MerchantDrawMoney;
 import com.jxf.common.base.BaseExport;
 
-public class MerchantExport extends BaseExport {
+public class MerchantDrawMoneyExport extends BaseExport {
 
 	public static void createExcel(HttpServletResponse response,
 			List<Map<String, Object>> list) throws Exception {
@@ -30,7 +30,7 @@ public class MerchantExport extends BaseExport {
 		wsheet.setColumnView(column++, 20);
 		wsheet.setColumnView(column++, 20);
 		wsheet.mergeCells(0, 0, --column, 0);
-		Label label = new Label(0, 0, "商户信息列表", wffBold);
+		Label label = new Label(0, 0, "商户提款记录列表", wffBold);
 		wsheet.addCell(label);
 	}
 
@@ -39,12 +39,12 @@ public class MerchantExport extends BaseExport {
 		int column = 0;
 		wsheet.setRowView(1, 400);
 		wsheet.addCell(new Label(column++, 1, "商户名称", wctB));
-		wsheet.addCell(new Label(column++, 1, "地址", wctB));
-		wsheet.addCell(new Label(column++, 1, "负责人", wctB));
-		wsheet.addCell(new Label(column++, 1, "联系电话", wctB));
-		wsheet.addCell(new Label(column++, 1, "账户金额", wctB));
-		wsheet.addCell(new Label(column++, 1, "冻结金额", wctB));
+		wsheet.addCell(new Label(column++, 1, "商户编号", wctB));
+		wsheet.addCell(new Label(column++, 1, "提款金额", wctB));
+		wsheet.addCell(new Label(column++, 1, "银行名称", wctB));
+		wsheet.addCell(new Label(column++, 1, "银行卡号", wctB));
 		wsheet.addCell(new Label(column++, 1, "状态", wctB));
+		wsheet.addCell(new Label(column++, 1, "申请时间", wctB));
 	}
 
 	@Override
@@ -57,17 +57,17 @@ public class MerchantExport extends BaseExport {
 				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("name")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("address")), wcsB));
+						.get("code")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("corporation")), wcsB));
+						.get("money")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("mobilePhone")), wcsB));
+						.get("bankName")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("totalMoney")), wcsB));
-				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("freezeMoney")), wcsB));
-				wsheet.addCell(new Label(column++, i + 2, Merchant
+						.get("cardNumber")), wcsB));
+				wsheet.addCell(new Label(column++, i + 2, MerchantDrawMoney
 						.getStatus(toString(map.get("status"))), wcsB));
+				wsheet.addCell(new Label(column++, i + 2, toString(map
+						.get("createdTime")), wcsB));
 			}
 		}
 
@@ -75,7 +75,7 @@ public class MerchantExport extends BaseExport {
 
 	@Override
 	protected String fileName() {
-		String filename = "商户信息列表.xls";
+		String filename = "商户提款记录列表.xls";
 		try {
 			filename = new String(filename.getBytes("gb2312"), "ISO-8859-1");
 		} catch (UnsupportedEncodingException e) {

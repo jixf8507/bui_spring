@@ -1,5 +1,6 @@
 package com.jxf.car.model;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +31,8 @@ public class Merchant extends BasePO {
 	private String mobilePhone;
 	private String code;
 	private String password = "123456";
+	private BigDecimal totalMoney;
+	private BigDecimal freezeMoney;
 
 	public static Merchant create(ResultSet rs) throws SQLException {
 		Merchant merchant = new Merchant();
@@ -42,6 +45,8 @@ public class Merchant extends BasePO {
 		merchant.des = rs.getString("des");
 		merchant.corporation = rs.getString("corporation");
 		merchant.mobilePhone = rs.getString("mobilePhone");
+		merchant.totalMoney = rs.getBigDecimal("totalMoney");
+		merchant.freezeMoney = rs.getBigDecimal("freezeMoney");
 		return merchant;
 	}
 
@@ -117,6 +122,22 @@ public class Merchant extends BasePO {
 		this.password = password;
 	}
 
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
+
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+
+	public BigDecimal getFreezeMoney() {
+		return freezeMoney;
+	}
+
+	public void setFreezeMoney(BigDecimal freezeMoney) {
+		this.freezeMoney = freezeMoney;
+	}
+
 	public boolean checkPassword(String password) {
 		if (this.password.equals(password)) {
 			return true;
@@ -125,9 +146,9 @@ public class Merchant extends BasePO {
 	}
 
 	public int update(BaseDao baseDao) {
-		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.name,
-				this.address, this.des, this.corporation, this.mobilePhone,
-				this.code, this.id);
+		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.img,
+				this.name, this.address, this.des, this.corporation,
+				this.mobilePhone, this.code, this.id);
 	}
 
 	public int updatePassword(BaseDao baseDao) {
@@ -144,6 +165,7 @@ public class Merchant extends BasePO {
 				PreparedStatement ps = conn.prepareStatement(INSERT_SQL,
 						PreparedStatement.RETURN_GENERATED_KEYS);
 				int i = 1;
+				ps.setString(i++, img);
 				ps.setString(i++, name);
 				ps.setString(i++, address);
 				ps.setString(i++, des);
@@ -166,10 +188,32 @@ public class Merchant extends BasePO {
 				new Object[] { code }, new MerchantExtractor());
 	}
 
+	public static Merchant getById(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().query(GET_BY_ID_SQL,
+				new Object[] { id }, new MerchantExtractor());
+	}
+
+	public static int freezeMoney(BigDecimal money, Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(FREEZE_MONEY_SQL, money, money,
+				id);
+	}
+
 	private static final String GET_BY_ID_SQL = "select * from merchant u  where u.id=? ";
 	private static final String GET_BY_CODE_SQL = "select * from merchant u  where u.code=? ";
-	private static final String INSERT_SQL = "insert into merchant (name,address,des,corporation,mobilePhone,code,password) values (?,?,?,?,?)";
-	private static final String UPDATE_SQL = "update merchant set name=?,address=?,des=?,corporation=?,mobilePhone=?,code=? where id=?";
+	private static final String INSERT_SQL = "insert into merchant (img,name,address,des,corporation,mobilePhone,code,password) values (?,?,?,?,?)";
+	private static final String UPDATE_SQL = "update merchant set img=?,name=?,address=?,des=?,corporation=?,mobilePhone=?,code=? where id=?";
 	private static final String UPDATE_PASSWORD_SQL = "update merchant set password=? where id=?";
+	private static final String FREEZE_MONEY_SQL = "update merchant set freezeMoney=freezeMoney+?,totalMoney=totalMoney-? where id=?";
+
+	public static final String getStatus(String statusCode) {
+		switch (statusCode) {
+		case "0":
+			return "冻结";
+		case "1":
+			return "正常";
+		default:
+			return "其它";
+		}
+	}
 
 }

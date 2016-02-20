@@ -57,9 +57,10 @@ public class UserAccountService extends BaseService {
 	public MSG createUserAccount(UserAccount userAccount) {
 		try {
 			// 更改用户状态
-			userDao.updateStatus(2, userAccount.getUser().getStatusDesc(),
-					userAccount.getUserId());
-			accountDao.create(userAccount);
+			userDao.updateUserForCheck(userAccount.getUser());
+			if (userAccount.getUser().getStatus() == 2) {
+				accountDao.create(userAccount);
+			}
 			return MSG.createSuccessMSG();
 		} catch (Exception e) {
 			e.printStackTrace();

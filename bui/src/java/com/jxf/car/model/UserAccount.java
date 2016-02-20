@@ -141,7 +141,7 @@ public class UserAccount extends BasePO {
 
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(getUpdateSQL(),
-				this.usableLimit, this.whiteBarLimit, this.id);
+				this.usableLimit, this.whiteBarLimit, this.status, this.id);
 	}
 
 	public Integer create(BaseDao baseDao) {
@@ -233,7 +233,7 @@ public class UserAccount extends BasePO {
 	}
 
 	private static final String getLoadSQL() {
-		return "select a.*,u.`name`,u.mobilePhone,u.idCard from user_account a INNER JOIN user u on a.userId=u.id where a.id=? ";
+		return "select a.*,u.`name`,u.mobilePhone,u.idCard,u.idCardImg from user_account a INNER JOIN user u on a.userId=u.id where a.id=? ";
 	}
 
 	private static final String getInsertSQL() {
@@ -241,7 +241,7 @@ public class UserAccount extends BasePO {
 	}
 
 	private static final String getUpdateSQL() {
-		return "update user_account set usableLimit=?,whiteBarLimit=? where id=?";
+		return "update user_account set usableLimit=?,whiteBarLimit=?,status=? where id=?";
 	}
 
 	public static final String GET_BY_USER_ID_SQL = "select * from user_account where userId=?";

@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
 	});
 
 	$('#checkAll').click(function() {
-		Merchant.selectAll($(this));
+		MerchantDrawMoney.selectAll($(this));
 	});
 });
 

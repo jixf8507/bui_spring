@@ -15,6 +15,9 @@ var Merchant = {
 							+ id + '" title="' + name + '" value="' + id + '">';
 				},
 				"sClass" : "center"
+			}, {
+				"mDataProp" : "id",
+				"sClass" : "center"
 			},
 			{
 				"fnRender" : function(obj) {

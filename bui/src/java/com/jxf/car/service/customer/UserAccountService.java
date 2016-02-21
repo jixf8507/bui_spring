@@ -59,7 +59,19 @@ public class UserAccountService extends BaseService {
 			// 更改用户状态
 			userDao.updateUserForCheck(userAccount.getUser());
 			if (userAccount.getUser().getStatus() == 2) {
-				accountDao.create(userAccount);
+				UserAccount account = accountDao.getByUserId(userAccount
+						.getUser().getId());
+				if (account == null) {
+					accountDao.create(userAccount);
+				} else {
+					userAccount.setId(account.getId());
+					userAccount.setStatus(account.getStatus());
+					userAccount.setUsableLimit(userAccount.getUsableLimit()
+							.subtract(account.getUsableLimit()));
+					userAccount.setWhiteBarLimit(userAccount.getWhiteBarLimit()
+							.subtract(account.getWhiteBarLimit()));
+					accountDao.update(userAccount);
+				}
 			}
 			return MSG.createSuccessMSG();
 		} catch (Exception e) {
@@ -72,6 +84,12 @@ public class UserAccountService extends BaseService {
 	public MSG updateUserAccount(UserAccount userAccount) {
 		try {
 			userDao.update(userAccount.getUser());
+			UserAccount account = accountDao.getByUserId(userAccount.getUser()
+					.getId());
+			userAccount.setUsableLimit(userAccount.getUsableLimit().subtract(
+					account.getUsableLimit()));
+			userAccount.setWhiteBarLimit(userAccount.getWhiteBarLimit()
+					.subtract(account.getWhiteBarLimit()));
 			accountDao.update(userAccount);
 			return MSG.createSuccessMSG();
 		} catch (Exception e) {

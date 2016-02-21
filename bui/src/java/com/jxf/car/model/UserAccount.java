@@ -141,7 +141,7 @@ public class UserAccount extends BasePO {
 
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(getUpdateSQL(),
-				this.usableLimit, this.whiteBarLimit, this.status, this.id);
+				this.usableLimit,this.usableLimit, this.whiteBarLimit,this.whiteBarLimit, this.status, this.id);
 	}
 
 	public Integer create(BaseDao baseDao) {
@@ -241,7 +241,7 @@ public class UserAccount extends BasePO {
 	}
 
 	private static final String getUpdateSQL() {
-		return "update user_account set usableLimit=?,whiteBarLimit=?,status=? where id=?";
+		return "update user_account set usableLimit=usableLimit+?,curUsableLimit=curUsableLimit+?,whiteBarLimit=whiteBarLimit+?,curWhiteBarLimit=curWhiteBarLimit+?,status=? where id=?";
 	}
 
 	public static final String GET_BY_USER_ID_SQL = "select * from user_account where userId=?";

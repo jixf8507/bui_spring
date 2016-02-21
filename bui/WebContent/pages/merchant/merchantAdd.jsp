@@ -6,6 +6,7 @@
 <title>BUI 管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
+<script type="text/javascript" src="${ctx}/js/models/upload/Upload.js"></script>
 <script type="text/javascript"
 	src="${ctx}/js/models/merchant/Merchant.js"></script>
 <script type="text/javascript"

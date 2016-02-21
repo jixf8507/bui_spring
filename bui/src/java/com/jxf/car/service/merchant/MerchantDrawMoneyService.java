@@ -50,6 +50,9 @@ public class MerchantDrawMoneyService extends BaseService {
 		try {
 			Merchant merchant = merchantDao.getMerchant(drawMoney
 					.getMerchantId());
+			if(merchant.getStatus()!=1){
+				return MSG.createErrorMSG(1, "该商家状态不能申请提款");
+			}
 			if (merchant.getTotalMoney().compareTo(drawMoney.getMoney()) < 0) {
 				return MSG.createErrorMSG(1, "商家余额不足");
 			}

@@ -33,6 +33,8 @@ public class Merchant extends BasePO {
 	private String password = "123456";
 	private BigDecimal totalMoney;
 	private BigDecimal freezeMoney;
+	
+	private Integer status;
 
 	public static Merchant create(ResultSet rs) throws SQLException {
 		Merchant merchant = new Merchant();
@@ -47,6 +49,7 @@ public class Merchant extends BasePO {
 		merchant.mobilePhone = rs.getString("mobilePhone");
 		merchant.totalMoney = rs.getBigDecimal("totalMoney");
 		merchant.freezeMoney = rs.getBigDecimal("freezeMoney");
+		merchant.status = rs.getInt("status");
 		return merchant;
 	}
 
@@ -138,6 +141,14 @@ public class Merchant extends BasePO {
 		this.freezeMoney = freezeMoney;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	public boolean checkPassword(String password) {
 		if (this.password.equals(password)) {
 			return true;
@@ -200,7 +211,7 @@ public class Merchant extends BasePO {
 
 	private static final String GET_BY_ID_SQL = "select * from merchant u  where u.id=? ";
 	private static final String GET_BY_CODE_SQL = "select * from merchant u  where u.code=? ";
-	private static final String INSERT_SQL = "insert into merchant (img,name,address,des,corporation,mobilePhone,code,password) values (?,?,?,?,?)";
+	private static final String INSERT_SQL = "insert into merchant (img,name,address,des,corporation,mobilePhone,code,password) values (?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_SQL = "update merchant set img=?,name=?,address=?,des=?,corporation=?,mobilePhone=?,code=? where id=?";
 	private static final String UPDATE_PASSWORD_SQL = "update merchant set password=? where id=?";
 	private static final String FREEZE_MONEY_SQL = "update merchant set freezeMoney=freezeMoney+?,totalMoney=totalMoney-? where id=?";

@@ -6,29 +6,19 @@
 <title>BUI 管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
-<script type="text/javascript" src="${ctx}/js/models/user/UserOrder.js"></script>
 <script type="text/javascript"
-	src="${ctx}/js/pages/user/userOrderList.js"></script>
+	src="${ctx}/js/models/merchant/MerchantOrder.js"></script>
+<script type="text/javascript"
+	src="${ctx}/js/pages/merchant/merchantOrderList.js"></script>
 <body>
 
 	<div id="contentwrapper" class="contentwrapper">
 		<div id="list" class="subcontent">
 			<div class="overviewhead">
-				<div class="overviewselect">
-					<select id="status" class="chzn-select" style="width: 200px;"
-						tabindex="2">
-						<option value="">请选择</option>
-						<option value="1">审核中</option>
-						<option value="2">已通过</option>
-						<option value="3">未通过</option>
-						<option value="4">购买中</option>
-						<option value="5">已配送</option>
-						<option value="6">已收货</option>
-					</select>
-				</div>
+				<div class="overviewselect"></div>
 				用户姓名: &nbsp;<input type="text" id="name" /> &nbsp; 手机号码: &nbsp;<input
-					type="text" id="mobilePhone" /> &nbsp; 商品名称: &nbsp;<input
-					type="text" id="goodsName" /> &nbsp;
+					type="text" id="mobilePhone" /> &nbsp; 商家: &nbsp;<input
+					type="text" id="merchantName" /> &nbsp;
 				<button class="publishbutton radius3" id="queryBtn">查询</button>
 				<button class="publishbutton radius3" id="excelBtn">导出EXCEL</button>
 			</div>
@@ -42,13 +32,10 @@
 						<th class="head0">订单号</th>
 						<th class="head1">用户姓名</th>
 						<th class="head0">手机号码</th>
-						<th class="head1">商品名称</th>
-						<th class="head0">价格</th>
-						<th class="head1">首付金额</th>
-						<th class="head0">订单金额</th>
+						<th class="head1">商家</th>
+						<th class="head0">消费金额</th>
 						<th class="head1">分期数</th>
-						<th class="head0">订单状态</th>
-						<th class="head1">消费时间</th>
+						<th class="head0">消费时间</th>
 					</tr>
 				</thead>
 				<tbody>

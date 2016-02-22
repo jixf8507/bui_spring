@@ -47,11 +47,7 @@
 					<label>价格</label> <span class="field">
 						${userOrder.price}&nbsp;&nbsp; </span>
 				</p>
-				<p>
-					<label>商家</label> <span class="field">
-						${userOrder.merchantName}&nbsp;&nbsp; </span>
-				</p>
-				
+
 			</form>
 		</div>
 		<div id="order" class="subcontent" style="display: none;">

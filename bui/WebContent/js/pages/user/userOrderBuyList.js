@@ -47,7 +47,6 @@ var userTable = new PageDataTables(
 							+ $('#name').val() + '%',
 					"goodsName" : $('#goodsName').val() == '' ? '' : '%'
 							+ $('#goodsName').val() + '%',
-					"type" : $('#type').val(),
 					"buyStatus" : 2
 				};
 			}

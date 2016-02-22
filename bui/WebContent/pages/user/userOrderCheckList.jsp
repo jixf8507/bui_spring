@@ -24,27 +24,20 @@
 			<br clear="all" />
 			<table cellpadding="0" cellspacing="0" border="0" class="stdtable"
 				id="userTable">
-				<colgroup>
-					<col class="con1" width="20px" />
-					<col class="con0" />
-					<col class="con1" />
-				</colgroup>
 				<thead>
 					<tr>
 						<th class="head1" width="30px"><input type="checkbox"
 							style="width: 20px;" name="checkAll" value="" id="checkAll" /></th>
-						<th class="head1">订单号</th>
-						<th class="head0">用户姓名</th>
-						<th class="head1">手机号码</th>
-						<th class="head0">商品名称</th>
-						<th class="head1">价格</th>
-						<th class="head0">商家</th>
+						<th class="head0">订单号</th>
+						<th class="head1">用户姓名</th>
+						<th class="head0">手机号码</th>
+						<th class="head1">商品名称</th>
+						<th class="head0">价格</th>
 						<th class="head1">首付金额</th>
 						<th class="head0">订单金额</th>
 						<th class="head1">分期数</th>
 						<th class="head0">订单状态</th>
-						<th class="head1">类型</th>
-						<th class="head0">消费时间</th>
+						<th class="head1">消费时间</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -5,13 +5,12 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<!-- 查找操作订单时审核图片的SQL -->
-	<bean id="user_order_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+	<bean id="merchant_order_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
 		<property name="select">
 			<value><![CDATA[
-      		select o.id,o.createTime,o.sfMoney,o.aging,o.`status`,o.type,u.`name` as userName,
-      		u.mobilePhone,g.`name` as goodsName,g.price,o.price as orderPrice
- 			from user_order o,`user` u,dmh_goods g 
-			 where o.userId=u.id and o.goodsId=g.id 
+      		select o.*,u.`name` as userName,u.mobilePhone,m.`name` as merchantName,m.`code` 
+      		from merchant_order o,`user` u,merchant m 
+      		where o.userId=u.id and o.merchantId=m.id
 		 ]]></value>
 		</property>
 		<property name="conditions">
@@ -21,24 +20,21 @@
 					<property name="value" value="and u.`name` like ? " />
 				</bean>
 				<bean class="com.jxf.common.sql.Condition">
-					<property name="key" value="goodsName" />
-					<property name="value" value="and g.`name` like ? " />
+					<property name="key" value="merchantName" />
+					<property name="value" value="and m.`name` like ? " />
 				</bean>
 				<bean class="com.jxf.common.sql.Condition">
 					<property name="key" value="mobilePhone" />
 					<property name="value" value="and u.`mobilePhone` like ? " />
 				</bean>
 				<bean class="com.jxf.common.sql.Condition">
-					<property name="key" value="status" />
-					<property name="value" value="and o.status  = ? " />
+					<property name="key" value="merchantId" />
+					<property name="value" value="and o.merchantId  = ? " />
 				</bean>
-				<bean class="com.jxf.common.sql.Condition">
-					<property name="key" value="buyStatus" />
-					<property name="value" value="and o.status  in (?,4,5,6) " />
-				</bean>
+
 			</list>
 		</property>
-		<property name="order" value="ORDER BY u.id desc " />
+		<property name="order" value="ORDER BY o.id desc " />
 	</bean>
 
 </beans>

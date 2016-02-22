@@ -136,11 +136,9 @@ public class UserOrder implements UserAgingOrder {
 	}
 
 	private static final String getSQL() {
-		return "select o.*,u.`name` as userName,u.mobilePhone,u.idCard,g.`name` as goodName,"
-				+ "g.img,g.price,g.merchantName"
+		return "select o.*,u.`name` as userName,u.mobilePhone,u.idCard,g.`name` as goodName,g.img,g.price"
 				+ " from user_order o LEFT JOIN `user` u on o.userId=u.id "
-				+ "LEFT JOIN vs_goods g on o.goodsId=g.id and g.type=o.type "
-				+ "where o.id=? ";
+				+ "LEFT JOIN dmh_goods g on o.goodsId=g.id where o.id=? ";
 	}
 
 	public static boolean batchUpdateStatus(final int status,
@@ -175,6 +173,25 @@ public class UserOrder implements UserAgingOrder {
 	@Override
 	public BigDecimal getCost() {
 		return this.price.subtract(this.sfMoney);
+	}
+
+	public static final String getStatus(String value) {
+		switch (value) {
+		case "1":
+			return "审核中";
+		case "2":
+			return "已通过";
+		case "3":
+			return "未通过";
+		case "4":
+			return "购买中";
+		case "5":
+			return "已配送";
+		case "6":
+			return "已收货";
+		default:
+			return "其它";
+		}
 	}
 
 }

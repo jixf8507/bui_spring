@@ -45,9 +45,7 @@ public class UserOrderController extends BaseController {
 	}
 
 	@RequestMapping("buyList")
-	public String buyList(Model model, HttpServletRequest request) {
-		model.addAttribute("type",
-				StringTools.decodeMethod(request.getParameter("type")));
+	public String buyList() {
 		return "user/userOrderBuyList";
 	}
 

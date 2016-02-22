@@ -21,7 +21,6 @@ import com.jxf.car.dao.customer.UserBillDetailDao;
 import com.jxf.car.dao.customer.UserMonthBillDao;
 import com.jxf.car.dao.system.SysSettingDao;
 import com.jxf.car.export.user.UserMonthBillExport;
-import com.jxf.car.model.UserAccount;
 import com.jxf.car.model.UserMonthBill;
 import com.jxf.car.service.BaseService;
 import com.jxf.common.base.PageResults;
@@ -71,73 +70,18 @@ public class UserMonthBillService extends BaseService {
 				.findLastMonthBill();
 		BigDecimal dayInterest = settingDao.findSysDayInterest();
 		List<UserMonthBill> userBills = new ArrayList<>();
-		List<UserAccount> accounts = new ArrayList<>();
+		Map<String, BigDecimal> dayPaidMap = new HashMap<>();
 		for (Map<String, Object> billMap : lastMonthBill) {
-			UserAccount account = new UserAccount();
 			UserMonthBill bill = UserMonthBill.createUserBill(billMap);
-
-			if (bill.getPaid().compareTo(bill.getCapital()) < 0) {
-				account.setCurUsableLimit(bill.getPaid());
-				bill.setCapital(bill.getCapital().subtract(bill.getPaid()));
-			} else if (bill.getPaid().compareTo(bill.getAllRepaymentCost()) < 0) {
-				account.setCurUsableLimit(bill.getCapital());
-				bill.setCapital(new BigDecimal(0));
-			} else {
-				account.setCurUsableLimit(bill.getPaid().add(bill.getCapital())
-						.subtract(bill.getAllRepaymentCost()));
-				bill.setCapital(new BigDecimal(0));
-			}
-
-			if (bill.getPaid().compareTo(bill.getLastBalance()) <= 0) {
-				bill.setLastBalance(bill.getLastBalance().subtract(
-						bill.getPaid()));
-				bill.setLastLnterest(bill.getLastLnterest().add(
-						bill.getLastBalance().multiply(dayInterest)));
-			} else if (bill.getPaid().compareTo(
-					bill.getLastBalance().add(bill.getCurBalance())) <= 0) {
-				bill.setCurBalance(bill.getCurBalance()
-						.add(bill.getLastBalance()).subtract(bill.getPaid()));
-				bill.setLastBalance(new BigDecimal(0));
-			} else if (bill.getPaid().compareTo(
-					bill.getLastBalance().add(bill.getCurBalance())
-							.add(bill.getLastLnterest())) <= 0) {
-				bill.setLastLnterest(bill.getLastBalance()
-						.add(bill.getCurBalance()).add(bill.getLastLnterest())
-						.subtract(bill.getPaid()));
-				bill.setLastBalance(new BigDecimal(0));
-				bill.setCurBalance(new BigDecimal(0));
-			} else if (bill.getPaid().compareTo(
-					bill.getLastBalance().add(bill.getCurBalance())
-							.add(bill.getLastLnterest())
-							.add(bill.getCurLnterest())) < 0) {
-				bill.setCurLnterest(bill.getLastBalance()
-						.add(bill.getCurBalance()).add(bill.getLastLnterest())
-						.add(bill.getCurLnterest()).subtract(bill.getPaid()));
-				bill.setLastBalance(new BigDecimal(0));
-				bill.setCurBalance(new BigDecimal(0));
-				bill.setLastLnterest(new BigDecimal(0));
-			} else {
-				bill.setLastBalance(new BigDecimal(0));
-				bill.setCurBalance(new BigDecimal(0));
-				bill.setLastLnterest(new BigDecimal(0));
-				bill.setCurLnterest(new BigDecimal(0));
-				bill.setStatus(1);
-			}
-
-			if (bill.isBeyondRepaymentDate()) {
-				bill.setCurLnterest(bill.getCurLnterest().add(
-						bill.getCurBalance().multiply(dayInterest)));
-			}
-			bill.setPaid(new BigDecimal(0));
-
-			account.setUserId(bill.getUserId());
-			accounts.add(account);
-
+			dayPaidMap.put(bill.getUserId() + "", bill.getPaidCapital());
+			bill.repaymentAndInterest(dayInterest);
 			userBills.add(bill);
 		}
-
-		accountDao.batchCurWhiteBarLimit(accounts);
+		// 还款成功后更新用户可用余额和提现金额
+		accountDao.batchCurWhiteBarLimit(dayPaidMap);
+		// 当提现金额超出可提现额度时修改当前可提现的额度
 		accountDao.curWhiteBarLimitAllUpdate();
+		// 批量更新还款账单
 		userMonthBillDao.batchUpdateUserMonthBill(userBills);
 	}
 

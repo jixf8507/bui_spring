@@ -29,10 +29,7 @@ var UserOrder = {
 				"sClass" : "center"
 			}, {
 				"mDataProp" : "price",
-				"sClass" : "center"
-			}, {
-				"mDataProp" : "merchantName",
-				"sClass" : "center"
+				"sClass" : "center"			
 			}, {
 				"mDataProp" : "sfMoney",
 				"sClass" : "center"
@@ -69,23 +66,7 @@ var UserOrder = {
 						break;
 					}
 				},
-				"sClass" : "center"
-			}, {
-				"fnRender" : function(obj) {
-					var accountStatus = obj.aData['type'];
-					switch (accountStatus) {
-					case '1':
-						return "大马花消费";
-						break;
-					case '2':
-						return "商家消费";
-						break;
-					default:
-						return "其它";
-						break;
-					}
-				},
-				"sClass" : "center"
+				"sClass" : "center"			
 			}, {
 				"mDataProp" : "createTime",
 				"sClass" : "center"

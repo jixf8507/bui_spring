@@ -1,4 +1,4 @@
-package com.jxf.car.export.user;
+package com.jxf.car.export.mechant;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -8,14 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import jxl.write.Label;
 
-import com.jxf.car.model.UserOrder;
 import com.jxf.common.base.BaseExport;
 
-public class UserOrderExport extends BaseExport {
+public class MerchantOrderExport extends BaseExport {
 
 	public static void createExcel(HttpServletResponse response,
 			List<Map<String, Object>> list) throws Exception {
-		BaseExport be = new UserOrderExport();
+		BaseExport be = new MerchantOrderExport();
 		be.toExcel(response, list);
 	}
 
@@ -29,10 +28,8 @@ public class UserOrderExport extends BaseExport {
 		wsheet.setColumnView(column++, 20);
 		wsheet.setColumnView(column++, 20);
 		wsheet.setColumnView(column++, 20);
-		wsheet.setColumnView(column++, 20);
-		wsheet.setColumnView(column++, 20);
 		wsheet.mergeCells(0, 0, --column, 0);
-		Label label = new Label(0, 0, "大马花消费信息列表", wffBold);
+		Label label = new Label(0, 0, "商家消费信息列表", wffBold);
 		wsheet.addCell(label);
 	}
 
@@ -43,11 +40,9 @@ public class UserOrderExport extends BaseExport {
 		wsheet.addCell(new Label(column++, 1, "订单号", wctB));
 		wsheet.addCell(new Label(column++, 1, "用户姓名", wctB));
 		wsheet.addCell(new Label(column++, 1, "手机号码", wctB));
-		wsheet.addCell(new Label(column++, 1, "商品名称", wctB));
-		wsheet.addCell(new Label(column++, 1, "价格", wctB));
-		wsheet.addCell(new Label(column++, 1, "首付金额", wctB));
+		wsheet.addCell(new Label(column++, 1, "商家", wctB));
+		wsheet.addCell(new Label(column++, 1, "费用", wctB));
 		wsheet.addCell(new Label(column++, 1, "分期数", wctB));
-		wsheet.addCell(new Label(column++, 1, "状态", wctB));
 		wsheet.addCell(new Label(column++, 1, "消费时间", wctB));
 	}
 
@@ -65,15 +60,11 @@ public class UserOrderExport extends BaseExport {
 				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("mobilePhone")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("goodsName")), wcsB));
+						.get("merchantName")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("price")), wcsB));
-				wsheet.addCell(new Label(column++, i + 2, toString(map
-						.get("sfMoney")), wcsB));
+						.get("cose")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("aging")), wcsB));
-				wsheet.addCell(new Label(column++, i + 2, UserOrder
-						.getStatus(toString(map.get("status"))), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("createTime")), wcsB));
 			}
@@ -83,7 +74,7 @@ public class UserOrderExport extends BaseExport {
 
 	@Override
 	protected String fileName() {
-		String filename = "大马花消费信息列表.xls";
+		String filename = "商家消费信息列表.xls";
 		try {
 			filename = new String(filename.getBytes("gb2312"), "ISO-8859-1");
 		} catch (UnsupportedEncodingException e) {

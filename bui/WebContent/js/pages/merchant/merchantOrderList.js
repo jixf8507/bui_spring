@@ -3,7 +3,6 @@
  */
 
 jQuery(document).ready(function() {
-	$('#status').chosen();
 
 	userTable.reloadData();
 
@@ -17,7 +16,7 @@ jQuery(document).ready(function() {
 	});
 
 	$('#checkAll').click(function() {
-		UserOrder.selectAll($(this));
+		MerchantOrder.selectAll($(this));
 	});
 });
 
@@ -25,15 +24,15 @@ jQuery(document).ready(function() {
 var userTable = new PageDataTables(
 		{
 			tableId : 'userTable',
-			ajaxUrl : UserOrder.pageUrl,
-			exportUrl : UserOrder.exportUrl,
-			aoColumns : UserOrder.tableColumns,
+			ajaxUrl : MerchantOrder.pageUrl,
+			exportUrl : MerchantOrder.exportUrl,
+			aoColumns : MerchantOrder.tableColumns,
 			addButton : [ {
 				value : "查看详情",
-				onclick : 'UserOrder.detailUser()'
+				onclick : 'MerchantOrder.detailUser()'
 			}, {
 				value : "查看分期还款账单明细",
-				onclick : 'UserOrder.billDetail()'
+				onclick : 'MerchantOrder.billDetail()'
 			} ],
 			beforeload : function() {
 				this.paraData = {
@@ -41,9 +40,8 @@ var userTable = new PageDataTables(
 							+ $('#mobilePhone').val() + '%',
 					"name" : $('#name').val() == '' ? '' : '%'
 							+ $('#name').val() + '%',
-					"goodsName" : $('#goodsName').val() == '' ? '' : '%'
-							+ $('#goodsName').val() + '%',					
-					"status" : $('#status').val()
+					"merchantName" : $('#merchantName').val() == '' ? '' : '%'
+							+ $('#merchantName').val() + '%'
 				};
 			}
 		});

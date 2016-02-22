@@ -90,6 +90,8 @@ public class UserAccountService extends BaseService {
 					account.getUsableLimit()));
 			userAccount.setWhiteBarLimit(userAccount.getWhiteBarLimit()
 					.subtract(account.getWhiteBarLimit()));
+			userAccount.setRepaymentDate(account.getRepaymentDate());
+			userAccount.setStatementDate(account.getStatementDate());
 			accountDao.update(userAccount);
 			return MSG.createSuccessMSG();
 		} catch (Exception e) {

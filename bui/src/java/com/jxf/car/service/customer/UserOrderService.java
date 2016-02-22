@@ -92,6 +92,9 @@ public class UserOrderService extends BaseService {
 		case 2:
 			UserOrder uo = userOrderDao.getUserOrder(userOrder.getId());
 			UserAccount ua = accountDao.getByUserId(uo.getUserId());
+			if (ua.getStatus() != 1 || ua.getStatus() != 2) {
+				return MSG.createErrorMSG(1, "该用户账户状态不可分期");
+			}
 			if (ua.getCurUsableLimit().compareTo(uo.getCost()) < 0) {
 				return MSG.createErrorMSG(1, "用户账户余额不足");
 			}

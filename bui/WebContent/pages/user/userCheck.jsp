@@ -66,7 +66,36 @@
 				style="width: 200px;" />&nbsp;&nbsp;
 			</span>
 		</p>
-
+		<p>
+			<label>账单日</label> <span class="field"> <select
+				id="statementDate" name="statementDate" class="chzn-select"
+				style="width: 200px;" tabindex="2">
+					<c:forEach var="i" begin="1" end="28" step="1">
+						<c:if test="${i<10}">
+							<option value="0${i}">0${i}</option>
+						</c:if>
+						<c:if test="${i>=10}">
+							<option value="${i}">${i}</option>
+						</c:if>
+					</c:forEach>
+			</select>&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
+			<label>还款日</label> <span class="field"> <select
+				id="repaymentDate" name="repaymentDate" class="chzn-select"
+				style="width: 200px;" tabindex="2">
+					<c:forEach var="i" begin="1" end="28" step="1">
+						<c:if test="${i<10}">
+							<option value="0${i}">0${i}</option>
+						</c:if>
+						<c:if test="${i>=10}">
+							<option value="${i}">${i}</option>
+						</c:if>
+					</c:forEach>
+			</select>&nbsp;&nbsp;
+			</span>
+		</p>
 	</form>
 
 </body>

@@ -46,6 +46,7 @@ public class UserAccount extends BasePO {
 		ua.balance = rs.getBigDecimal("balance");
 		ua.statementDate = rs.getString("statementDate");
 		ua.repaymentDate = rs.getString("repaymentDate");
+		ua.status = rs.getInt("status");
 		return ua;
 	}
 
@@ -141,7 +142,9 @@ public class UserAccount extends BasePO {
 
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(getUpdateSQL(),
-				this.usableLimit,this.usableLimit, this.whiteBarLimit,this.whiteBarLimit, this.status, this.id);
+				this.usableLimit, this.usableLimit, this.whiteBarLimit,
+				this.whiteBarLimit, this.status, statementDate, repaymentDate,
+				this.id);
 	}
 
 	public Integer create(BaseDao baseDao) {
@@ -158,6 +161,8 @@ public class UserAccount extends BasePO {
 				ps.setBigDecimal(i++, usableLimit);
 				ps.setBigDecimal(i++, whiteBarLimit);
 				ps.setBigDecimal(i++, whiteBarLimit);
+				ps.setString(i++, statementDate);
+				ps.setString(i++, repaymentDate);
 				return ps;
 			}
 		}, keyHolder);
@@ -237,11 +242,11 @@ public class UserAccount extends BasePO {
 	}
 
 	private static final String getInsertSQL() {
-		return "insert into user_account (userId,usableLimit,curUsableLimit,whiteBarLimit,curWhiteBarLimit,statementDate,repaymentDate,`status`) values (?,?,?,?,?,now(),now(),1)";
+		return "insert into user_account (userId,usableLimit,curUsableLimit,whiteBarLimit,curWhiteBarLimit,statementDate,repaymentDate,`status`) values (?,?,?,?,?,?,?,1)";
 	}
 
 	private static final String getUpdateSQL() {
-		return "update user_account set usableLimit=usableLimit+?,curUsableLimit=curUsableLimit+?,whiteBarLimit=whiteBarLimit+?,curWhiteBarLimit=curWhiteBarLimit+?,status=? where id=?";
+		return "update user_account set usableLimit=usableLimit+?,curUsableLimit=curUsableLimit+?,whiteBarLimit=whiteBarLimit+?,curWhiteBarLimit=curWhiteBarLimit+?,status=?,statementDate=?,repaymentDate=? where id=?";
 	}
 
 	public static final String GET_BY_USER_ID_SQL = "select * from user_account where userId=?";

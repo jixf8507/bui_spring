@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function() {
-	$('#status').chosen();
+	$('#status,#statementDate,#repaymentDate').chosen();
 	// 员工表单验证
 	User.validate($("#form1"));
 

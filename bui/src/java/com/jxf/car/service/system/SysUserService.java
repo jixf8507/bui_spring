@@ -59,6 +59,9 @@ public class SysUserService extends BaseService {
 	}
 
 	public MSG createUser(SysUser sysUser) {
+		if (sysUserDAO.findByCode(sysUser.getCode()) != null) {
+			return MSG.createErrorMSG(1, "用户登录号已经存在！");
+		}
 		if (sysUserDAO.create(sysUser) == null) {
 			return MSG.createErrorMSG(1, "保存员工信息失败！");
 		}
@@ -66,6 +69,10 @@ public class SysUserService extends BaseService {
 	}
 
 	public MSG updateUser(SysUser sysUser) {
+		SysUser user = sysUserDAO.findByCode(sysUser.getCode());
+		if (user != null && user.getId() != sysUser.getId()) {
+			return MSG.createErrorMSG(1, "用户登录号已经存在！");
+		}
 		if (sysUserDAO.update(sysUser)) {
 			return MSG.createSuccessMSG();
 		}

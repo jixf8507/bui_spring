@@ -47,6 +47,9 @@ public class MerchantService extends BaseService {
 
 	public MSG createMerchant(Merchant merchant) {
 		try {
+			if (merchantDao.getMerchantMap(merchant.getCode()) != null) {
+				return MSG.createErrorMSG(1, "商家登录号已经存在");
+			}
 			merchantDao.create(merchant);
 			return MSG.createSuccessMSG();
 		} catch (Exception e) {
@@ -57,6 +60,11 @@ public class MerchantService extends BaseService {
 
 	public MSG updateMerchant(Merchant merchant) {
 		try {
+			Merchant merchantMap = merchantDao.getMerchantMap(merchant
+					.getCode());
+			if (merchantMap != null && merchantMap.getId() != merchant.getId()) {
+				return MSG.createErrorMSG(1, "商家登录号已经存在");
+			}
 			merchantDao.update(merchant);
 			return MSG.createSuccessMSG();
 		} catch (Exception e) {

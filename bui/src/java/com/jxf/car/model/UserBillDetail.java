@@ -22,10 +22,10 @@ public class UserBillDetail {
 		Calendar current = Calendar.getInstance();
 		List<UserBillDetail> list = new ArrayList<>();
 		BigDecimal billCapital = uo.getCost().divide(
-				new BigDecimal(uo.getAging()), 5, BigDecimal.ROUND_UP);
+				new BigDecimal(uo.getAging()), 2, BigDecimal.ROUND_UP);
 		BigDecimal totleInterest = uo.getCost().multiply(interest);
 		BigDecimal billInterest = totleInterest.divide(
-				new BigDecimal(uo.getAging()), 5, BigDecimal.ROUND_UP);
+				new BigDecimal(uo.getAging()), 2, BigDecimal.ROUND_UP);
 
 		BigDecimal tempCapital = new BigDecimal(0);
 		BigDecimal tempInterest = new BigDecimal(0);

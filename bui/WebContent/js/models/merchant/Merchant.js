@@ -27,6 +27,9 @@ var Merchant = {
 				},
 				"sClass" : "center"
 			}, {
+				"mDataProp" : "code",
+				"sClass" : "center"
+			}, {
 				"mDataProp" : "name",
 				"sClass" : "center"
 			}, {

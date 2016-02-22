@@ -7,36 +7,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <script type="text/javascript"
-	src="${ctx}/js/models/merchant/Merchant.js"></script>
+	src="${ctx}/js/models/merchant/MerchantAccountRecord.js"></script>
 <script type="text/javascript"
-	src="${ctx}/js/pages/merchant/merchantList.js"></script>
+	src="${ctx}/js/pages/merchant/merchantAccountRecordList.js"></script>
 <body>
 
 	<div id="contentwrapper" class="contentwrapper">
 		<div id="list" class="subcontent">
 			<div class="overviewhead">
-				商户名称: &nbsp;<input type="text" id="name" /> &nbsp; 负责人: &nbsp;<input
-					type="text" id="corporation" /> &nbsp;
+				<div class="overviewselect"></div>
+				商户名称: &nbsp;<input type="text" id="name" /> &nbsp; 登录号: &nbsp;<input
+					type="text" id="code" /> &nbsp;
 				<button class="publishbutton radius3" id="queryBtn">查询</button>
 				<button class="publishbutton radius3" id="excelBtn">导出EXCEL</button>
 			</div>
 			<br clear="all" />
 			<table cellpadding="0" cellspacing="0" border="0" class="stdtable"
-				id="userTable">				
+				id="userTable">
 				<thead>
 					<tr>
-						<th class="head0" width="30px"><input type="checkbox"
+						<th class="head1" width="30px"><input type="checkbox"
 							style="width: 20px;" name="checkAll" value="" id="checkAll" /></th>
-						<th class="head1">ID</th>
-						<th class="head0">图片</th>
-						<th class="head1">登录号</th>
-						<th class="head0">商户名称</th>
-						<th class="head1">地址</th>
+						<th class="head0">登录号</th>
+						<th class="head1">商户名称</th>
 						<th class="head0">负责人</th>
-						<th class="head1">联系电话</th>
-						<th class="head0">账户金额</th>
-						<th class="head1">冻结金额</th>
-						<th class="head0">状态</th>
+						<th class="head1">交易金额</th>
+						<th class="head0">交易类型</th>
+						<th class="head1">交易时间</th>
 					</tr>
 				</thead>
 				<tbody>

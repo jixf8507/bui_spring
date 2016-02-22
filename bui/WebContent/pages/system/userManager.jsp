@@ -41,7 +41,7 @@
 					<tr>
 						<th class="head1" width="30px"><input type="checkbox"
 							style="width: 20px;" id="checkAll" value="" /></th>
-						<th class="head0">登录邮箱</th>
+						<th class="head0">登录号</th>
 						<th class="head1">姓名</th>
 						<th class="head0">手机号码</th>
 						<th class="head1">角色</th>

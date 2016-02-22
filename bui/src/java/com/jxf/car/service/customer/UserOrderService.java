@@ -65,6 +65,10 @@ public class UserOrderService extends BaseService {
 
 	@Transactional
 	public MSG submitCheckOrder(UserOrder userOrder) {
+		UserOrder order = userOrderDao.getUserOrder(userOrder.getId());
+		if (order != null && order.getStatus() != 1) {
+			return MSG.createErrorMSG(1, "该订单已经被审核，不能重复审核！");
+		}
 		MSG msg = createUserBill(userOrder);
 		if (msg.isSuccess()) {
 			if (userOrderDao.submitCheckOrder(userOrder)) {

@@ -22,6 +22,7 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		String url = request.getRequestURI();
+		String queryString = request.getQueryString();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		System.out.println("=========================>>请求 url " + url);
@@ -33,7 +34,7 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 
 		if (obj == null) {
 			String loginUrl = request.getContextPath() + "/index.html';";
-			if (url.indexOf("sj/") != -1) {
+			if (url.indexOf("sj/") != -1||queryString.indexOf("systemName=merchant") != -1) {
 				loginUrl = request.getContextPath() + "/merchant.html';";
 			}
 			gotoPage(response, loginUrl);

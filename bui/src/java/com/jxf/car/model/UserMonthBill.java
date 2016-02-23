@@ -166,43 +166,42 @@ public class UserMonthBill {
 	 *            每天利息
 	 */
 	public void repaymentAndInterest(BigDecimal dayInterest) {
-		if (getPaid().compareTo(getLastBalance()) <= 0) {
-			setLastBalance(getLastBalance().subtract(getPaid()));
-			setLastLnterest(getLastLnterest().add(
-					getLastBalance().multiply(dayInterest)));
-		} else if (getPaid().compareTo(getLastBalance().add(getCurBalance())) <= 0) {
-			setCurBalance(getCurBalance().add(getLastBalance()).subtract(
-					getPaid()));
-			setLastBalance(new BigDecimal(0));
-		} else if (getPaid().compareTo(
-				getLastBalance().add(getCurBalance()).add(getLastLnterest())) <= 0) {
-			setLastLnterest(getLastBalance().add(getCurBalance())
-					.add(getLastLnterest()).subtract(getPaid()));
-			setLastBalance(new BigDecimal(0));
-			setCurBalance(new BigDecimal(0));
-		} else if (getPaid().compareTo(
-				getLastBalance().add(getCurBalance()).add(getLastLnterest())
-						.add(getCurLnterest())) < 0) {
-			setCurLnterest(getLastBalance().add(getCurBalance())
-					.add(getLastLnterest()).add(getCurLnterest())
-					.subtract(getPaid()));
-			setLastBalance(new BigDecimal(0));
-			setCurBalance(new BigDecimal(0));
-			setLastLnterest(new BigDecimal(0));
+		if (this.paid.compareTo(this.lastBalance) <= 0) {
+			this.lastBalance = this.lastBalance.subtract(this.paid);
+			this.lastLnterest = this.lastLnterest.add(this.lastBalance
+					.multiply(dayInterest));
+		} else if (this.paid.compareTo(this.lastBalance.add(this.curBalance)) <= 0) {
+			this.curBalance = this.curBalance.add(this.lastBalance).subtract(
+					this.paid);
+			this.lastBalance = new BigDecimal(0);
+		} else if (this.paid.compareTo(this.lastBalance.add(this.curBalance)
+				.add(this.lastLnterest)) <= 0) {
+			this.lastLnterest = this.lastBalance.add(this.curBalance)
+					.add(this.lastLnterest).subtract(this.paid);
+			this.lastBalance = new BigDecimal(0);
+			this.curBalance = new BigDecimal(0);
+		} else if (this.paid.compareTo(this.lastBalance.add(this.curBalance)
+				.add(this.lastLnterest).add(this.curLnterest)) < 0) {
+			this.curLnterest = this.lastBalance.add(this.curBalance)
+					.add(this.lastLnterest).add(this.curLnterest)
+					.subtract(this.paid);
+			this.lastBalance = new BigDecimal(0);
+			this.curBalance = new BigDecimal(0);
+			this.lastLnterest = new BigDecimal(0);
 		} else {
-			setLastBalance(new BigDecimal(0));
-			setCurBalance(new BigDecimal(0));
-			setLastLnterest(new BigDecimal(0));
-			setCurLnterest(new BigDecimal(0));
-			setStatus(1);
+			this.lastBalance = new BigDecimal(0);
+			this.curBalance = new BigDecimal(0);
+			this.lastLnterest = new BigDecimal(0);
+			this.curLnterest = new BigDecimal(0);
+			this.status = 1;
 		}
 
 		// 未按期还款
 		if (isBeyondRepaymentDate()) {
-			setCurLnterest(getCurLnterest().add(
-					getCurBalance().multiply(dayInterest)));
+			this.curLnterest = this.curLnterest.add(this.curBalance
+					.multiply(dayInterest));
 		}
-		setPaid(new BigDecimal(0));
+		this.paid = new BigDecimal(0);
 	}
 
 	/**
@@ -211,7 +210,7 @@ public class UserMonthBill {
 	 * @return
 	 */
 	public boolean isBeyondRepaymentDate() {
-		return getCurBalance().compareTo(new BigDecimal(0)) > 0
+		return this.curBalance.compareTo(new BigDecimal(0)) > 0
 				&& new Timestamp(System.currentTimeMillis()).getTime() > getRepaymentDate()
 						.getTime();
 	}

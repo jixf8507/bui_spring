@@ -1,6 +1,5 @@
 package com.jxf.car.controller.customer;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +19,6 @@ import com.jxf.car.web.MSG;
 import com.jxf.common.base.PageHelp;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.tools.JSONTools;
-import com.jxf.common.tools.StringTools;
 
 /**
  * 

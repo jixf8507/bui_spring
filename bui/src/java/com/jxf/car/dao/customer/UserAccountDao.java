@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jxf.car.dao.BaseDao;
 import com.jxf.car.model.UserAccount;
+import com.jxf.car.model.UserAccountRecord;
 import com.jxf.common.base.PageResults;
 import com.jxf.common.sql.JSONSqlMapping;
 
@@ -36,8 +37,8 @@ public class UserAccountDao extends BaseDao {
 		return this.findListByJSONSqlMapping(userSelectSQL, jsonObject);
 	}
 
-	public boolean batchCurWhiteBarLimit(Map<String, BigDecimal> dayPaidMap) {
-		return UserAccount.batchCurWhiteBarLimit(dayPaidMap, this);
+	public boolean batchCurWhiteBarLimit(List<UserAccountRecord> repaidRecords) {
+		return UserAccount.batchCurWhiteBarLimit(repaidRecords, this);
 	}
 
 	public void curWhiteBarLimitAllUpdate() {

@@ -27,7 +27,7 @@ var Img = {
 			},
 			{
 				"fnRender" : function(obj) {
-					return '<input type="text" name="sort" id="sort_'+obj.aData['id']+'" width="10px;" value="'
+					return '<input type="text" name="sort" id="sort_'+obj.aData['id']+'" style="width:50px;" value="'
 							+ obj.aData['sort'] + '">';
 				},
 				"sClass" : "center"
@@ -92,7 +92,7 @@ var Img = {
 		$("input:[name=id]checkbox:checked").each(function(index) {
 			var id=$(this).val();
 			ids.push(id);
-			var sort=$('#sort_'+id).val();alert(sort);
+			var sort=$('#sort_'+id).val();
 			if(sort==''){
 				alert('排序项不能为空！');
 				return ;

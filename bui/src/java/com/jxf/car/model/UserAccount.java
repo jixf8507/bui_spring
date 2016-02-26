@@ -5,8 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -207,28 +207,26 @@ public class UserAccount extends BasePO {
 	}
 
 	public static boolean batchCurWhiteBarLimit(
-			final Map<String, BigDecimal> dayPaidMap, BaseDao baseDao) {
-		Set<String> set = dayPaidMap.keySet();
-		final Object[] ids = set.toArray();
+			final List<UserAccountRecord> repaidRecords, BaseDao baseDao) {
 		int[] count = baseDao.getJdbcTemplate().batchUpdate(
 				BATCH_ADD_CUR_USABLE_LIMIT_SQL,
 				new BatchPreparedStatementSetter() {
 					@Override
 					public void setValues(PreparedStatement ps, int i)
 							throws SQLException {
-						Object key = ids[i];
+						UserAccountRecord ar = repaidRecords.get(i);
 						int num = 1;
-						ps.setBigDecimal(num++, dayPaidMap.get(key));
-						ps.setBigDecimal(num++, dayPaidMap.get(key));
-						ps.setObject(num++, key);
+						ps.setBigDecimal(num++, ar.getMoney());
+						ps.setBigDecimal(num++, ar.getMoney());
+						ps.setObject(num++, ar.getUserId());
 					}
 
 					@Override
 					public int getBatchSize() {
-						return ids.length;
+						return repaidRecords.size();
 					}
 				});
-		return count.length == ids.length;
+		return count.length == repaidRecords.size();
 	}
 
 	public static String getStatus(String accountStatus) {

@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jxf.car.dao.customer.UserAccountDao;
+import com.jxf.car.dao.customer.UserAccountRecordDao;
 import com.jxf.car.dao.customer.UserBillDetailDao;
 import com.jxf.car.dao.customer.UserBorrowDao;
 import com.jxf.car.dao.system.SysSettingDao;
 import com.jxf.car.export.user.UserBorrowExport;
 import com.jxf.car.model.UserAccount;
+import com.jxf.car.model.UserAccountRecord;
 import com.jxf.car.model.UserBillDetail;
 import com.jxf.car.model.UserBorrow;
 import com.jxf.car.service.BaseService;
@@ -35,6 +37,8 @@ public class UserBorrowService extends BaseService {
 	private SysSettingDao settingDao;
 	@Autowired
 	private UserBillDetailDao billDetailDao;
+	@Autowired
+	private UserAccountRecordDao accountRecordDao;
 
 	public PageResults findUserBorrowPage(JSONObject jsonObject, int pageSize,
 			int iDisplayStart) {
@@ -81,10 +85,12 @@ public class UserBorrowService extends BaseService {
 				return MSG.createErrorMSG(1, "用户账户提现额度不足");
 			}
 			BigDecimal interest = settingDao.findSysInterest();
-			accountDao.addCurUsableLimit(
-					new BigDecimal(0).subtract(ub.getCost()), ua.getId());
+			UserAccountRecord accountRecord = UserAccountRecord
+					.createByUserBorrow(userBorrow);
 			List<UserBillDetail> userBillList = UserBillDetail
 					.createUserBillDetailByOrder(ub, interest);
+			accountRecordDao.create(accountRecord);
+			accountDao.addCurUsableLimit(accountRecord.getMoney(), ua.getId());
 			billDetailDao.batchCreateUserBillDetail(userBillList);
 			break;
 		case 3:

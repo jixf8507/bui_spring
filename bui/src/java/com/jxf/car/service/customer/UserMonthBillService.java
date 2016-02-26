@@ -17,10 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jxf.car.dao.customer.UserAccountDao;
+import com.jxf.car.dao.customer.UserAccountRecordDao;
 import com.jxf.car.dao.customer.UserBillDetailDao;
 import com.jxf.car.dao.customer.UserMonthBillDao;
 import com.jxf.car.dao.system.SysSettingDao;
 import com.jxf.car.export.user.UserMonthBillExport;
+import com.jxf.car.model.UserAccountRecord;
 import com.jxf.car.model.UserMonthBill;
 import com.jxf.car.service.BaseService;
 import com.jxf.common.base.PageResults;
@@ -42,6 +44,8 @@ public class UserMonthBillService extends BaseService {
 	private UserAccountDao accountDao;
 	@Autowired
 	private SysSettingDao settingDao;
+	@Autowired
+	private UserAccountRecordDao accountRecordDao;
 
 	public PageResults findUserMonthBillPage(JSONObject jsonObject,
 			int pageSize, int iDisplayStart) {
@@ -70,15 +74,18 @@ public class UserMonthBillService extends BaseService {
 				.findLastMonthBill();
 		BigDecimal dayInterest = settingDao.findSysDayInterest();
 		List<UserMonthBill> userBills = new ArrayList<>();
-		Map<String, BigDecimal> dayPaidMap = new HashMap<>();
+		// Map<String, BigDecimal> dayPaidMap = new HashMap<>();
+		List<UserAccountRecord> repaidRecords = new ArrayList<>();
 		for (Map<String, Object> billMap : lastMonthBill) {
 			UserMonthBill bill = UserMonthBill.createUserBill(billMap);
-			dayPaidMap.put(bill.getUserId() + "", bill.getPaidCapital());
+			repaidRecords.add(UserAccountRecord.createByUserMonthBill(bill));
 			bill.repaymentAndInterest(dayInterest);
 			userBills.add(bill);
 		}
 		// 还款成功后更新用户可用余额和提现金额
-		accountDao.batchCurWhiteBarLimit(dayPaidMap);
+		accountDao.batchCurWhiteBarLimit(repaidRecords);
+		// 批量创建账户还款明细
+		accountRecordDao.batchCreate(repaidRecords);
 		// 当提现金额超出可提现额度时修改当前可提现的额度
 		accountDao.curWhiteBarLimitAllUpdate();
 		// 当当前余额超出最大余额时修改可提现额度

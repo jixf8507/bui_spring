@@ -27,12 +27,13 @@
 		</p>
 		<p>
 			<label>商品图片</label> <span class="field"><input type="text"
-				name="img" id="img" class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
-				type="button" id="bt" value="上传图片" /></span>
+				name="img" id="img" class="longinput" readonly="readonly"
+				style="width: 200px;" />&nbsp;&nbsp;<input type="button" id="bt"
+				value="上传图片" /></span>
 		</p>
 
 		<p>
-			<label>类型</label> <span class="field"><select id="type" 
+			<label>类型</label> <span class="field"><select id="type"
 				name="type" class="chzn-select" style="width: 200px;" tabindex="2">
 					<option value="">请选择</option>
 					<option value="1">3c数码</option>

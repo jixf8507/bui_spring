@@ -17,7 +17,8 @@
 		<input type="hidden" name="id" value="${merchant.id}" />
 		<p>
 			<label>商家图片</label> <span class="field"><input type="text"
-				name="img" id="img" value="${merchant.img}" class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				readonly="readonly" name="img" id="img" value="${merchant.img}"
+				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
 				type="button" id="bt" value="上传图片" /></span>
 		</p>
 		<p>

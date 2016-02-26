@@ -30,10 +30,10 @@
 			</span>
 		</p>
 		<p>
-			<label>商品图片</label> <span class="field"><input type="text"
-				name="img" id="img" value="${merchantGoods.img}" class="longinput"
-				style="width: 200px;" />&nbsp;&nbsp;<input type="button" id="bt"
-				value="上传图片" /></span>
+			<label>商品图片</label> <span class="field"><input type="text" name="img"
+				id="img" value="${merchantGoods.img}" readonly="readonly"
+				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="bt" value="上传图片" /></span>
 		</p>
 
 		<p>

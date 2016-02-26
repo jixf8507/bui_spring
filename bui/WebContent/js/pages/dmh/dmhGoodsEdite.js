@@ -10,7 +10,7 @@ $(document).ready(function() {
 	DmhGoods.validate($("#form1"));
 
 	$('#bt').click(function() {
-		Upload.imageUpload("上传商品图片", getPic);
+		Upload.imageUpload("上传商品图片", getPic,'','','dmh');
 	});
 
 });

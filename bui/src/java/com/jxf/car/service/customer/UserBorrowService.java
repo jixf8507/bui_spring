@@ -86,7 +86,7 @@ public class UserBorrowService extends BaseService {
 			}
 			BigDecimal interest = settingDao.findSysInterest();
 			UserAccountRecord accountRecord = UserAccountRecord
-					.createByUserBorrow(userBorrow);
+					.createByUserBorrow(ub);
 			List<UserBillDetail> userBillList = UserBillDetail
 					.createUserBillDetailByOrder(ub, interest);
 			accountRecordDao.create(accountRecord);

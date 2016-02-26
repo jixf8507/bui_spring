@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -104,8 +105,10 @@ public class UploadController extends BaseController {
 	private String copyFile(MultipartFile file, String pathType,
 			HttpServletRequest request) {
 		ServletContext sc = request.getSession().getServletContext();
-		String filePath = "/upload/" + pathType + "/" + MyDateUtil.getCurDate()
-				+ "/";
+		if (StringUtils.isNotBlank(pathType)) {
+			pathType = pathType + "/";
+		}
+		String filePath = "/upload/" + pathType + MyDateUtil.getCurDate() + "/";
 		String dir = sc.getRealPath(filePath);
 		String fileName = file.getOriginalFilename();
 		String extendName = fileName.substring(fileName.lastIndexOf("."));
@@ -174,11 +177,10 @@ public class UploadController extends BaseController {
 		JSONArray jsonArray = JSONArray.fromObject(ids);
 		return uploadService.deledteFileUrl(jsonArray);
 	}
-	
-	
+
 	@RequestMapping("updateSort.htm")
 	@ResponseBody
-	public MSG updateSort(String ids,String sorts) throws Exception {
+	public MSG updateSort(String ids, String sorts) throws Exception {
 		JSONArray jsonArray = JSONArray.fromObject(ids);
 		JSONArray sortsArray = JSONArray.fromObject(sorts);
 		return uploadService.batchUpdateSorts(jsonArray, sortsArray);

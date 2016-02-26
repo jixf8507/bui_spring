@@ -22,14 +22,16 @@
 				<colgroup>
 					<col class="con1" width="20px" />
 					<col class="con0" />
-					<col class="con1" width="150px" />
+					<col class="con1" />
+					<col class="con0" width="150px" />
 				</colgroup>
 				<thead>
 					<tr>
 						<th class="head1" width="30px"><input type="checkbox"
 							style="width: 20px;" name="checkAll" value="" id="checkAll" /></th>
 						<th class="head0">图片</th>
-						<th class="head1">创建时间</th>
+						<th class="head1">排序</th>
+						<th class="head0">创建时间</th>
 					</tr>
 				</thead>
 				<tbody>

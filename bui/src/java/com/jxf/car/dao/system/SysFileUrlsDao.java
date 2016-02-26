@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Repository;
@@ -46,6 +47,10 @@ public class SysFileUrlsDao extends BaseDao {
 	 */
 	public boolean deleteSysFileUrl(Object id) {
 		return SysFileUrlsPO.delete(id, this) > 0;
+	}
+
+	public boolean batchUpdateSorts(final JSONArray ids, final JSONArray sorts) {
+		return SysFileUrlsPO.batchUpdateSorts(ids, sorts, this);
 	}
 
 }

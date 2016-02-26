@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import net.sf.json.JSONArray;
+
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -129,7 +132,30 @@ public class SysFileUrlsPO {
 		return baseDao.getJdbcTemplate().update(DELETE_SYS_FILE_URL_SQL, id);
 	}
 
+	public static boolean batchUpdateSorts(final JSONArray ids,
+			final JSONArray sorts, BaseDao baseDao) {
+		if (ids.size() != sorts.size()) {
+			return false;
+		}
+		int[] count = baseDao.getJdbcTemplate().batchUpdate(UPDATE_SORTS_SQL,
+				new BatchPreparedStatementSetter() {
+					@Override
+					public void setValues(PreparedStatement ps, int i)
+							throws SQLException {
+						ps.setObject(1, sorts.get(i));
+						ps.setObject(2, ids.get(i));
+					}
+
+					@Override
+					public int getBatchSize() {
+						return ids.size();
+					}
+				});
+		return count.length == ids.size();
+	}
+
 	private static final String INSERT_SQL = "insert into sys_file_urls (fileName,fileType,tableId,tableName,fileUrl,createdTime) values (?,?,?,?,?,?)";
 	private static final String GET_SQL = "select * from  sys_file_urls where id=?";
 	private static final String DELETE_SYS_FILE_URL_SQL = "delete from sys_file_urls where id=?";
+	private static final String UPDATE_SORTS_SQL = "update sys_file_urls set sort=? where id=?";
 }

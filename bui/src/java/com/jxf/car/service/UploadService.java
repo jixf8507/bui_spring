@@ -57,4 +57,12 @@ public class UploadService extends BaseService {
 		return MSG.createErrorMSG(1, "删除图片失败！");
 	}
 
+	@Transactional
+	public MSG batchUpdateSorts(JSONArray ids, JSONArray sorts) {
+		if (fileUrlsDao.batchUpdateSorts(ids, sorts)) {
+			return MSG.createSuccessMSG();
+		}
+		return MSG.createErrorMSG(1, "修改排序失败！");
+	}
+
 }

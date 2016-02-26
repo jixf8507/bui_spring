@@ -174,5 +174,14 @@ public class UploadController extends BaseController {
 		JSONArray jsonArray = JSONArray.fromObject(ids);
 		return uploadService.deledteFileUrl(jsonArray);
 	}
+	
+	
+	@RequestMapping("updateSort.htm")
+	@ResponseBody
+	public MSG updateSort(String ids,String sorts) throws Exception {
+		JSONArray jsonArray = JSONArray.fromObject(ids);
+		JSONArray sortsArray = JSONArray.fromObject(sorts);
+		return uploadService.batchUpdateSorts(jsonArray, sortsArray);
+	}
 
 }

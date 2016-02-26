@@ -27,19 +27,19 @@ public class UserBillDetail {
 		BigDecimal billInterest = totleInterest.divide(
 				new BigDecimal(uo.getAging()), 2, BigDecimal.ROUND_UP);
 
-		BigDecimal tempCapital = new BigDecimal(0);
-		BigDecimal tempInterest = new BigDecimal(0);
+//		BigDecimal tempCapital = new BigDecimal(0);
+//		BigDecimal tempInterest = new BigDecimal(0);
 		for (int i = 0; i < uo.getAging(); i++) {
-			if (i == uo.getAging() - 1) {
-				billCapital = uo.getCost().subtract(tempCapital);
-				billInterest = totleInterest.subtract(tempInterest);
-			}
+//			if (i == uo.getAging() - 1) {
+//				billCapital = uo.getCost().subtract(tempCapital);
+//				billInterest = totleInterest.subtract(tempInterest);
+//			}
 			UserBillDetail billDetail = createUserBillDetail(uo.getUserId(),
 					uo.getId(), uo.getOrderTable(), current, billCapital,
 					billInterest);
 			current.add(Calendar.MONTH, 1);
-			tempCapital = tempCapital.add(billCapital);
-			tempInterest = tempInterest.add(billInterest);
+//			tempCapital = tempCapital.add(billCapital);
+//			tempInterest = tempInterest.add(billInterest);
 			list.add(billDetail);
 		}
 		return list;

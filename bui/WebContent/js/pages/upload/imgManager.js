@@ -23,7 +23,9 @@ var userTable = new PageDataTables({
 	}, {
 		value : "删除",
 		onclick : 'Img.deleteUser()'
-
+	}, {
+		value : "保存排序",
+		onclick : 'Img.updateSort()'
 	} ],
 	beforeload : function() {
 		this.paraData = {

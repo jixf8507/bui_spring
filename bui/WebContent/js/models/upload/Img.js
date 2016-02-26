@@ -16,12 +16,19 @@ var Img = {
 			},
 			{
 				"fnRender" : function(obj) {
-					var img = contextPath  + obj.aData['fileUrl'];
+					var img = contextPath + obj.aData['fileUrl'];
 					return '<a href="'
 							+ img
 							+ '" target="_blank"><img src="'
 							+ img
 							+ '"  alt="商品图片" width="50px;" height="50px;" /></a>';
+				},
+				"sClass" : "center"
+			},
+			{
+				"fnRender" : function(obj) {
+					return '<input type="text" name="sort" id="sort_'+obj.aData['id']+'" width="10px;" value="'
+							+ obj.aData['sort'] + '">';
 				},
 				"sClass" : "center"
 			}, {
@@ -78,7 +85,48 @@ var Img = {
 			}
 		});
 	},
-
+	updateSort : function() {
+		var thiz = this;
+		var ids = [];
+		var sorts = [];
+		$("input:[name=id]checkbox:checked").each(function(index) {
+			var id=$(this).val();
+			ids.push(id);
+			var sort=$('#sort_'+id).val();alert(sort);
+			if(sort==''){
+				alert('排序项不能为空！');
+				return ;
+			}
+			sorts.push(sort);
+		});
+		if (ids.length == 0) {
+			alert('请先选择要操作的记录');
+			return;
+		}
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : contextPath + '/upload/updateSort.htm?',
+			data : {
+				'ids' : JSON.stringify(ids),
+				'sorts' : JSON.stringify(sorts),
+				},
+			async : false,
+			dataType : 'json',
+			error : function(request) {
+				Dialog.alert("提示：操作失败");
+			},
+			success : function(data) {
+				if (data.success) {
+					Dialog.alert("提示：操作成功", function() {
+						thiz.callBack();
+					});
+				} else {
+					Dialog.alert("提示：" + data.info);
+				}
+			}
+		});
+	},
 	callBack : function() {
 		location.reload();
 	},

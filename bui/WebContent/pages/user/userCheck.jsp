@@ -35,9 +35,15 @@
 		</p>
 		<p>
 			<label>身份证图片</label> <span class="field"><input type="text"
-				name="user.idCardImg" id="idCardImg" value="${user.idCardImg}"
+				name="user.idCardImg" id="idCardImg" value="${user.idCardImg}" readonly="readonly"
 				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
 				type="button" id="bt" value="上传图片" /></span>
+		</p>
+		<p>
+			<label>学生证图片</label> <span class="field"><input type="text"
+				name="user.studentIdCardImg" id="studentIdCardImg" value="${user.studentIdCardImg}"  readonly="readonly"
+				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="sbt" value="上传图片" /></span>
 		</p>
 		<p>
 			<label>审核状态</label> <span class="field"> <select id="status"

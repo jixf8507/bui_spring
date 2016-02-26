@@ -27,6 +27,12 @@
 			</span>
 		</p>
 		<p>
+			<label>学生证图片</label> <span class="field"> <img
+				src="${ctx}${userAccount.studentIdCardImg}" alt="" width="350px;" />
+				&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
 			<label>可用额度</label> <span class="field">${userAccount.usableLimit}&nbsp;&nbsp;</span>
 		</p>
 		<p>

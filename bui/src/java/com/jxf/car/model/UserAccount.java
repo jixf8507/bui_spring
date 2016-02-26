@@ -243,7 +243,7 @@ public class UserAccount extends BasePO {
 	}
 
 	private static final String getLoadSQL() {
-		return "select a.*,u.`name`,u.mobilePhone,u.idCard,u.idCardImg from user_account a INNER JOIN user u on a.userId=u.id where a.id=? ";
+		return "select a.*,u.`name`,u.mobilePhone,u.idCard,u.idCardImg,u.studentIdCardImg from user_account a INNER JOIN user u on a.userId=u.id where a.id=? ";
 	}
 
 	private static final String getInsertSQL() {

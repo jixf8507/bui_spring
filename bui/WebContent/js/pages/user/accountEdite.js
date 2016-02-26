@@ -10,6 +10,9 @@ $(document).ready(function() {
 	$('#bt').click(function() {
 		Upload.imageUpload("上传商品图片", getPic);
 	});
+	$('#sbt').click(function() {
+		Upload.imageUpload("上传商品图片", getStuPic);
+	});
 
 });
 
@@ -29,4 +32,8 @@ var submit = function(callBack) {
 
 var getPic = function(idArr, urlArr) {
 	$('#idCardImg').val(urlArr[0]);
+};
+
+var getStuPic = function(idArr, urlArr) {
+	$('#studentIdCardImg').val(urlArr[0]);
 };

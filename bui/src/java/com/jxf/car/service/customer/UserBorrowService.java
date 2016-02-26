@@ -74,6 +74,9 @@ public class UserBorrowService extends BaseService {
 		case 2:
 			UserBorrow ub = borrowDao.getUserBorrow(userBorrow.getId());
 			UserAccount ua = accountDao.getByUserId(ub.getUserId());
+			if (ua.getStatus() != 1) {
+				return MSG.createErrorMSG(1, "该用户账户状态不可提现");
+			}
 			if (ua.getCurWhiteBarLimit().compareTo(ub.getCost()) < 0) {
 				return MSG.createErrorMSG(1, "用户账户提现额度不足");
 			}

@@ -21,7 +21,11 @@
 	href="${ctx}/login/css/animate-custom.css" />
 </head>
 <script type="text/javascript">
-	var contextPath = '${ctx}';
+	var contextPath = '${ctx}';	
+	    if(window.parent.length>0){ 
+	        window.parent.location="${ctx}/index.html"; 
+	    }
+	
 </script>
 <script type="text/javascript"
 	src="${ctx}/assets/js/jquery-1.8.1.min.js"></script>

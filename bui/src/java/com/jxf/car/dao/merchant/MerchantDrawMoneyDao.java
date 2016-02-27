@@ -35,9 +35,17 @@ public class MerchantDrawMoneyDao extends BaseDao {
 	public Map<String, Object> getMerchantDrawMoneyMap(Integer id) {
 		return MerchantDrawMoney.get(id, this);
 	}
+	
+	public MerchantDrawMoney getMerchantDrawMoney(Integer id) {
+		return MerchantDrawMoney.getDrawMoney(id, this);
+	}
 
 	public Integer create(MerchantDrawMoney drawMoney) {
 		return drawMoney.create(this);
+	}
+	
+	public boolean updateForCheck(MerchantDrawMoney drawMoney) {
+		return drawMoney.updateForCheck(this)>0;
 	}
 
 }

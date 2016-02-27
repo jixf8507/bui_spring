@@ -3,6 +3,7 @@ package com.jxf.car.model;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.jxf.car.dao.BaseDao;
+import com.jxf.car.db.extractor.MerchantDrawMoneyExtractor;
 
 public class MerchantDrawMoney {
 
@@ -23,6 +25,20 @@ public class MerchantDrawMoney {
 	private Integer status;
 	private String checkMan;
 	private String checkRemarks;
+
+	public static MerchantDrawMoney create(ResultSet rs) throws SQLException {
+		MerchantDrawMoney drawMoney = new MerchantDrawMoney();
+		drawMoney.id = rs.getInt("id");
+		drawMoney.merchantId = rs.getInt("merchantId");
+		drawMoney.money = rs.getBigDecimal("money");
+		drawMoney.remarks = rs.getString("remarks");
+		drawMoney.bankName = rs.getString("bankName");
+		drawMoney.cardNumber = rs.getString("cardNumber");
+		drawMoney.checkMan = rs.getString("checkMan");
+		drawMoney.checkRemarks = rs.getString("checkRemarks");
+		drawMoney.status = rs.getInt("status");
+		return drawMoney;
+	}
 
 	public Integer create(BaseDao baseDao) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -48,6 +64,16 @@ public class MerchantDrawMoney {
 		return baseDao.get(GET_BY_ID_SQL, new Object[] { id });
 	}
 
+	public static MerchantDrawMoney getDrawMoney(Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().query(GET_BY_ID_SQL,
+				new Object[] { id }, new MerchantDrawMoneyExtractor());
+	}
+
+	public int updateForCheck(BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(UPDATE_FOR_CHECK_SQL,
+				this.status, this.checkMan, this.checkRemarks, id);
+	}
+
 	public static final String getStatus(String statusCode) {
 		switch (statusCode) {
 		case "1":
@@ -63,8 +89,9 @@ public class MerchantDrawMoney {
 		}
 	}
 
-	private static final String GET_BY_ID_SQL = "select * from merchant_draw_money   where id=? ";
+	private static final String GET_BY_ID_SQL = "select d.*,m.`name`,m.`code` from merchant_draw_money d,merchant m   where d.merchantId=m.id and d.id=?";
 	private static final String INSERT_SQL = "INSERT INTO merchant_draw_money(merchantId,money,remarks,bankName,cardNumber,`status`,createdTime,updatedTime) values (?,?,?,?,?,0,NOW(),NOW())";
+	private static final String UPDATE_FOR_CHECK_SQL = "UPDATE merchant_draw_money SET `status`=?,checkMan=?,checkRemarks=?,updatedTime=NOW() WHERE id=?";
 
 	public Integer getId() {
 		return id;

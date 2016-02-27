@@ -208,6 +208,11 @@ public class Merchant extends BasePO {
 		return baseDao.getJdbcTemplate().update(FREEZE_MONEY_SQL, money, money,
 				id);
 	}
+	
+	public static int drawMoney(BigDecimal money, Integer id, BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(DRAW_MONEY_SQL, money,
+				id);
+	}
 
 	private static final String GET_BY_ID_SQL = "select * from merchant u  where u.id=? ";
 	private static final String GET_BY_CODE_SQL = "select * from merchant u  where u.code=? ";
@@ -215,7 +220,7 @@ public class Merchant extends BasePO {
 	private static final String UPDATE_SQL = "update merchant set img=?,name=?,address=?,des=?,corporation=?,mobilePhone=?,code=? where id=?";
 	private static final String UPDATE_PASSWORD_SQL = "update merchant set password=? where id=?";
 	private static final String FREEZE_MONEY_SQL = "update merchant set freezeMoney=freezeMoney+?,totalMoney=totalMoney-? where id=?";
-
+	private static final String DRAW_MONEY_SQL = "update merchant set freezeMoney=freezeMoney-? where id=?";
 	public static final String getStatus(String statusCode) {
 		switch (statusCode) {
 		case "0":

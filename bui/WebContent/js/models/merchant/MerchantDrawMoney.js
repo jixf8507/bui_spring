@@ -103,6 +103,28 @@ var MerchantDrawMoney = {
 		diag.MessageTitle = $('#' + value[0]).attr('title');
 		diag.show();
 	},
+	check : function() {
+		var value = this.getSelectValue();
+		if (value.length == 0) {
+			alert('请先选择要操作的记录');
+			return;
+		} else if (value.length > 1) {
+			alert('只能选择一条记录');
+			return;
+		}
+		var thiz = this;
+		var diag = new Dialog();
+		diag.Width = 700;
+		diag.Height = 500;
+		diag.Title = "查看提款信息";
+		diag.URL = contextPath + "/merchant/drawMoney/check.htm?id="
+				+ value[0];
+		diag.MessageTitle = $('#' + value[0]).attr('title');
+		diag.OKEvent = function() {
+			diag.innerFrame.contentWindow.submit(thiz.callBack);
+		};
+		diag.show();
+	},
 	callBack : function() {
 		location.reload();
 	},
@@ -118,6 +140,7 @@ var MerchantDrawMoney = {
 					"number" : true
 				},
 				'bankName' : "required",
+				'checkRemarks' : "required",
 				'cardNumber' : "required"
 			}
 		});
@@ -145,14 +168,64 @@ var MerchantDrawMoney = {
 			}
 		});
 	},
-	createMerchantCombox : function(roleId) {
-		var roleCombox = new Combox({
-			id : roleId,
-			url : this.listUrl,
-			cText : 'name',
-			cValue : 'id',
-			emptyText : '请选择商家'
+	submitCheckForm : function(formObj, callBack) {
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : contextPath + '/merchant/drawMoney/submitCheck.htm?',
+			data : formObj.serialize(),
+			async : false,
+			dataType : 'json',
+			error : function(request) {
+				Dialog.alert("提示：操作失败");
+			},
+			success : function(data) {
+				if (data.success) {
+					Dialog.alert("提示：操作成功", function() {
+						callBack();
+					});
+				} else {
+					Dialog.alert("提示：" + data.info);
+				}
+			}
 		});
-		return roleCombox;
+	},
+	cancelDrawMoney : function( ) {
+		var value = this.getSelectValue();
+		if (value.length == 0) {
+			alert('请先选择要操作的记录');
+			return;
+		} else if (value.length > 1) {
+			alert('只能选择一条记录');
+			return;
+		}
+		if (!window.confirm('你确定要取消选中体现申请吗？')) {
+			return true;
+		}
+		var thiz = this;
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : contextPath + '/merchant/drawMoney/submitCheck.htm?',
+			data : {
+				'status':3,
+				'id':value[0],
+				'checkRemarks':'商家取消'
+			},
+			async : false,
+			dataType : 'json',
+			error : function(request) {
+				Dialog.alert("提示：操作失败");
+			},
+			success : function(data) {
+				if (data.success) {
+					Dialog.alert("提示：操作成功", function() {
+						thiz.callBack();
+					});
+				} else {
+					Dialog.alert("提示：" + data.info);
+				}
+			}
+		});
 	}
 };

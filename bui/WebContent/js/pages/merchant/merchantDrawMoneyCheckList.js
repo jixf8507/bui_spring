@@ -26,15 +26,12 @@ var userTable = new PageDataTables({
 	ajaxUrl : MerchantDrawMoney.pageUrl,
 	exportUrl : MerchantDrawMoney.exportUrl,
 	aoColumns : MerchantDrawMoney.tableColumns,
-	addButton : [ {
-		value : "申请体现",
-		onclick : 'MerchantDrawMoney.addMerchant()'
-	}, {
+	addButton : [ {		
 		value : "查看详情",
 		onclick : 'MerchantDrawMoney.detail()'
 	}, {
-		value : "取消体现",
-		onclick : 'MerchantDrawMoney.cancelDrawMoney()'
+		value : "审核",
+		onclick : 'MerchantDrawMoney.check()'
 	} ],
 	beforeload : function() {
 		this.paraData = {

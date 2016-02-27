@@ -36,6 +36,10 @@ public class MerchantDrawMoneyController extends BaseController {
 	public String list() {
 		return "merchant/merchantDrawMoneyList";
 	}
+	@RequestMapping("checkList")
+	public String checkList() {
+		return "merchant/merchantDrawMoneyCheckList";
+	}
 
 	@RequestMapping("add")
 	public String add(HttpServletRequest request, HttpServletResponse response,
@@ -83,6 +87,21 @@ public class MerchantDrawMoneyController extends BaseController {
 		drawMoney.setMerchantId(this.getSesseionUser(session).getMerchant()
 				.getId());
 		return drawMoneyService.createMerchantDrawMoney(drawMoney);
+	}
+	
+	@RequestMapping("check")
+	public String check(Integer id, Model model, HttpSession session) {
+		model.addAttribute("drawMoney",
+				drawMoneyService.getMerchantDrawMoneyMap(id));
+		return "merchant/merchantDrawMoneyCheck";
+	}
+	
+	@RequestMapping("submitCheck.htm")
+	@ResponseBody
+	public MSG submitCheck(MerchantDrawMoney drawMoney,HttpSession session)
+			throws Exception {
+		drawMoney.setCheckMan(this.getSesseionUser(session).getName());	
+		return drawMoneyService.submitCheck(drawMoney);
 	}
 
 }

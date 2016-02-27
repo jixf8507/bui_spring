@@ -18,7 +18,7 @@ $(document).ready(function() {
  */
 var submit = function(callBack) {
 	var formObj = $("#form1");
-	if ($('#status') == '') {
+	if ($('#status').val() == '') {
 		alert('请选择状态');
 		return false;
 	}

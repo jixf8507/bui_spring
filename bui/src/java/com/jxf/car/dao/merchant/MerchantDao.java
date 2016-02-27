@@ -63,6 +63,10 @@ public class MerchantDao extends BaseDao {
 	public boolean freezeMoney(BigDecimal money, Integer id) {
 		return Merchant.freezeMoney(money, id, this) > 0;
 	}
+	
+	public boolean drawMoney(BigDecimal money, Integer id) {
+		return Merchant.drawMoney(money, id, this) > 0;
+	}
 
 	public boolean updatePassword(Merchant merchant) {
 		return merchant.updatePassword(this) > 0;

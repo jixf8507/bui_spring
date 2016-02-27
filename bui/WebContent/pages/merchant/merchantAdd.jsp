@@ -41,7 +41,6 @@
 				name="mobilePhone" id="mobilePhone" class="longinput"
 				style="width: 200px;" />&nbsp;&nbsp;</span>
 		</p>
-
 		<p>
 			<label>商家地址</label> <span class="field"><input type="text"
 				name="address" id="address" class="longinput" style="width: 200px;" />&nbsp;&nbsp;</span>

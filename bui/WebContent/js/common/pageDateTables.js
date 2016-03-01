@@ -92,9 +92,11 @@ var pageDataTables = {
 	 */
 	loadAddBtn2 : function(tableId, data) {
 		// 在xxx_length中的xxx为PageDataTables的aoColumns的tableId
-		jQuery('#' + tableId + '_length').append(
-				'<button style="margin-left: 20px;" class="publishbutton radius3" onclick="'
-						+ data.onclick + '">' + data.value + '</button>');
+		if(data.view!='false'){
+			jQuery('#' + tableId + '_length').append(
+					'<button style="margin-left: 20px;" class="publishbutton radius3" onclick="'
+							+ data.onclick + '">' + data.value + '</button>');
+		}		
 	}
 };
 

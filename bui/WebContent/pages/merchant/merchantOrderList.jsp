@@ -6,6 +6,11 @@
 <title>BUI 管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
+
+<script type="text/javascript">
+var isFQview  ='${sessionScope.webUser.merchant== null}';  
+</script>
+
 <script type="text/javascript"
 	src="${ctx}/js/models/merchant/MerchantOrder.js"></script>
 <script type="text/javascript"

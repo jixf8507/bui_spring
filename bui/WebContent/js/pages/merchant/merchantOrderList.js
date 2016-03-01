@@ -32,7 +32,8 @@ var userTable = new PageDataTables(
 				onclick : 'MerchantOrder.detailUser()'
 			}, {
 				value : "查看分期还款账单明细",
-				onclick : 'MerchantOrder.billDetail()'
+				onclick : 'MerchantOrder.billDetail()',
+				view:isFQview
 			} ],
 			beforeload : function() {
 				this.paraData = {

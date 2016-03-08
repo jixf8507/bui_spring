@@ -32,6 +32,12 @@
 			</span>
 		</p>
 		<p>
+			<label>其它证件图片</label> <span class="field"> <img
+				src="${ctx}${user.otherImg}" alt="" width="350px;" />
+				&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
 			<label>账户状态</label> <span class="field"> <c:if
 					test="${user.status == '1' }">审核中	</c:if> <c:if
 					test="${user.status == '2' }">已通过审核	</c:if> <c:if

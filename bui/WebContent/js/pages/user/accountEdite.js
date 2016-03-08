@@ -8,10 +8,13 @@ $(document).ready(function() {
 	User.validate($("#form1"));
 
 	$('#bt').click(function() {
-		Upload.imageUpload("上传商品图片", getPic);
+		Upload.imageUpload("上传图片", getPic);
 	});
 	$('#sbt').click(function() {
-		Upload.imageUpload("上传商品图片", getStuPic);
+		Upload.imageUpload("上传图片", getStuPic);
+	});
+	$('#obt').click(function() {
+		Upload.imageUpload("上传图片", getOtherPic);
 	});
 
 });
@@ -36,4 +39,8 @@ var getPic = function(idArr, urlArr) {
 
 var getStuPic = function(idArr, urlArr) {
 	$('#studentIdCardImg').val(urlArr[0]);
+};
+
+var getOtherPic = function(idArr, urlArr) {
+	$('#otherImg').val(urlArr[0]);
 };

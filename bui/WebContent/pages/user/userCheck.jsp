@@ -46,6 +46,12 @@
 				type="button" id="sbt" value="上传图片" /></span>
 		</p>
 		<p>
+			<label>其它证件图片</label> <span class="field"><input type="text"
+				name="user.otherImg" id="otherImg" value="${user.otherImg}"  readonly="readonly"
+				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="obt" value="上传图片" /></span>
+		</p>
+		<p>
 			<label>审核状态</label> <span class="field"> <select id="status"
 				name="user.status" class="chzn-select" style="width: 200px;"
 				tabindex="2">

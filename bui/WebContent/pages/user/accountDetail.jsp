@@ -33,6 +33,12 @@
 			</span>
 		</p>
 		<p>
+			<label>其它证件图片</label> <span class="field"> <img
+				src="${ctx}${userAccount.otherImg}" alt="" width="350px;" />
+				&nbsp;&nbsp;
+			</span>
+		</p>
+		<p>
 			<label>可用额度</label> <span class="field">${userAccount.usableLimit}&nbsp;&nbsp;</span>
 		</p>
 		<p>

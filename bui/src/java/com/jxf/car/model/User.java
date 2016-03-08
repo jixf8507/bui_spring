@@ -30,6 +30,7 @@ public class User extends BasePO {
 	private String idCard;
 	private String idCardImg;
 	private String studentIdCardImg;
+	private String otherImg;
 
 	public Integer getId() {
 		return id;
@@ -102,8 +103,6 @@ public class User extends BasePO {
 	public void setIdCardImg(String idCardImg) {
 		this.idCardImg = idCardImg;
 	}
-	
-	
 
 	public String getStudentIdCardImg() {
 		return studentIdCardImg;
@@ -113,15 +112,25 @@ public class User extends BasePO {
 		this.studentIdCardImg = studentIdCardImg;
 	}
 
+	public String getOtherImg() {
+		return otherImg;
+	}
+
+	public void setOtherImg(String otherImg) {
+		this.otherImg = otherImg;
+	}
+
 	public int update(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(UPDATE_SQL, this.getName(),
-				this.getMobilePhone(), this.getIdCard(),this.idCardImg,this.studentIdCardImg, this.getId());
+				this.getMobilePhone(), this.getIdCard(), this.idCardImg,
+				this.studentIdCardImg, this.otherImg, this.getId());
 	}
 
 	public int updateUserForCheck(BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(USER_CHECK_UPDATE_SQL,
 				this.getName(), this.getMobilePhone(), this.getIdCard(),
-				this.idCardImg,this.studentIdCardImg, this.status, this.getId());
+				this.idCardImg, this.studentIdCardImg, this.otherImg,
+				this.status, this.getId());
 	}
 
 	public static User createUser(Integer status, String statusDesc, Integer id) {
@@ -162,8 +171,8 @@ public class User extends BasePO {
 		return baseDao.get(GET_BY_ID_SQL, new Object[] { id });
 	}
 
-	private static final String USER_CHECK_UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=?,idCardImg=?,studentIdCardImg=?,status=? where id=?";
-	private static final String UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=?,idCardImg=?,studentIdCardImg=? where id=?";
+	private static final String USER_CHECK_UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=?,idCardImg=?,studentIdCardImg=?,otherImg=?,status=? where id=?";
+	private static final String UPDATE_SQL = "update user set name=?,mobilePhone=?,idCard=?,idCardImg=?,studentIdCardImg=?,otherImg=? where id=?";
 	private static final String STATUS_UPDATE_SQL = "update user set status=?,statusDesc=? where id=?";
 	private static final String INSERT_SQL = "insert into user (name,mobilePhone,idCard,loginPassword,payPassword,lastVisitorTime,`status`,statusDesc) values (?,?,?,?,?,now(),1,'')";
 	private static final String GET_BY_ID_SQL = "select * from user u  where u.id=? ";

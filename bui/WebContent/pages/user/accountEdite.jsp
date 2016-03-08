@@ -46,6 +46,12 @@
 				type="button" id="sbt" value="上传图片" /></span>
 		</p>
 		<p>
+			<label>其它证件图片</label> <span class="field"><input type="text"
+				name="user.otherImg" id="otherImg" value="${userAccount.otherImg}"  readonly="readonly"
+				class="longinput" style="width: 200px;" />&nbsp;&nbsp;<input
+				type="button" id="obt" value="上传图片" /></span>
+		</p>
+		<p>
 			<label>账户状态</label> <span class="field"> <select id="status"
 				name="status" class="chzn-select" style="width: 200px;" tabindex="2">
 					<option value="">请选择</option>

@@ -78,7 +78,10 @@ public class UserMonthBillService extends BaseService {
 		List<UserAccountRecord> repaidRecords = new ArrayList<>();
 		for (Map<String, Object> billMap : lastMonthBill) {
 			UserMonthBill bill = UserMonthBill.createUserBill(billMap);
-			repaidRecords.add(UserAccountRecord.createByUserMonthBill(bill));
+			UserAccountRecord repaidRecord = UserAccountRecord.createByUserMonthBill(bill);
+			if(repaidRecord.getMoney().compareTo(new BigDecimal(0))>0){
+				repaidRecords.add(repaidRecord);
+			}			
 			bill.repaymentAndInterest(dayInterest);
 			userBills.add(bill);
 		}

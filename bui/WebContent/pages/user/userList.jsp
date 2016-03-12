@@ -17,6 +17,7 @@
 					<select id="status" class="chzn-select" style="width: 200px;"
 						tabindex="2">
 						<option value="">请选择用户状态</option>
+						<option value="0">注册中</option>
 						<option value="1">审核中</option>
 						<option value="2">已通过审核</option>
 						<option value="3">审核未通过</option>

@@ -27,6 +27,9 @@ var User = {
 				"fnRender" : function(obj) {
 					var status = obj.aData['status'];
 					switch (status) {
+					case '0':
+						return "注册中";
+						break;
 					case '1':
 						return "审核中";
 						break;

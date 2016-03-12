@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 public class BuiMenu {
 
 	private List<ConfigMenu> configMenus;
@@ -112,7 +114,12 @@ public class BuiMenu {
 	private void addMenuItem2(String contextPath, String id, String moduleName,
 			String moduleUrl, String pid) {
 		MenuItem menuItem = MenuItem.createMenuItem(id, moduleName, contextPath
-				+ moduleUrl);
+				+ moduleUrl, pid);
+		MenuItem parentMenu = menuItemMap.get(pid);
+		if (StringUtils.isBlank(configMuneMap.get(parentMenu.getPid())
+				.getHomePage())) {
+			configMuneMap.get(parentMenu.getPid()).setHomePage(id);
+		}
 		List<MenuItem> items = menuItemMap.get(pid).getItems();
 		if (items == null) {
 			items = new ArrayList<>();
@@ -131,7 +138,8 @@ public class BuiMenu {
 	 */
 	private void addMenuItem1(String id, String moduleName, String moduleUrl,
 			String pid) {
-		MenuItem menuItem = MenuItem.createMenuItem(id, moduleName, moduleUrl);
+		MenuItem menuItem = MenuItem.createMenuItem(id, moduleName, moduleUrl,
+				pid);
 		menuItemMap.put(id, menuItem);
 		configMuneMap.get(pid).getMenu().add(menuItem);
 	}

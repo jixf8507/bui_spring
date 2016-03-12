@@ -8,6 +8,7 @@ public class MenuItem {
 	private String text;
 	private String href;
 	private boolean closeable = true;
+	private String pid;
 
 	private List<MenuItem> items;
 
@@ -15,11 +16,13 @@ public class MenuItem {
 		super();
 	}
 
-	public static MenuItem createMenuItem(String id, String text, String href) {
+	public static MenuItem createMenuItem(String id, String text, String href,
+			String pid) {
 		MenuItem mi = new MenuItem();
 		mi.id = id;
 		mi.text = text;
 		mi.href = href;
+		mi.pid = pid;
 		return mi;
 	}
 
@@ -61,6 +64,14 @@ public class MenuItem {
 
 	public void setItems(List<MenuItem> items) {
 		this.items = items;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
 	}
 
 }

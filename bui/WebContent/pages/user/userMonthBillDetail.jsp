@@ -26,8 +26,12 @@
 				</p>
 
 				<p>
-					<label>本期应还金额</label> <span class="field">
+					<label>本期应还本金</label> <span class="field">
 						${userMonthBill.curBalance}&nbsp;&nbsp; </span>
+				</p>
+				<p>
+					<label>上期欠款本金</label> <span class="field">
+						${userMonthBill.lastBalance}&nbsp;&nbsp; </span>
 				</p>
 				<p>
 					<label>本期已还金额</label> <span class="field">

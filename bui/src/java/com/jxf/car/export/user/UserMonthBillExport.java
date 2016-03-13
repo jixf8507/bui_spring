@@ -30,6 +30,8 @@ public class UserMonthBillExport extends BaseExport {
 		wsheet.setColumnView(column++, 20);
 		wsheet.setColumnView(column++, 20);
 		wsheet.setColumnView(column++, 20);
+		wsheet.setColumnView(column++, 20);
+		wsheet.setColumnView(column++, 20);
 		wsheet.mergeCells(0, 0, --column, 0);
 		Label label = new Label(0, 0, "每月还款账单列表", wffBold);
 		wsheet.addCell(label);
@@ -42,7 +44,9 @@ public class UserMonthBillExport extends BaseExport {
 		wsheet.addCell(new Label(column++, 1, "还款日期", wctB));
 		wsheet.addCell(new Label(column++, 1, "姓名", wctB));
 		wsheet.addCell(new Label(column++, 1, "手机号码", wctB));
+		wsheet.addCell(new Label(column++, 1, "应还本金", wctB));
 		wsheet.addCell(new Label(column++, 1, "本期应还金额", wctB));
+		wsheet.addCell(new Label(column++, 1, "上期欠款金额", wctB));
 		wsheet.addCell(new Label(column++, 1, "本期已还金额", wctB));
 		wsheet.addCell(new Label(column++, 1, "上期账单利息", wctB));
 		wsheet.addCell(new Label(column++, 1, "本期利息", wctB));
@@ -64,7 +68,11 @@ public class UserMonthBillExport extends BaseExport {
 				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("mobilePhone")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
+						.get("capital")), wcsB));
+				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("curBalance")), wcsB));
+				wsheet.addCell(new Label(column++, i + 2, toString(map
+						.get("lastBalance")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map
 						.get("paid")), wcsB));
 				wsheet.addCell(new Label(column++, i + 2, toString(map

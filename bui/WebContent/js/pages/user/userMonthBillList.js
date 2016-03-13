@@ -3,14 +3,15 @@
  */
 
 jQuery(document).ready(function() {
-
+	$('#status').chosen();
+	$("#repaymentDate").datepicker();
 	userTable.reloadData();
 
 	// 点击查询按钮事件
 	jQuery('#queryBtn').click(function() {
 		userTable.reloadData();
 	});
-	
+
 	jQuery('#excelBtn').click(function() {
 		userTable.exportExcel();
 	});
@@ -30,9 +31,13 @@ var userTable = new PageDataTables(
 			addButton : [ {
 				value : "查看详情",
 				onclick : 'UserMonthBill.detailUser()'
+			}, {
+				value : "查看分期账单明细",
+				onclick : 'UserMonthBill.billDetail()'
 			} ],
 			beforeload : function() {
 				this.paraData = {
+					"status" : jQuery('#status').val(),
 					"mobilePhone" : $('#mobilePhone').val() == '' ? '' : '%'
 							+ $('#mobilePhone').val() + '%',
 					"name" : $('#name').val() == '' ? '' : '%'

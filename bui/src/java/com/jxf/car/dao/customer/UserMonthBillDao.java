@@ -42,9 +42,9 @@ public class UserMonthBillDao extends BaseDao {
 		return this.get(GET_BY_ID_SQL, new Object[] { id });
 	}
 
-	public boolean batchCreateUserMonthBill(
+	public void batchCreateUserMonthBill(
 			final List<UserMonthBill> userMonthBills) {
-		int[] count = this.getJdbcTemplate().batchUpdate(INSERT_SQL,
+		this.getJdbcTemplate().batchUpdate(INSERT_SQL,
 				new BatchPreparedStatementSetter() {
 					@Override
 					public void setValues(PreparedStatement ps, int i)
@@ -52,6 +52,7 @@ public class UserMonthBillDao extends BaseDao {
 						UserMonthBill uo = userMonthBills.get(i);
 						int num = 1;
 						ps.setInt(num++, uo.getUserId());
+						ps.setBigDecimal(num++, uo.getCapital());
 						ps.setBigDecimal(num++, uo.getCurBalance());
 						ps.setBigDecimal(num++, uo.getLastBalance());
 						ps.setBigDecimal(num++, uo.getPaid());
@@ -59,6 +60,7 @@ public class UserMonthBillDao extends BaseDao {
 						ps.setBigDecimal(num++, uo.getCurLnterest());
 						ps.setInt(num++, 0);
 						ps.setTimestamp(num++, uo.getRepaymentDate());
+						ps.setString(num++, uo.getUuid());
 					}
 
 					@Override
@@ -66,7 +68,7 @@ public class UserMonthBillDao extends BaseDao {
 						return userMonthBills.size();
 					}
 				});
-		return count.length == userMonthBills.size();
+
 	}
 
 	public boolean batchUpdateUserMonthBill(
@@ -78,6 +80,7 @@ public class UserMonthBillDao extends BaseDao {
 							throws SQLException {
 						UserMonthBill uo = userMonthBills.get(i);
 						int num = 1;
+						ps.setBigDecimal(num++, uo.getCapital());
 						ps.setBigDecimal(num++, uo.getCurBalance());
 						ps.setBigDecimal(num++, uo.getLastBalance());
 						ps.setBigDecimal(num++, uo.getPaid());
@@ -95,8 +98,24 @@ public class UserMonthBillDao extends BaseDao {
 		return count.length == userMonthBills.size();
 	}
 
-	public boolean batchClostLastUserMonthBill() {
-		return this.getJdbcTemplate().update(CLOSE_ALL_BILL_SQL) > 0;
+	public boolean batchCloseLastUserMonthBill(
+			final List<UserMonthBill> userMonthBills) {
+		int[] count = this.getJdbcTemplate().batchUpdate(
+				CLOSE_LAST_MONTH_BILL_SQL, new BatchPreparedStatementSetter() {
+					@Override
+					public void setValues(PreparedStatement ps, int i)
+							throws SQLException {
+						UserMonthBill uo = userMonthBills.get(i);
+						int num = 1;
+						ps.setInt(num++, uo.getUserId());
+					}
+
+					@Override
+					public int getBatchSize() {
+						return userMonthBills.size();
+					}
+				});
+		return count.length == userMonthBills.size();
 	}
 
 	public List<Map<String, Object>> findLastMonthBill() {
@@ -104,9 +123,9 @@ public class UserMonthBillDao extends BaseDao {
 	}
 
 	public static final String LAST_MONTH_BILL_SELECT_SQL = "select * from user_month_bill where `status`=0";
-	public static final String CLOSE_ALL_BILL_SQL = "update user_month_bill set `status`=1 where `status`=0";
-	private static final String INSERT_SQL = "insert into user_month_bill (userId,curBalance,lastBalance,paid,lastLnterest,curLnterest,`status`,repaymentDate,createTime) values(?,?,?,?,?,?,?,?,now())";
+	public static final String CLOSE_LAST_MONTH_BILL_SQL = "update user_month_bill set `status`=1 where userId=?";
+	private static final String INSERT_SQL = "insert into user_month_bill (userId,capital,curBalance,lastBalance,paid,lastLnterest,curLnterest,`status`,repaymentDate,uuid,createTime) values(?,?,?,?,?,?,?,?,?,?,now())";
 	private static final String GET_BY_ID_SQL = "select b.*,u.`name` as userName,u.mobilePhone,u.idCard from user_month_bill b LEFT JOIN `user` u on b.userId=u.id where b.id=? ";
-	private static final String UPDATE_SQL = "update user_month_bill set curBalance=?,lastBalance=?,paid=?,lastLnterest=?,curLnterest=?,`status`=? where id=?";
+	private static final String UPDATE_SQL = "update user_month_bill set capital=?,curBalance=?,lastBalance=?,paid=?,lastLnterest=?,curLnterest=?,`status`=? where id=?";
 
 }

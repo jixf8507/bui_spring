@@ -10,7 +10,7 @@ var UserMonthBill = {
 			{
 				"fnRender" : function(obj) {
 					var id = obj.aData['id'];
-					var name = obj.aData['repaymentDate'];
+					var name = obj.aData['uuid'];
 					return '<input style="width: 20px;" type="checkbox" name="id" id="'
 							+ id + '" title="' + name + '" value="' + id + '">';
 				},
@@ -25,7 +25,13 @@ var UserMonthBill = {
 				"mDataProp" : "mobilePhone",
 				"sClass" : "center"
 			}, {
+				"mDataProp" : "capital",
+				"sClass" : "center"
+			}, {
 				"mDataProp" : "curBalance",
+				"sClass" : "center"
+			}, {
+				"mDataProp" : "lastBalance",
 				"sClass" : "center"
 			}, {
 				"mDataProp" : "paid",
@@ -38,12 +44,12 @@ var UserMonthBill = {
 				"sClass" : "center"
 			}, {
 				"fnRender" : function(obj) {
-					var accountStatus = obj.aData['type'];
+					var accountStatus = obj.aData['status'];
 					switch (accountStatus) {
-					case '1':
+					case '0':
 						return "未还清";
 						break;
-					case '2':
+					case '1':
 						return "已还清";
 						break;
 					default:
@@ -83,6 +89,23 @@ var UserMonthBill = {
 		diag.Height = 500;
 		diag.Title = "查看用户消费信息";
 		diag.URL = contextPath + "/user/monthBill/detail.htm?id=" + value[0];
+		diag.MessageTitle = $('#' + value[0]).attr('title');
+		diag.show();
+	},
+	billDetail : function() {
+		var value = this.getSelectValue();
+		if (value.length == 0) {
+			alert('请先选择一条的记录');
+			return;
+		} else if (value.length > 1) {
+			alert('只能选择一条记录');
+			return;
+		}
+		var diag = new Dialog();
+		diag.Width = 800;
+		diag.Height = 500;
+		diag.Title = "查看用户消费信息";
+		diag.URL = contextPath + "/user/billDetail/list.htm?monthBillUuid=" + $('#' + value[0]).attr('title');
 		diag.MessageTitle = $('#' + value[0]).attr('title');
 		diag.show();
 	},

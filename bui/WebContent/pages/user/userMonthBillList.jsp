@@ -15,6 +15,14 @@
 	<div id="contentwrapper" class="contentwrapper">
 		<div id="list" class="subcontent">
 			<div class="overviewhead">
+			<div class="overviewselect">
+					<select id="status" class="chzn-select" style="width: 200px;"
+						tabindex="2">
+						<option value="">请选择状态</option>
+						<option value="0">未还清</option>
+						<option value="1">已还清</option>
+					</select> 
+				</div>
 				用户姓名: &nbsp;<input type="text" id="name" /> &nbsp; 手机号码: &nbsp;<input
 					type="text" id="mobilePhone" /> &nbsp; 还款日期: &nbsp;<input
 					type="text" id="repaymentDate" /> &nbsp;
@@ -36,12 +44,14 @@
 						<th class="head1">还款日期</th>
 						<th class="head0">用户姓名</th>
 						<th class="head1">手机号码</th>
+						<th class="head0">应还本金</th>
 						<th class="head0">本期应还金额</th>
-						<th class="head1">本期已还金额</th>
-						<th class="head0">上期账单利息</th>
-						<th class="head1">本期利息</th>
-						<th class="head0">账单状态</th>
-						<th class="head1">账单创建时间</th>
+						<th class="head1">上期欠款金额</th>
+						<th class="head0">本期已还金额</th>
+						<th class="head1">上期账单利息</th>
+						<th class="head0">本期利息</th>
+						<th class="head1">账单状态</th>
+						<th class="head0">账单创建时间</th>
 					</tr>
 				</thead>
 				<tbody>

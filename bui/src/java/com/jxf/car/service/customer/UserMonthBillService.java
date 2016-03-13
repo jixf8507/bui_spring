@@ -3,11 +3,10 @@ package com.jxf.car.service.customer;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -76,49 +75,55 @@ public class UserMonthBillService extends BaseService {
 		for (Map<String, Object> billMap : lastMonthBill) {
 			UserAccount account = new UserAccount();
 			UserMonthBill bill = UserMonthBill.createUserBill(billMap);
-			if (bill.getPaid().compareTo(bill.getLastBalance()) <= 0) {
+
+			if (bill.getPaid().compareTo(bill.getCapital()) < 0) {
 				account.setCurUsableLimit(bill.getPaid());
+				bill.setCapital(bill.getCapital().subtract(bill.getPaid()));
+			} else if (bill.getPaid().compareTo(bill.getAllRepaymentCost()) < 0) {
+				account.setCurUsableLimit(bill.getCapital());
+				bill.setCapital(new BigDecimal(0));
+			} else {
+				account.setCurUsableLimit(bill.getPaid().add(bill.getCapital())
+						.subtract(bill.getAllRepaymentCost()));
+				bill.setCapital(new BigDecimal(0));
+			}
+
+			if (bill.getPaid().compareTo(bill.getLastBalance()) <= 0) {
 				bill.setLastBalance(bill.getLastBalance().subtract(
 						bill.getPaid()));
 				bill.setLastLnterest(bill.getLastLnterest().add(
 						bill.getLastBalance().multiply(dayInterest)));
 			} else if (bill.getPaid().compareTo(
 					bill.getLastBalance().add(bill.getCurBalance())) <= 0) {
-				account.setCurUsableLimit(bill.getPaid());
 				bill.setCurBalance(bill.getCurBalance()
 						.add(bill.getLastBalance()).subtract(bill.getPaid()));
 				bill.setLastBalance(new BigDecimal(0));
 			} else if (bill.getPaid().compareTo(
 					bill.getLastBalance().add(bill.getCurBalance())
 							.add(bill.getLastLnterest())) <= 0) {
-				bill.setLastBalance(new BigDecimal(0));
-				bill.setCurBalance(new BigDecimal(0));
 				bill.setLastLnterest(bill.getLastBalance()
 						.add(bill.getCurBalance()).add(bill.getLastLnterest())
 						.subtract(bill.getPaid()));
-				account.setCurUsableLimit(bill.getCurBalance().add(
-						bill.getLastBalance()));
+				bill.setLastBalance(new BigDecimal(0));
+				bill.setCurBalance(new BigDecimal(0));
 			} else if (bill.getPaid().compareTo(
 					bill.getLastBalance().add(bill.getCurBalance())
 							.add(bill.getLastLnterest())
 							.add(bill.getCurLnterest())) < 0) {
-				bill.setLastBalance(new BigDecimal(0));
-				bill.setCurBalance(new BigDecimal(0));
-				bill.setLastLnterest(new BigDecimal(0));
 				bill.setCurLnterest(bill.getLastBalance()
 						.add(bill.getCurBalance()).add(bill.getLastLnterest())
 						.add(bill.getCurLnterest()).subtract(bill.getPaid()));
-				account.setCurUsableLimit(bill.getCurBalance().add(
-						bill.getLastBalance()));
+				bill.setLastBalance(new BigDecimal(0));
+				bill.setCurBalance(new BigDecimal(0));
+				bill.setLastLnterest(new BigDecimal(0));
 			} else {
 				bill.setLastBalance(new BigDecimal(0));
 				bill.setCurBalance(new BigDecimal(0));
 				bill.setLastLnterest(new BigDecimal(0));
 				bill.setCurLnterest(new BigDecimal(0));
-				account.setCurUsableLimit(bill.getPaid().subtract(
-						bill.getCurBalance().add(bill.getLastBalance())));
 				bill.setStatus(1);
 			}
+
 			if (bill.isBeyondRepaymentDate()) {
 				bill.setCurLnterest(bill.getCurLnterest().add(
 						bill.getCurBalance().multiply(dayInterest)));
@@ -143,8 +148,9 @@ public class UserMonthBillService extends BaseService {
 			Map<String, UserMonthBill> lastUserBillMap = getLastUserMonthBill();
 			List<UserMonthBill> userMonthBills = getUserMonthBills(userBillMap,
 					lastUserBillMap, accountList);
-			userMonthBillDao.batchClostLastUserMonthBill();
+			userMonthBillDao.batchCloseLastUserMonthBill(userMonthBills);
 			userMonthBillDao.batchCreateUserMonthBill(userMonthBills);
+			billDetailDao.batchUpdateUserBillDetail(userMonthBills, day);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -159,6 +165,7 @@ public class UserMonthBillService extends BaseService {
 			UserMonthBill bill = new UserMonthBill();
 			bill.setId(Integer.parseInt(billMap.get("id") + ""));
 			bill.setUserId(Integer.parseInt(billMap.get("userId") + ""));
+			bill.setCapital(new BigDecimal(billMap.get("capital") + ""));
 			bill.setCurBalance(new BigDecimal(billMap.get("curBalance") + ""));
 			bill.setLastBalance(new BigDecimal(billMap.get("lastBalance") + ""));
 			bill.setLastLnterest(new BigDecimal(billMap.get("lastLnterest")
@@ -200,11 +207,13 @@ public class UserMonthBillService extends BaseService {
 				bill = new UserMonthBill();
 				bill.setUserId(lastBill.getUserId());
 			}
+			bill.setCapital(bill.getCapital().add(lastBill.getCapital()));
 			bill.setLastBalance(lastBill.getCurBalance().add(
 					lastBill.getLastBalance()));
 			bill.setLastLnterest(lastBill.getLastLnterest().add(
 					lastBill.getCurLnterest()));
 		}
+		bill.setUuid(UUID.randomUUID().toString());
 		return bill;
 	}
 
@@ -219,19 +228,14 @@ public class UserMonthBillService extends BaseService {
 	private Map<String, UserMonthBill> getUserBillMap(String day)
 			throws ParseException {
 		Map<String, UserMonthBill> userBillMap = new HashMap<>();
-		Date date = MyDateUtil.stringToDate(day);
-		Calendar current = Calendar.getInstance();
-		current.setTime(date);
-		current.add(Calendar.MONTH, -1);
-		String beginDate = MyDateUtil.getDayString(current.getTime());
 		List<Map<String, Object>> list = billDetailDao
-				.staticsUserMonthBillList(beginDate, day);
+				.staticsUserMonthBillList(day);
 		for (Map<String, Object> map : list) {
 			Integer userId = Integer.parseInt(map.get("userId") + "");
 			UserMonthBill bill = new UserMonthBill();
 			bill.setUserId(userId);
-			bill.setCurBalance(new BigDecimal(map.get("capital") + ""));
-			bill.setCurLnterest(new BigDecimal(map.get("interest") + ""));
+			bill.setCapital(new BigDecimal(map.get("capital") + ""));
+			bill.setCurBalance(new BigDecimal(map.get("totleCost") + ""));
 			userBillMap.put(userId + "", bill);
 		}
 		return userBillMap;

@@ -8,7 +8,8 @@
 	<bean id="user_month_bill_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
 		<property name="select">
 			<value><![CDATA[
-      		select b.id,b.curBalance,b.createTime,b.curLnterest,b.lastLnterest,b.paid,b.repaymentDate,b.`status`,u.`name` as userName,u.mobilePhone,u.idCard 
+      		select b.id,b.capital,b.curBalance,b.lastBalance,b.createTime,b.curLnterest,b.lastLnterest,b.paid,
+      		b.repaymentDate,b.`status`,u.`name` as userName,u.mobilePhone,u.idCard,b.uuid 
 			from user_month_bill b,`user` u where b.userId=u.id 
 		 ]]></value>
 		</property>

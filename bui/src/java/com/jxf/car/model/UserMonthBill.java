@@ -10,6 +10,7 @@ public class UserMonthBill {
 
 	private Integer id;
 	private Integer userId;
+	private BigDecimal capital = new BigDecimal(0);
 	private BigDecimal curBalance = new BigDecimal(0);
 	private BigDecimal lastBalance = new BigDecimal(0);
 	private BigDecimal paid = new BigDecimal(0);
@@ -18,11 +19,13 @@ public class UserMonthBill {
 	private BigDecimal createTime;
 	private Integer status;
 	private Timestamp repaymentDate;
+	private String uuid;
 
 	public static UserMonthBill createUserBill(Map<String, Object> billMap) {
 		UserMonthBill bill = new UserMonthBill();
 		bill.setId(Integer.parseInt(billMap.get("id") + ""));
 		bill.setUserId(Integer.parseInt(billMap.get("userId") + ""));
+		bill.setCapital(new BigDecimal(billMap.get("capital") + ""));
 		bill.setCurBalance(new BigDecimal(billMap.get("curBalance") + ""));
 		bill.setLastBalance(new BigDecimal(billMap.get("lastBalance") + ""));
 		bill.setPaid(new BigDecimal(billMap.get("paid") + ""));
@@ -116,7 +119,30 @@ public class UserMonthBill {
 
 	public boolean isBeyondRepaymentDate() {
 		return getCurBalance().compareTo(new BigDecimal(0)) > 0
-				&& new Timestamp(System.currentTimeMillis()).getTime() > getRepaymentDate().getTime();
+				&& new Timestamp(System.currentTimeMillis()).getTime() > getRepaymentDate()
+						.getTime();
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public BigDecimal getCapital() {
+		return capital;
+	}
+
+	public void setCapital(BigDecimal capital) {
+		this.capital = capital;
+	}
+
+	public BigDecimal getAllRepaymentCost() {
+		BigDecimal cost = this.curBalance.add(this.lastBalance).add(this.lastLnterest)
+				.add(this.curLnterest);
+		return cost;
 	}
 
 }

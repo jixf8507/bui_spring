@@ -183,14 +183,14 @@ public class UserAccount extends BasePO {
 	public static boolean batchAddCurUsableLimit(
 			final List<UserAccount> accounts, BaseDao baseDao) {
 		int[] count = baseDao.getJdbcTemplate().batchUpdate(
-				ADD_CUR_USABLE_LIMIT_SQL, new BatchPreparedStatementSetter() {
+				BATCH_ADD_CUR_USABLE_LIMIT_SQL, new BatchPreparedStatementSetter() {
 					@Override
 					public void setValues(PreparedStatement ps, int i)
 							throws SQLException {
 						UserAccount uo = accounts.get(i);
 						int num = 1;
 						ps.setBigDecimal(num++, uo.getCurUsableLimit());
-						ps.setInt(num++, uo.getId());
+						ps.setInt(num++, uo.getUserId());
 					}
 
 					@Override
@@ -228,4 +228,5 @@ public class UserAccount extends BasePO {
 
 	public static final String GET_BY_USER_ID_SQL = "select * from user_account where userId=?";
 	public static final String ADD_CUR_USABLE_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+? where id=?";
+	public static final String BATCH_ADD_CUR_USABLE_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+? where userId=?";
 }

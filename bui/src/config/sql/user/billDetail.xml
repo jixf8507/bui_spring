@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 查找月还款账单的SQL -->
+	<bean id="user_bill_detail_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+		<property name="select">
+			<value><![CDATA[
+      		select bd.id,bd.capital,bd.interest,bd.totleCost,bd.repaymentTime,bd.createdTime,u.`name`,
+      		u.mobilePhone,u.idCard,mb.`status`,mb.id as monthId
+ 			from user_bill_detail bd INNER JOIN `user` u on bd.userId=u.id 
+ 			LEFT JOIN user_month_bill mb on mb.uuid=bd.monthBillUuid and mb.uuid!='' 
+ 			where 1=1
+		 ]]></value>
+		</property>
+		<property name="conditions">
+			<list>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="name" />
+					<property name="value" value="and u.`name` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="mobilePhone" />
+					<property name="value" value="and u.`mobilePhone` like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="idCard" />
+					<property name="value" value="and u.idCard  like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="status" />
+					<property name="value" value="and mb.status  = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="monthBillUuid" />
+					<property name="value" value="and bd.monthBillUuid  = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="beginDate" />
+					<property name="value">
+						<value><![CDATA[ and bd.repaymentTime>=?]]></value>
+					</property>
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="endDate" />
+					<property name="value">
+						<value><![CDATA[ and bd.repaymentTime<=?]]></value>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="ORDER BY bd.id desc " />
+	</bean>
+
+</beans>

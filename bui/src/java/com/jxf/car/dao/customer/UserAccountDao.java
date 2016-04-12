@@ -36,6 +36,10 @@ public class UserAccountDao extends BaseDao {
 		return this.findListByJSONSqlMapping(userSelectSQL, jsonObject);
 	}
 
+	public boolean batchAddCurUsableLimit(List<UserAccount> accounts) {
+		return UserAccount.batchAddCurUsableLimit(accounts, this);
+	}
+
 	public Map<String, Object> getAccountMap(Integer id) {
 		return UserAccount.get(id, this);
 	}

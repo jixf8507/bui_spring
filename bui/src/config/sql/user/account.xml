@@ -8,7 +8,7 @@
 	<bean id="user_account_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
 		<property name="select">
 			<value><![CDATA[
-      		select a.id,a.usableLimit,a.curUsableLimit,a.curWhiteBarLimit,a.whiteBarLimit,a.balance,a.statementDate,
+      		select a.id,a.usableLimit,a.curUsableLimit,a.curWhiteBarLimit,a.whiteBarLimit,a.balance,a.statementDate,a.userId,
       		a.repaymentDate,a.`status` as accountStatus,u.`name`,u.mobilePhone,u.`status`,u.statusDesc,u.idCard 
       		from user_account a,`user` u 
       		where a.userId=u.id 	
@@ -27,6 +27,14 @@
 				<bean class="com.jxf.common.sql.Condition">
 					<property name="key" value="idCard" />
 					<property name="value" value="and u.idCard  like ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="statementDate" />
+					<property name="value" value="and a.statementDate  = ? " />
+				</bean>
+				<bean class="com.jxf.common.sql.Condition">
+					<property name="key" value="repaymentDate" />
+					<property name="value" value="and a.repaymentDate  = ? " />
 				</bean>
 			</list>
 		</property>

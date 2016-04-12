@@ -79,12 +79,12 @@ public class UserOrderService extends BaseService {
 		case 2:
 			UserOrder uo = userOrderDao.getUserOrder(userOrder.getId());
 			UserAccount ua = accountDao.getByUserId(uo.getUserId());			
-			if (ua.getBalance().compareTo(uo.getPrice()) < 0) {
+			if (ua.getCurUsableLimit().compareTo(uo.getPrice()) < 0) {
 				return MSG.createErrorMSG(1, "用户账户余额不足");
 			}
 			BigDecimal interest = settingDao.findSysInterest();
 			accountDao.addCurUsableLimit(
-					new BigDecimal(0).subtract(ua.getBalance()), ua.getId());
+					new BigDecimal(0).subtract(uo.getPrice()), ua.getId());
 			List<UserBillDetail> userBillList = UserBillDetail
 					.createUserBillDetailByOrder(uo, interest);
 			billDetailDao.batchCreateUserBillDetail(userBillList);

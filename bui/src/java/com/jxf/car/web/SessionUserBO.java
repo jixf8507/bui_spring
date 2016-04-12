@@ -38,4 +38,13 @@ public class SessionUserBO {
 		this.merchant = merchant;
 	}
 
+	public String getName() {
+		if (sysUser != null) {
+			return sysUser.getName();
+		}
+		if (merchant != null) {
+			return merchant.getName();
+		}
+		return "";
+	}
 }

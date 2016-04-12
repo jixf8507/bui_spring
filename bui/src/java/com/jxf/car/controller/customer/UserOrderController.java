@@ -78,7 +78,9 @@ public class UserOrderController extends BaseController {
 
 	@RequestMapping("submitCheck.htm")
 	@ResponseBody
-	public MSG submitCheck(UserOrder userOrder) throws Exception {		
+	public MSG submitCheck(UserOrder userOrder, HttpSession session)
+			throws Exception {
+		userOrder.setCheckMen(this.getSesseionUser(session).getName());
 		return userOrderService.submitCheckOrder(userOrder);
 	}
 

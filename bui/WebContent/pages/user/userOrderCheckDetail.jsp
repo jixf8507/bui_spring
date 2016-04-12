@@ -69,7 +69,7 @@
 				</span>
 			</p>
 			<label>审核说明</label> <span class="field"> <textarea rows="5"
-					cols="6" name="des1"></textarea> &nbsp;&nbsp;
+					cols="6" name="checkDisc"></textarea> &nbsp;&nbsp;
 			</span>
 		</fieldset>
 	</form>

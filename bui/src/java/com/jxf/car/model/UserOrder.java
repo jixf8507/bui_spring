@@ -138,7 +138,7 @@ public class UserOrder {
 				+ "LEFT JOIN merchant m on g.merchantId=m.id where o.id=? ";
 	}
 
-	private static final String STATUS_UPDATE_SQL = "update user_order set `status`=?,checkDisc=?,checkDisc=? where id=?";
+	private static final String STATUS_UPDATE_SQL = "update user_order set `status`=?,checkDisc=?,checkMen=? where id=?";
 	private static final String GET_SQL = "select * from user_order where id=?";
 
 }

@@ -33,6 +33,16 @@ public class SysSettingDao extends BaseDao {
 		return null;
 	}
 
+	public BigDecimal findSysDayInterest() {
+		Map<String, Object> map = this.findOne("DAY_INTEREST");
+		try {
+			return new BigDecimal(map.get("value") + "");
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
 	private static final String SELECT_SQL = "select * from sys_setting where `key` =?";
 
 }

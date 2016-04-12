@@ -39,10 +39,10 @@ public class UserBillDetailDao extends BaseDao {
 	}
 	
 	public List<Map<String, Object>> staticsUserMonthBillList(String biginDate,String endDate){
-		return this.findListBySQL(DATE_SELECT_SQL, new Object[]{biginDate,endDate}) ;
+		return this.findListBySQL(DATE_SELECT_SQL, new Object[]{biginDate,endDate+" 23:59:59"}) ;
 	}
 
-	private static final String INSERT_SQL = "insert into user_bill_detail (userId,orderId,capital,interest,totleCost,repaymentTime) values(?,?,?,?,?)";
-	private static final String DATE_SELECT_SQL = "select userId,SUM(capital) capital,SUM(interest) interest,SUM(totleCost) totleCost from user_bill_detail where repaymentTime >= ? and repaymentTime<? GROUP BY userId";
+	private static final String INSERT_SQL = "insert into user_bill_detail (userId,orderId,capital,interest,totleCost,repaymentTime) values(?,?,?,?,?,?)";
+	private static final String DATE_SELECT_SQL = "select userId,SUM(capital) capital,SUM(interest) interest,SUM(totleCost) totleCost from user_bill_detail where repaymentTime >= ? and repaymentTime<=? GROUP BY userId";
 
 }

@@ -14,6 +14,10 @@ $(document).ready(function() {
  */
 var submit = function(callBack) {
 	var formObj = $("#form1");
+	if ($('#status').val() == '') {
+		alert('请选择审核状态');
+		return;
+	}
 	if (formObj.valid()) {
 		UserOrder.submitCheckForm(formObj, callBack);
 	}

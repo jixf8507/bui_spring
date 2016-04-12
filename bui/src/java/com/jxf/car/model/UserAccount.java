@@ -5,9 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -30,8 +31,8 @@ public class UserAccount extends BasePO {
 	private BigDecimal whiteBarLimit;
 	private BigDecimal curWhiteBarLimit;
 	private BigDecimal balance;
-	private Timestamp statementDate;
-	private Timestamp repaymentDate;
+	private String statementDate;
+	private String repaymentDate;
 	private int status;
 
 	public static UserAccount create(ResultSet rs) throws SQLException {
@@ -43,8 +44,8 @@ public class UserAccount extends BasePO {
 		ua.whiteBarLimit = rs.getBigDecimal("whiteBarLimit");
 		ua.curWhiteBarLimit = rs.getBigDecimal("curWhiteBarLimit");
 		ua.balance = rs.getBigDecimal("balance");
-		ua.statementDate = rs.getTimestamp("statementDate");
-		ua.repaymentDate = rs.getTimestamp("repaymentDate");
+		ua.statementDate = rs.getString("statementDate");
+		ua.repaymentDate = rs.getString("repaymentDate");
 		return ua;
 	}
 
@@ -106,19 +107,19 @@ public class UserAccount extends BasePO {
 		this.balance = balance;
 	}
 
-	public Timestamp getStatementDate() {
+	public String getStatementDate() {
 		return statementDate;
 	}
 
-	public void setStatementDate(Timestamp statementDate) {
+	public void setStatementDate(String statementDate) {
 		this.statementDate = statementDate;
 	}
 
-	public Timestamp getRepaymentDate() {
+	public String getRepaymentDate() {
 		return repaymentDate;
 	}
 
-	public void setRepaymentDate(Timestamp repaymentDate) {
+	public void setRepaymentDate(String repaymentDate) {
 		this.repaymentDate = repaymentDate;
 	}
 
@@ -177,6 +178,27 @@ public class UserAccount extends BasePO {
 			BaseDao baseDao) {
 		return baseDao.getJdbcTemplate().update(ADD_CUR_USABLE_LIMIT_SQL,
 				new Object[] { balance, id });
+	}
+
+	public static boolean batchAddCurUsableLimit(
+			final List<UserAccount> accounts, BaseDao baseDao) {
+		int[] count = baseDao.getJdbcTemplate().batchUpdate(
+				ADD_CUR_USABLE_LIMIT_SQL, new BatchPreparedStatementSetter() {
+					@Override
+					public void setValues(PreparedStatement ps, int i)
+							throws SQLException {
+						UserAccount uo = accounts.get(i);
+						int num = 1;
+						ps.setBigDecimal(num++, uo.getCurUsableLimit());
+						ps.setInt(num++, uo.getId());
+					}
+
+					@Override
+					public int getBatchSize() {
+						return accounts.size();
+					}
+				});
+		return count.length == accounts.size();
 	}
 
 	public static String getStatus(String accountStatus) {

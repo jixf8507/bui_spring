@@ -1,5 +1,6 @@
 package com.jxf.common.tools;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,27 +46,27 @@ public class MyDateUtil extends DateUtils {
 	 *            结束时间
 	 * @return int 返回间隔天数
 	 */
-	public static int getIntervalDays(Date startDate,
-			Date endDate) {
-		if(startDate==null || endDate==null){
-			return 0 ;
+	public static int getIntervalDays(Date startDate, Date endDate) {
+		if (startDate == null || endDate == null) {
+			return 0;
 		}
 		long startdate = startDate.getTime();
 		long enddate = endDate.getTime();
 		long interval = enddate - startdate;
-		int intervalday = (interval % (1000 * 60 * 60 * 24)==0)?(int) (interval / (1000 * 60 * 60 * 24)):(int) (interval / (1000 * 60 * 60 * 24))+1;
+		int intervalday = (interval % (1000 * 60 * 60 * 24) == 0) ? (int) (interval / (1000 * 60 * 60 * 24))
+				: (int) (interval / (1000 * 60 * 60 * 24)) + 1;
 		return intervalday;
 	}
-	
-	public static int getIntervalHours(Date startDate,
-			Date endDate) {
-		if(startDate==null || endDate==null){
-			return 0 ;
+
+	public static int getIntervalHours(Date startDate, Date endDate) {
+		if (startDate == null || endDate == null) {
+			return 0;
 		}
 		long startdate = startDate.getTime();
 		long enddate = endDate.getTime();
 		long interval = enddate - startdate;
-		int intervalday = (int) (interval / (1000 * 60 * 60)) +(interval % (1000 * 60 * 60)==0?0:1);
+		int intervalday = (int) (interval / (1000 * 60 * 60))
+				+ (interval % (1000 * 60 * 60) == 0 ? 0 : 1);
 		return intervalday;
 	}
 
@@ -131,166 +132,193 @@ public class MyDateUtil extends DateUtils {
 				"yyyy-MM-dd");
 		return strDate;
 	}
-	
+
 	/**
 	 * 字符串转换为时间
 	 */
-	public static Date stringToDate(String str)throws ParseException{		
+	public static Date stringToDate(String str) throws ParseException {
 		return new SimpleDateFormat("yyyy-MM-dd").parse(str);
 	}
-	
+
 	/**
 	 * 时间转换成字符串
 	 */
-	public static String dateToString(Date date){
+	public static String dateToString(Date date) {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 	}
-	
+
 	/**
 	 * 时间转换成字符串
 	 */
-	public static String dateToStringHf(Date date){
+	public static String dateToStringHf(Date date) {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
 	}
-	
+
 	/**
 	 * 时间转换成字符串
 	 */
-	public static String dateToStringH(Date date){
+	public static String dateToStringH(Date date) {
 		return new SimpleDateFormat("yyyy-MM-dd HH").format(date);
 	}
-	
-	public static String getDayString(Date date){
+
+	public static String getDayString(Date date) {
 		return new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
-	
+
 	/**
 	 * 把时间转化成年月日格式字符串
+	 * 
 	 * @param date
 	 * @return
 	 */
-	public static String dateToStringChian(Date date){
-		 SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+	public static String dateToStringChian(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
 		return sdf.format(new Date());
 	}
-	
-	
-	public static Date HourStrToDate(String str){
+
+	public static Date HourStrToDate(String str) {
 		Calendar current = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
 		Date date = null;
 		try {
 			date = sdf.parse(str);
-			current.setTime(date) ;
+			current.setTime(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		return date ;
+
+		return date;
 	}
-	
-	public static Date HfStrToDate(String str){
+
+	public static Date HfStrToDate(String str) {
 		Calendar current = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date date = null;
 		try {
 			date = sdf.parse(str);
-			current.setTime(date) ;
+			current.setTime(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		return date ;
+
+		return date;
 	}
-	
-	public static String isExceedManagerTime(Date in_date,int in_hour) {
+
+	public static String isExceedManagerTime(Date in_date, int in_hour) {
 		Calendar current = Calendar.getInstance();
-		current.add(Calendar.HOUR, -in_hour) ;
+		current.add(Calendar.HOUR, -in_hour);
 		Date executeDate = current.getTime();
-		
-		if(executeDate.getTime()<in_date.getTime()){
-			return "true" ;
-		}else{
+
+		if (executeDate.getTime() < in_date.getTime()) {
+			return "true";
+		} else {
 			return "false";
 		}
 	}
-	 
-///// date to yyyy-MM-dd
-	public static String DateToStry_M_d(Date date)
-	{
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+
+	// /// date to yyyy-MM-dd
+	public static String DateToStry_M_d(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		return sdf.format(date);
 	}
-	
-	///// date to yyyyMMdd
-	public static String DateToStryMd(Date date)
-	{
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+
+	// /// date to yyyyMMdd
+	public static String DateToStryMd(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(date);
 	}
-	public static String DateToStryMdhms(Date date)
-	{
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	public static String DateToStryMdhms(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(date);
 	}
-	//// string to date
-	 
+
+	// // string to date
+
 	public static Date StrToDatey_M_d(String str) throws ParseException {
 		return DateUtils.parseDate(str, new String[] { "yyyyMMdd" });
 	}
-     
-	
-	////string to date
+
+	// //string to date
 	public static Date StrToDateyMd(String str) throws ParseException {
 		return DateUtils.parseDate(str, new String[] { "yyyy-MM-dd" });
 	}
-	
-	////string to date
+
+	// //string to date
 	public static Date StrToDateyMdhms(String str) throws ParseException {
 		return DateUtils.parseDate(str, new String[] { "yyyy-MM-dd HH:mm:ss" });
 	}
-	
-	//// sunday=1 monday=2 TUESDAY=3 WEDNESDAY=4 thursday=5 friday=6 saturday=7
-	public static int getWeekofDay(Date date)
-	{
-		GregorianCalendar gc=new GregorianCalendar();
+
+	// // sunday=1 monday=2 TUESDAY=3 WEDNESDAY=4 thursday=5 friday=6 saturday=7
+	public static int getWeekofDay(Date date) {
+		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTime(date);
 		return gc.get(GregorianCalendar.DAY_OF_WEEK);
 	}
-	
-	public static Date getDaytoCurrDay(Date date,int intDay)
-	{
-		GregorianCalendar gc=new GregorianCalendar();
+
+	public static Date getDaytoCurrDay(Date date, int intDay) {
+		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTime(date);
 		gc.add(GregorianCalendar.DATE, intDay);
 		return gc.getTime();
 	}
-	
-	
-	public static String getStrDateAddMinitues(String strDate,int intMin) throws ParseException 
-	{
-		Date date=StrToDateyMdhms(strDate);
-		GregorianCalendar gc=new GregorianCalendar();
+
+	public static String getStrDateAddMinitues(String strDate, int intMin)
+			throws ParseException {
+		Date date = StrToDateyMdhms(strDate);
+		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTime(date);
 		gc.add(GregorianCalendar.MINUTE, intMin);
-		return DateToStryMdhms(gc.getTime()) ;
+		return DateToStryMdhms(gc.getTime());
 	}
-	
-	   public static String getWeekDayBefore(String day) {
-			Calendar current = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date;
-			try {
-				date = sdf.parse(day);
-				current.setTime(date) ;
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			current.add(Calendar.DATE, -1);
-			Date executeDate = current.getTime();
-			return sdf.format(executeDate);
+
+	public static String getWeekDayBefore(String day) {
+		Calendar current = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date;
+		try {
+			date = sdf.parse(day);
+			current.setTime(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-	   
-	
+
+		current.add(Calendar.DATE, -1);
+		Date executeDate = current.getTime();
+		return sdf.format(executeDate);
+	}
+
+	public static String getYestoday() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar current = Calendar.getInstance();
+		current.add(Calendar.DATE, -1);
+		Date executeDate = current.getTime();
+		return sdf.format(executeDate);
+	}
+
+	public static Timestamp getNextRepaymentDate(String repaymentDate) {
+		Calendar current = Calendar.getInstance();
+		while (!repaymentDate.equals(getDayStr(current))) {
+			current.add(Calendar.DATE, 1);
+		}
+		return new Timestamp(current.getTime().getTime());
+	}
+
+	public static Timestamp strToTimestamp(String time) {
+		Calendar current = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date;
+		try {
+			date = sdf.parse(time);
+			current.setTime(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new Timestamp(current.getTime().getTime());
+	}
+
+	private static String getDayStr(Calendar current) {
+		return getDayString(current.getTime()).substring(8, 10);
+	}
+
 }

@@ -37,7 +37,7 @@ public class UserBillDetail {
 					uo.getId(), current, billCapital, billInterest);
 			current.add(Calendar.MONTH, 1);
 			tempCapital = tempCapital.add(billCapital);
-			tempInterest = tempInterest.add(tempInterest);
+			tempInterest = tempInterest.add(billInterest);
 			list.add(billDetail);
 		}
 		return list;

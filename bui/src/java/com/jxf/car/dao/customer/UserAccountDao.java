@@ -44,6 +44,10 @@ public class UserAccountDao extends BaseDao {
 		UserAccount.curWhiteBarLimitAllUpdate(this);
 	}
 
+	public void updateAllCurWhiteBarLimitForSup() {
+		UserAccount.updateAllCurWhiteBarLimitForSup(this);
+	}
+
 	public Map<String, Object> getAccountMap(Integer id) {
 		return UserAccount.get(id, this);
 	}

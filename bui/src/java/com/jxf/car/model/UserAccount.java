@@ -201,6 +201,11 @@ public class UserAccount extends BasePO {
 				CUR_WHITE_BAR_LIMIT_ALL_UPDATE_SQL);
 	}
 
+	public static int updateAllCurWhiteBarLimitForSup(BaseDao baseDao) {
+		return baseDao.getJdbcTemplate().update(
+				UPDATE_ALL_CUR_WHITE_BAR_LIMIT_FOR_SUP_SQL);
+	}
+
 	public static boolean batchCurWhiteBarLimit(
 			final Map<String, BigDecimal> dayPaidMap, BaseDao baseDao) {
 		Set<String> set = dayPaidMap.keySet();
@@ -256,6 +261,7 @@ public class UserAccount extends BasePO {
 	public static final String ADD_CUR_USABLE_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+? where id=?";
 	public static final String CUR_WHITE_BAR_LIMIT_UPDATE_SQL = "update user_account set curWhiteBarLimit=curUsableLimit where curWhiteBarLimit>curUsableLimit and id=?";
 	public static final String CUR_WHITE_BAR_LIMIT_ALL_UPDATE_SQL = "update user_account set curWhiteBarLimit=whiteBarLimit where curWhiteBarLimit>whiteBarLimit ";
+	public static final String UPDATE_ALL_CUR_WHITE_BAR_LIMIT_FOR_SUP_SQL = "update user_account set curWhiteBarLimit=whiteBarLimit-usableLimit+curUsableLimit where curUsableLimit>usableLimit ";
 	public static final String ADD_CUR_WHITE_BAR_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+?,curWhiteBarLimit=curWhiteBarLimit+? where id=?";
 	public static final String BATCH_ADD_CUR_USABLE_LIMIT_SQL = "update user_account set curUsableLimit=curUsableLimit+?,curWhiteBarLimit=curWhiteBarLimit+? where userId=?";
 }

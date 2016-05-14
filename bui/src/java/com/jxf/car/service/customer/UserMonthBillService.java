@@ -81,6 +81,8 @@ public class UserMonthBillService extends BaseService {
 		accountDao.batchCurWhiteBarLimit(dayPaidMap);
 		// 当提现金额超出可提现额度时修改当前可提现的额度
 		accountDao.curWhiteBarLimitAllUpdate();
+		// 当当前余额超出最大余额时修改可提现额度
+		accountDao.updateAllCurWhiteBarLimitForSup();
 		// 批量更新还款账单
 		userMonthBillDao.batchUpdateUserMonthBill(userBills);
 	}
@@ -158,7 +160,9 @@ public class UserMonthBillService extends BaseService {
 			bill.setLastLnterest(lastBill.getLastLnterest().add(
 					lastBill.getCurLnterest()));
 		}
-		bill.setUuid(UUID.randomUUID().toString());
+		if (bill != null) {
+			bill.setUuid(UUID.randomUUID().toString());
+		}
 		return bill;
 	}
 

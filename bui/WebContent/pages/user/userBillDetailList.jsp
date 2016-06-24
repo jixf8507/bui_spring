@@ -21,13 +21,24 @@
 						<option value="">请选择状态</option>
 						<option value="0">未还清</option>
 						<option value="1">已还清</option>
+					</select> <select id="orderTable" class="chzn-select" style="width: 200px;"
+						tabindex="2">
+						<c:if test="${orderTable == '' }">
+							<option value="">请选择账单类型</option>
+							<option value="user_order">消费</option>
+							<option value="user_borrow">提现</option>
+						</c:if>
+						<c:if test="${orderTable != '' }">
+							<option value="${orderTable}">请选择账单类型</option>
+						</c:if>
 					</select>
 				</div>
 				<input type="hidden" id="monthBillUuid" value="${monthBillUuid}" />
-				用户姓名: &nbsp;<input type="text" id="name" /> &nbsp; 手机号码: &nbsp;<input
-					type="text" id="mobilePhone" /> &nbsp;<br /><br /> 分期还款日期: &nbsp;<input
-					type="text" id="beginDate" /> &nbsp;到&nbsp;<input type="text"
-					id="endDate" /> &nbsp;
+				<input type="hidden" id="orderId" value="${orderId}" /> 用户姓名:
+				&nbsp;<input type="text" id="name" /> &nbsp; 手机号码: &nbsp;<input
+					type="text" id="mobilePhone" /> &nbsp;<br /> <br /> 分期还款日期:
+				&nbsp;<input type="text" id="beginDate" /> &nbsp;到&nbsp;<input
+					type="text" id="endDate" /> &nbsp;
 				<button class="publishbutton radius3" id="queryBtn">查询</button>
 				<button class="publishbutton radius3" id="excelBtn">导出EXCEL</button>
 			</div>
@@ -44,6 +55,8 @@
 						<th class="head1" width="30px"><input type="checkbox"
 							style="width: 20px;" name="checkAll" value="" id="checkAll" /></th>
 						<th class="head1">分期还款日期</th>
+						<th class="head0">订单编号</th>
+						<th class="head1">账单类型</th>
 						<th class="head0">用户姓名</th>
 						<th class="head1">手机号码</th>
 						<th class="head0">本金</th>

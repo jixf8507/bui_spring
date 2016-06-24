@@ -102,9 +102,9 @@ var UserMonthBill = {
 			return;
 		}
 		var diag = new Dialog();
-		diag.Width = 800;
+		diag.Width = 900;
 		diag.Height = 500;
-		diag.Title = "查看用户消费信息";
+		diag.Title = "查看用户月账单明细信息";
 		diag.URL = contextPath + "/user/billDetail/list.htm?monthBillUuid=" + $('#' + value[0]).attr('title');
 		diag.MessageTitle = $('#' + value[0]).attr('title');
 		diag.show();

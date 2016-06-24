@@ -5,14 +5,13 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<!-- 查找月还款账单的SQL -->
-	<bean id="user_bill_detail_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
+	<bean id="user_borrow_select_sql" class="com.jxf.common.sql.JSONSqlMapping">
 		<property name="select">
 			<value><![CDATA[
-      		select bd.id,bd.capital,bd.interest,bd.totleCost,bd.repaymentTime,bd.createdTime,bd.orderId,bd.orderTable
-      		,u.`name`,u.mobilePhone,u.idCard,mb.`status`,mb.id as monthId
- 			from user_bill_detail bd INNER JOIN `user` u on bd.userId=u.id 
- 			LEFT JOIN user_month_bill mb on mb.uuid=bd.monthBillUuid and mb.uuid!='' 
- 			where 1=1
+      		select b.id,b.aging,b.cost,b.createTime,b.`status`,u.`name`,
+      		u.mobilePhone,u.idCard,b.bankName,b.cardNumber 
+      		from user_borrow b,`user` u
+      		where b.userId=u.id 
 		 ]]></value>
 		</property>
 		<property name="conditions">
@@ -31,35 +30,23 @@
 				</bean>
 				<bean class="com.jxf.common.sql.Condition">
 					<property name="key" value="status" />
-					<property name="value" value="and mb.status  = ? " />
-				</bean>
-				<bean class="com.jxf.common.sql.Condition">
-					<property name="key" value="monthBillUuid" />
-					<property name="value" value="and bd.monthBillUuid  = ? " />
-				</bean>
-				<bean class="com.jxf.common.sql.Condition">
-					<property name="key" value="orderTable" />
-					<property name="value" value="and bd.orderTable  = ? " />
-				</bean>
-				<bean class="com.jxf.common.sql.Condition">
-					<property name="key" value="orderId" />
-					<property name="value" value="and bd.orderId  = ? " />
+					<property name="value" value="and b.status  = ? " />
 				</bean>
 				<bean class="com.jxf.common.sql.Condition">
 					<property name="key" value="beginDate" />
 					<property name="value">
-						<value><![CDATA[ and bd.repaymentTime>=?]]></value>
+						<value><![CDATA[ and b.createTime>=?]]></value>
 					</property>
 				</bean>
 				<bean class="com.jxf.common.sql.Condition">
 					<property name="key" value="endDate" />
 					<property name="value">
-						<value><![CDATA[ and bd.repaymentTime<=?]]></value>
+						<value><![CDATA[ and b.createTime<=?]]></value>
 					</property>
 				</bean>
 			</list>
 		</property>
-		<property name="order" value="ORDER BY bd.id desc " />
+		<property name="order" value="ORDER BY b.id desc " />
 	</bean>
 
 </beans>

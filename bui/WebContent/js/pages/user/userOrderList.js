@@ -31,6 +31,9 @@ var userTable = new PageDataTables(
 			addButton : [ {
 				value : "查看详情",
 				onclick : 'UserOrder.detailUser()'
+			}, {
+				value : "查看分期还款账单明细",
+				onclick : 'UserOrder.billDetail()'
 			} ],
 			beforeload : function() {
 				this.paraData = {

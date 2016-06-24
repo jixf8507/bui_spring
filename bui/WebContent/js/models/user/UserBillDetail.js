@@ -19,6 +19,25 @@ var UserBillDetail = {
 				"mDataProp" : "repaymentTime",
 				"sClass" : "center"
 			}, {
+				"mDataProp" : "orderId",
+				"sClass" : "center"
+			}, {
+				"fnRender" : function(obj) {
+					var accountStatus = obj.aData['orderTable'];
+					switch (accountStatus) {
+					case 'user_order':
+						return "消费";
+						break;
+					case 'user_borrow':
+						return "提现";
+						break;
+					default:
+						return "未生成还款账单";
+						break;
+					}
+				},
+				"sClass" : "center"
+			}, {
 				"mDataProp" : "name",
 				"sClass" : "center"
 			}, {

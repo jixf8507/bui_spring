@@ -32,7 +32,7 @@ var userTable = new PageDataTables(
 				value : "查看详情",
 				onclick : 'UserMonthBill.detailUser()'
 			}, {
-				value : "查看分期账单明细",
+				value : "查看月还款账单明细",
 				onclick : 'UserMonthBill.billDetail()'
 			} ],
 			beforeload : function() {

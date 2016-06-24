@@ -30,6 +30,10 @@ public class UserBillDetailController extends BaseController {
 	public String list(Model model, HttpServletRequest request) {
 		model.addAttribute("monthBillUuid",
 				StringTools.decodeMethod(request.getParameter("monthBillUuid")));
+		model.addAttribute("orderId",
+				StringTools.decodeMethod(request.getParameter("orderId")));
+		model.addAttribute("orderTable",
+				StringTools.decodeMethod(request.getParameter("orderTable")));
 		return "user/userBillDetailList";
 	}
 

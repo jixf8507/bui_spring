@@ -136,7 +136,8 @@ public class UserMonthBillService extends BaseService {
 			userBills.add(bill);
 		}
 
-		accountDao.batchAddCurUsableLimit(accounts);
+		accountDao.batchCurWhiteBarLimit(accounts);
+		accountDao.curWhiteBarLimitAllUpdate();
 		userMonthBillDao.batchUpdateUserMonthBill(userBills);
 	}
 

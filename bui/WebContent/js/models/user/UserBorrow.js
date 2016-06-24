@@ -2,15 +2,15 @@
  * 用户信息管理
  */
 
-var UserOrder = {
-	pageUrl : contextPath + "/user/order/ajaxData.htm?t="
+var UserBorrow = {
+	pageUrl : contextPath + "/user/borrow/ajaxData.htm?t="
 			+ new Date().getTime(),
-	exportUrl : contextPath + "/user/order/exportToExcel.htm?",
+	exportUrl : contextPath + "/user/borrow/exportToExcel.htm?",
 	tableColumns : [ // 设定各列宽度
 			{
 				"fnRender" : function(obj) {
 					var id = obj.aData['id'];
-					var name = obj.aData['id'];
+					var name = obj.aData['name'];
 					return '<input style="width: 20px;" type="checkbox" name="id" id="'
 							+ id + '" title="' + name + '" value="' + id + '">';
 				},
@@ -19,33 +19,27 @@ var UserOrder = {
 				"mDataProp" : "id",
 				"sClass" : "center"
 			}, {
-				"mDataProp" : "userName",
+				"mDataProp" : "name",
 				"sClass" : "center"
 			}, {
 				"mDataProp" : "mobilePhone",
 				"sClass" : "center"
 			}, {
-				"mDataProp" : "goodsName",
-				"sClass" : "center"
-			}, {
-				"mDataProp" : "price",
-				"sClass" : "center"
-			}, {
-				"mDataProp" : "merchantName",
-				"sClass" : "center"
-			}, {
-				"mDataProp" : "sfMoney",
-				"sClass" : "center"
-			}, {
-				"mDataProp" : "orderPrice",
+				"mDataProp" : "cost",
 				"sClass" : "center"
 			}, {
 				"mDataProp" : "aging",
 				"sClass" : "center"
 			}, {
+				"mDataProp" : "bankName",
+				"sClass" : "center"
+			}, {
+				"mDataProp" : "cardNumber",
+				"sClass" : "center"
+			}, {
 				"fnRender" : function(obj) {
-					var status = obj.aData['status'];
-					switch (status) {
+					var accountStatus = obj.aData['status'];
+					switch (accountStatus) {
 					case '1':
 						return "审核中";
 						break;
@@ -55,33 +49,8 @@ var UserOrder = {
 					case '3':
 						return "未通过";
 						break;
-					case '4':
-						return "购买中";
-						break;
-					case '5':
-						return "已配送";
-						break;
-					case '6':
-						return "已收货";
-						break;
 					default:
-						return "其它";
-						break;
-					}
-				},
-				"sClass" : "center"
-			}, {
-				"fnRender" : function(obj) {
-					var accountStatus = obj.aData['type'];
-					switch (accountStatus) {
-					case '1':
-						return "大马花消费";
-						break;
-					case '2':
-						return "商家消费";
-						break;
-					default:
-						return "其它";
+						return "状态错误";
 						break;
 					}
 				},
@@ -103,7 +72,7 @@ var UserOrder = {
 		});
 		return selValue;
 	},
-	detailUser : function() {
+	detail : function() {
 		var value = this.getSelectValue();
 		if (value.length == 0) {
 			alert('请先选择一条的记录');
@@ -115,8 +84,8 @@ var UserOrder = {
 		var diag = new Dialog();
 		diag.Width = 700;
 		diag.Height = 500;
-		diag.Title = "查看用户消费信息";
-		diag.URL = contextPath + "/user/order/detail.htm?id=" + value[0];
+		diag.Title = "查看用户提现信息";
+		diag.URL = contextPath + "/user/borrow/detail.htm?id=" + value[0];
 		diag.MessageTitle = $('#' + value[0]).attr('title');
 		diag.show();
 	},
@@ -133,8 +102,8 @@ var UserOrder = {
 		var diag = new Dialog();
 		diag.Width = 700;
 		diag.Height = 500;
-		diag.Title = "审核用户消费信息";
-		diag.URL = contextPath + "/user/order/checkDetail.htm?id=" + value[0];
+		diag.Title = "审核用户提现信息";
+		diag.URL = contextPath + "/user/borrow/checkDetail.htm?id=" + value[0];
 		diag.MessageTitle = $('#' + value[0]).attr('title');
 		diag.OKEvent = function() {
 			diag.innerFrame.contentWindow.submit(thiz.callBack);
@@ -155,7 +124,7 @@ var UserOrder = {
 		diag.Height = 500;
 		diag.Title = "查看分期账单明细记录";
 		diag.URL = contextPath
-				+ "/user/billDetail/list.htm?orderTable=user_order&orderId="
+				+ "/user/billDetail/list.htm?orderTable=user_borrow&orderId="
 				+ value[0];
 		diag.MessageTitle = $('#' + value[0]).attr('title');
 		diag.show();
@@ -177,7 +146,7 @@ var UserOrder = {
 		$.ajax({
 			cache : true,
 			type : "POST",
-			url : contextPath + '/user/order/submitCheck.htm?',
+			url : contextPath + '/user/borrow/submitCheck.htm?',
 			data : formObj.serialize(),
 			async : false,
 			dataType : 'json',

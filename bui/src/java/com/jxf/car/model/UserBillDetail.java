@@ -15,9 +15,10 @@ public class UserBillDetail {
 	private BigDecimal interest;
 	private BigDecimal totleCost;
 	private Timestamp repaymentTime;
+	private String orderTable;
 
 	public static List<UserBillDetail> createUserBillDetailByOrder(
-			UserOrder uo, BigDecimal interest) {
+			UserAgingOrder uo, BigDecimal interest) {
 		Calendar current = Calendar.getInstance();
 		List<UserBillDetail> list = new ArrayList<>();
 		BigDecimal billCapital = uo.getPrice().divide(
@@ -34,7 +35,8 @@ public class UserBillDetail {
 				billInterest = totleInterest.subtract(tempInterest);
 			}
 			UserBillDetail billDetail = createUserBillDetail(uo.getUserId(),
-					uo.getId(), current, billCapital, billInterest);
+					uo.getId(), uo.getOrderTable(), current, billCapital,
+					billInterest);
 			current.add(Calendar.MONTH, 1);
 			tempCapital = tempCapital.add(billCapital);
 			tempInterest = tempInterest.add(billInterest);
@@ -44,8 +46,8 @@ public class UserBillDetail {
 	}
 
 	public static UserBillDetail createUserBillDetail(Integer userId,
-			Integer orderId, Calendar current, BigDecimal billCapital,
-			BigDecimal billInterest) {
+			Integer orderId, String orderTable, Calendar current,
+			BigDecimal billCapital, BigDecimal billInterest) {
 		UserBillDetail billDetail = new UserBillDetail();
 		billDetail.userId = userId;
 		billDetail.orderId = orderId;
@@ -53,6 +55,7 @@ public class UserBillDetail {
 		billDetail.interest = billInterest;
 		billDetail.totleCost = billDetail.capital.add(billDetail.interest);
 		billDetail.repaymentTime = new Timestamp(current.getTime().getTime());
+		billDetail.orderTable = orderTable;
 		return billDetail;
 	}
 
@@ -110,6 +113,14 @@ public class UserBillDetail {
 
 	public void setRepaymentTime(Timestamp repaymentTime) {
 		this.repaymentTime = repaymentTime;
+	}
+
+	public String getOrderTable() {
+		return orderTable;
+	}
+
+	public void setOrderTable(String orderTable) {
+		this.orderTable = orderTable;
 	}
 
 }

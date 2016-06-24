@@ -3,7 +3,7 @@
  */
 
 jQuery(document).ready(function() {
-	$('#status,#orderTable').chosen();
+	$('#status').chosen();
 	$("#beginDate,#endDate").datepicker();
 	userTable.reloadData();
 
@@ -17,7 +17,7 @@ jQuery(document).ready(function() {
 	});
 
 	$('#checkAll').click(function() {
-		UserBillDetail.selectAll($(this));
+		UserBorrow.selectAll($(this));
 	});
 });
 
@@ -25,14 +25,19 @@ jQuery(document).ready(function() {
 var userTable = new PageDataTables(
 		{
 			tableId : 'userTable',
-			ajaxUrl : UserBillDetail.pageUrl,
-			exportUrl : UserBillDetail.exportUrl,
-			aoColumns : UserBillDetail.tableColumns,
+			ajaxUrl : UserBorrow.pageUrl,
+			exportUrl : UserBorrow.exportUrl,
+			aoColumns : UserBorrow.tableColumns,
+			addButton : [ {
+				value : "查看详情",
+				onclick : 'UserBorrow.detail()'
+			}, {
+				value : "查看分期还款账单明细",
+				onclick : 'UserBorrow.billDetail()'
+			} ],
 			beforeload : function() {
 				this.paraData = {
 					"status" : $('#status').val(),
-					"orderTable" : $('#orderTable').val(),
-					"orderId" : $('#orderId').val(),
 					"monthBillUuid" : $('#monthBillUuid').val(),
 					"mobilePhone" : $('#mobilePhone').val() == '' ? '' : '%'
 							+ $('#mobilePhone').val() + '%',

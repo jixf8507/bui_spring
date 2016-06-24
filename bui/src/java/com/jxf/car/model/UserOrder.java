@@ -8,7 +8,7 @@ import java.util.Map;
 import com.jxf.car.dao.BaseDao;
 import com.jxf.car.db.extractor.UserOrderExtractor;
 
-public class UserOrder {
+public class UserOrder implements UserAgingOrder {
 
 	private Integer id;
 	private Integer userId;
@@ -132,13 +132,18 @@ public class UserOrder {
 
 	private static final String getSQL() {
 		return "select o.*,u.`name` as userName,u.mobilePhone,u.idCard,g.`name` as goodName,"
-				+ "g.img,g.price,g.des1,g.des2,g.des3,m.`name` as merchantName,m.address,m.corporation"
+				+ "g.img,g.price,g.merchantName"
 				+ " from user_order o LEFT JOIN `user` u on o.userId=u.id "
-				+ "LEFT JOIN merchant_goods g on o.goodsId=g.id "
-				+ "LEFT JOIN merchant m on g.merchantId=m.id where o.id=? ";
+				+ "LEFT JOIN vs_goods g on o.goodsId=g.id and g.type=o.type "
+				+ "where o.id=? ";
 	}
 
 	private static final String STATUS_UPDATE_SQL = "update user_order set `status`=?,checkDisc=?,checkMen=? where id=?";
 	private static final String GET_SQL = "select * from user_order where id=?";
+
+	@Override
+	public String getOrderTable() {
+		return "user_order";
+	}
 
 }

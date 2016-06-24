@@ -43,12 +43,14 @@ public class UserBillDetailDao extends BaseDao {
 					public void setValues(PreparedStatement ps, int i)
 							throws SQLException {
 						UserBillDetail uo = userBillList.get(i);
-						ps.setInt(1, uo.getUserId());
-						ps.setInt(2, uo.getOrderId());
-						ps.setBigDecimal(3, uo.getCapital());
-						ps.setBigDecimal(4, uo.getInterest());
-						ps.setBigDecimal(5, uo.getTotleCost());
-						ps.setTimestamp(6, uo.getRepaymentTime());
+						int num = 1;
+						ps.setInt(num++, uo.getUserId());
+						ps.setInt(num++, uo.getOrderId());
+						ps.setString(num++, uo.getOrderTable());
+						ps.setBigDecimal(num++, uo.getCapital());
+						ps.setBigDecimal(num++, uo.getInterest());
+						ps.setBigDecimal(num++, uo.getTotleCost());
+						ps.setTimestamp(num++, uo.getRepaymentTime());
 					}
 
 					@Override
@@ -85,7 +87,7 @@ public class UserBillDetailDao extends BaseDao {
 				+ " 23:59:59" });
 	}
 
-	private static final String INSERT_SQL = "insert into user_bill_detail (userId,orderId,capital,interest,totleCost,repaymentTime) values(?,?,?,?,?,?)";
+	private static final String INSERT_SQL = "insert into user_bill_detail (userId,orderId,orderTable,capital,interest,totleCost,repaymentTime,`createdTime`) values(?,?,?,?,?,?,?,now())";
 	private static final String DATE_SELECT_SQL = "select userId,SUM(capital) capital,SUM(interest) interest,SUM(totleCost) totleCost from user_bill_detail where repaymentTime<=? and monthBillUuid ='' GROUP BY userId";
 	private static final String UPDATE_BILL_SQL = "update user_bill_detail set monthBillUuid=? where userId=? and repaymentTime<=? and monthBillUuid =''";
 

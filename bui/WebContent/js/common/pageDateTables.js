@@ -14,7 +14,7 @@ var pageDataTables = {
 	sLengthMenu : true,
 	aoColumns : [],
 	addButton : [],
-	bStateSave : true,
+	bStateSave : false,
 	reloadData : function() {// 查询分页数据
 		/*
 		 * this指的是调用函数的那个对象,这里指的是pageDataTables的对象，将对象存到thiz中。

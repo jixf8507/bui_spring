@@ -48,25 +48,10 @@
 						${userOrder.price}&nbsp;&nbsp; </span>
 				</p>
 				<p>
-					<label>商品描述1</label> <span class="field">
-						${userOrder.des1}&nbsp;&nbsp; </span>
-				</p>
-				<p>
-					<label>商品描述2</label> <span class="field">
-						${userOrder.des2}&nbsp;&nbsp; </span>
-				</p>
-				<p>
-					<label>商品描述3</label> <span class="field">
-						${userOrder.des3}&nbsp;&nbsp; </span>
-				</p>
-				<p>
 					<label>商家</label> <span class="field">
 						${userOrder.merchantName}&nbsp;&nbsp; </span>
 				</p>
-				<p>
-					<label>商家地址</label> <span class="field">
-						${userOrder.address}&nbsp;&nbsp; </span>
-				</p>
+				
 			</form>
 		</div>
 		<div id="order" class="subcontent" style="display: none;">
@@ -90,6 +75,14 @@
 					</span>
 				</p>
 				<p>
+					<label>收货地址</label> <span class="field">
+						${userOrder.address}&nbsp;&nbsp; </span>
+				</p>
+				<p>
+					<label>送货方式</label> <span class="field">
+						${userOrder.way}&nbsp;&nbsp; </span>
+				</p>
+				<p>
 					<label>订单状态</label> <span class="field"> <c:if
 							test="${userOrder.status == '1' }">审核中	</c:if> <c:if
 							test="${userOrder.status == '2' }">已通过	</c:if> <c:if
@@ -99,6 +92,16 @@
 							test="${userOrder.status == '5' }">已收货	</c:if> &nbsp;&nbsp;
 					</span>
 				</p>
+				<c:if test="${userOrder.status != '1' }">
+					<p>
+						<label>审核人</label> <span class="field">
+							${userOrder.checkMen}&nbsp;&nbsp; </span>
+					</p>
+					<p>
+						<label>审核说明</label> <span class="field">
+							${userOrder.checkDisc}&nbsp;&nbsp; </span>
+					</p>
+				</c:if>
 			</form>
 		</div>
 	</div>

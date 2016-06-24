@@ -36,8 +36,12 @@ public class UserAccountDao extends BaseDao {
 		return this.findListByJSONSqlMapping(userSelectSQL, jsonObject);
 	}
 
-	public boolean batchAddCurUsableLimit(List<UserAccount> accounts) {
-		return UserAccount.batchAddCurUsableLimit(accounts, this);
+	public boolean batchCurWhiteBarLimit(List<UserAccount> accounts) {
+		return UserAccount.batchCurWhiteBarLimit(accounts, this);
+	}
+
+	public void curWhiteBarLimitAllUpdate() {
+		UserAccount.curWhiteBarLimitAllUpdate(this);
 	}
 
 	public Map<String, Object> getAccountMap(Integer id) {
@@ -58,6 +62,10 @@ public class UserAccountDao extends BaseDao {
 
 	public boolean addCurUsableLimit(BigDecimal balance, Integer id) {
 		return UserAccount.addCurUsableLimit(balance, id, this) > 0;
+	}
+
+	public boolean addCurWhiteBarLimit(BigDecimal balance, Integer id) {
+		return UserAccount.addCurWhiteBarLimit(balance, id, this) > 0;
 	}
 
 }
